@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screen/home.dart';
 
 void main() => runApp(const MyApp());
 
@@ -27,9 +28,7 @@ class _FlutterState extends State<Flutter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Oral Diagnosis '),
-        backgroundColor: const Color.fromARGB(255, 209, 127, 188),
-          centerTitle: true),
+      body: HomeScreen(),
     );
   }
 }
