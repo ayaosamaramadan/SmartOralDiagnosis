@@ -60,6 +60,9 @@ flutter:
   assets:
     - assets/logodark.png
     - assets/logolight.png
+    - assets/home.webp
+    - assets/teeth.png
+    - assets/doodle.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

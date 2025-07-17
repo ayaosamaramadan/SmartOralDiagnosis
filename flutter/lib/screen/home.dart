@@ -1,38 +1,71 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late AnimationController _rotationController;
+  late Animation<double> _rotationAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _rotationController = AnimationController(
+      duration: const Duration(seconds: 8),
+      vsync: this,
+    );
+
+    _rotationAnimation = Tween<double>(begin: 0, end: 2 * math.pi).animate(
+      CurvedAnimation(parent: _rotationController, curve: Curves.linear),
+    );
+
+    _rotationController.repeat();
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(255, 13, 1, 20),
         elevation: 0,
         title: const Text(
           'SMOD',
           style: TextStyle(
-            color: Color.fromARGB(255, 20, 1, 1),
+            color: Color.fromARGB(212, 255, 255, 255),
             fontWeight: FontWeight.bold,
-            fontSize: 22,
-            letterSpacing: 1.2,
+            fontSize: 26,
+            letterSpacing: 1.5,
+            fontStyle: FontStyle.normal,
+            shadows: [
+              Shadow(
+                color: Colors.black26,
+                offset: Offset(1, 1),
+                blurRadius: 2,
+              ),
+            ],
           ),
         ),
         actions: [
           PopupMenuButton<String>(
             icon: const Icon(Icons.menu, color: Colors.white),
             itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'settings',
-                child: Text('Settings'),
-              ),
-              const PopupMenuItem(
-                value: 'about',
-                child: Text('About'),
-              ),
+              const PopupMenuItem(value: 'settings', child: Text('Settings')),
+              const PopupMenuItem(value: 'about', child: Text('About')),
             ],
             onSelected: (value) {
-              // TODO: Handle menu selection
+              
             },
           ),
         ],
@@ -47,63 +80,121 @@ class HomeScreen extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.asset(
-                  'assets/logodark.png',
-                  width: 180,
-                  height: 180,
-                  fit: BoxFit.cover,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: ColorFiltered(
+                colorFilter: const ColorFilter.mode(
+                  Color.fromARGB(255, 255, 255, 255),
+                  BlendMode.srcATop,
+                ),
+                child: Opacity(
+                  opacity: 0.1,
+                  child: Image.asset('assets/doodle.png', fit: BoxFit.cover),
                 ),
               ),
-              const SizedBox(height: 32),
-              const Text(
-                'Welcome to Oral Diagnosis!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Your smart assistant for oral health analysis.',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF001F54),
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+            ),
+
+            
+            Column(
+              children: [
+                const SizedBox(height: 70), 
+
+                SizedBox(
+                  width: 400,
+                  height: 310,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: Image.asset(
+                          'assets/home.webp',
+                          width: 290,
+                          height: 290,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+
+                      AnimatedBuilder(
+                        animation: _rotationAnimation,
+                        builder: (context, child) {
+                          const double radius = 160;
+                          const int teethCount = 4;
+                          return Stack(
+                            children: List.generate(teethCount, (index) {
+                              final angle = _rotationAnimation.value +
+                                  (2 * math.pi / teethCount) * index;
+                              return Transform.translate(
+                                offset: Offset(
+                                  radius * math.cos(angle),
+                                  radius * math.sin(angle),
+                                ),
+                                child: Image.asset(
+                                  'assets/teeth.png',
+                                  width: 25,
+                                  height: 25,
+                                ),
+                              );
+                            }),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  elevation: 8,
                 ),
-                onPressed: () {
-                  // TODO: Add button action
-                },
-                child: const Text(
-                  'Start Diagnosis',
+
+                const SizedBox(height: 30), 
+                const Text(
+                  'Welcome to Oral Diagnosis!',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFFB3C7F9),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
                   ),
+                  textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Your smart assistant for oral health analysis.',
+                  style: TextStyle(
+                    color: Color(0xFF8FA1C7),
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 30), 
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF233A6A),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    elevation: 8,
+                  ),
+                  onPressed: () {
+                  
+                  },
+                  child: const Text(
+                    'Start Diagnosis',
+                    style: TextStyle(
+                      color: Color(0xFFF5F7FB),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ),
+                ],
               ),
-            ],
-          ),
+           
+          ],
         ),
       ),
     );
