@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screen/home.dart';
+import 'screen/login.dart';
 
 void main() => runApp(const MyApp());
 
@@ -8,27 +9,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Flutter(),
+      home: const HomeScreen(),
+      routes: {
+        '/login': (context) => const LoginScreen(),
+      },
     );
   }
 }
 
-class Flutter extends StatefulWidget {
-  const Flutter({super.key});
-
-  @override
-  _FlutterState createState() => _FlutterState();
-}
-
-class _FlutterState extends State<Flutter> {
-  // Reusable button style
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: HomeScreen(),
-    );
-  }
-}
+// ...existing code...
