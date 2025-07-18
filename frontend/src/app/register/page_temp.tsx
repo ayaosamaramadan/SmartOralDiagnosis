@@ -13,10 +13,8 @@ interface RegisterFormData {
   userType: "doctor" | "patient";
   phoneNumber: string;
   dateOfBirth: string;
-  // Doctor specific fields
   specialization?: string;
   licenseNumber?: string;
-  // Patient specific fields
   medicalHistory?: string;
 }
 
@@ -118,35 +116,23 @@ export default function RegisterPage() {
   };
 
   return (
-    <div >
-      <div >
-        <div >
-          <h1 >
-            Create Account
-          </h1>
-          <p >Join our healthcare platform</p>
+    <div>
+      <div>
+        <div>
+          <h1>Create Account</h1>
+          <p>Join our healthcare platform</p>
         </div>
 
-        {error && (
-          <div >
-            {error}
-          </div>
-        )}
+        {error && <div>{error}</div>}
 
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit}>
           <div>
-            <label
-              htmlFor="userType"
-              
-            >
-              User Type
-            </label>
+            <label htmlFor="userType">User Type</label>
             <select
               id="userType"
               name="userType"
               value={formData.userType}
               onChange={handleInputChange}
-              
               required
             >
               <option value="patient">Patient</option>
@@ -154,39 +140,27 @@ export default function RegisterPage() {
             </select>
           </div>
 
-          <div >
+          <div>
             <div>
-              <label
-                htmlFor="firstName"
-                
-              >
-                First Name
-              </label>
+              <label htmlFor="firstName">First Name</label>
               <input
                 type="text"
                 id="firstName"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
-                
                 placeholder="First name"
                 required
               />
             </div>
             <div>
-              <label
-                htmlFor="lastName"
-                
-              >
-                Last Name
-              </label>
+              <label htmlFor="lastName">Last Name</label>
               <input
                 type="text"
                 id="lastName"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
-                
                 placeholder="Last name"
                 required
               />
@@ -194,57 +168,39 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              
-            >
-              Email Address
-            </label>
+            <label htmlFor="email">Email Address</label>
             <input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              
               placeholder="Enter your email"
               required
             />
           </div>
 
           <div>
-            <label
-              htmlFor="phoneNumber"
-              
-            >
-              Phone Number
-            </label>
+            <label htmlFor="phoneNumber">Phone Number</label>
             <input
               type="tel"
               id="phoneNumber"
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleInputChange}
-              
               placeholder="Enter your phone number"
               required
             />
           </div>
 
           <div>
-            <label
-              htmlFor="dateOfBirth"
-              
-            >
-              Date of Birth
-            </label>
+            <label htmlFor="dateOfBirth">Date of Birth</label>
             <input
               type="date"
               id="dateOfBirth"
               name="dateOfBirth"
               value={formData.dateOfBirth}
               onChange={handleInputChange}
-              
               required
             />
           </div>
@@ -253,37 +209,25 @@ export default function RegisterPage() {
           {formData.userType === "doctor" && (
             <>
               <div>
-                <label
-                  htmlFor="specialization"
-                  
-                >
-                  Specialization
-                </label>
+                <label htmlFor="specialization">Specialization</label>
                 <input
                   type="text"
                   id="specialization"
                   name="specialization"
                   value={formData.specialization}
                   onChange={handleInputChange}
-                  
                   placeholder="e.g., Orthodontist, Periodontist"
                   required
                 />
               </div>
               <div>
-                <label
-                  htmlFor="licenseNumber"
-                  
-                >
-                  License Number
-                </label>
+                <label htmlFor="licenseNumber">License Number</label>
                 <input
                   type="text"
                   id="licenseNumber"
                   name="licenseNumber"
                   value={formData.licenseNumber}
                   onChange={handleInputChange}
-                  
                   placeholder="Medical license number"
                   required
                 />
@@ -294,80 +238,52 @@ export default function RegisterPage() {
           {/* Patient specific fields */}
           {formData.userType === "patient" && (
             <div>
-              <label
-                htmlFor="medicalHistory"
-                
-              >
-                Medical History (Optional)
-              </label>
+              <label htmlFor="medicalHistory">Medical History (Optional)</label>
               <textarea
                 id="medicalHistory"
                 name="medicalHistory"
                 value={formData.medicalHistory}
                 onChange={handleInputChange}
                 rows={3}
-                
                 placeholder="Brief medical history, allergies, etc."
               />
             </div>
           )}
 
           <div>
-            <label
-              htmlFor="password"
-              
-            >
-              Password
-            </label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formData.password}
               onChange={handleInputChange}
-              
               placeholder="Enter your password"
               required
             />
           </div>
 
           <div>
-            <label
-              htmlFor="confirmPassword"
-              
-            >
-              Confirm Password
-            </label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleInputChange}
-              
               placeholder="Confirm your password"
               required
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            
-          >
+          <button type="submit" disabled={isLoading}>
             {isLoading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
-        <div >
-          <p >
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              
-            >
-              Sign in here
-            </Link>
+        <div>
+          <p>
+            Already have an account? <Link href="/login">Sign in here</Link>
           </p>
         </div>
       </div>
