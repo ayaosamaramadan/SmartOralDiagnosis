@@ -1,0 +1,26 @@
+{
+  "name": "medical-management-backend",
+  "version": "1.0.0",
+  "description": ".NET Web API for Medical Management System",
+  "scripts": {
+    "start": "dotnet run",
+    "build": "dotnet build",
+    "test": "dotnet test",
+    "restore": "dotnet restore",
+    "watch": "dotnet watch run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/medical-management.git"
+  },
+  "keywords": [
+    "medical",
+    "healthcare",
+    "management",
+    "dotnet",
+    "api",
+    "mongodb"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
