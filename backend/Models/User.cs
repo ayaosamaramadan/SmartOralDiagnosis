@@ -39,9 +39,6 @@ namespace MedicalManagement.API.Models
 
     public class Patient : User
     {
-        [BsonElement("dateOfBirth")]
-        public DateTime dateOfBirth { get; set; }
-
         [BsonElement("gender")]
         public string Gender { get; set; } = string.Empty;
 

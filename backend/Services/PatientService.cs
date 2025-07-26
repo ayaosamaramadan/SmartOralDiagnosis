@@ -79,7 +79,9 @@ namespace MedicalManagement.API.Services
                 Role = patient.Role,
                 IsActive = patient.IsActive,
                 CreatedAt = patient.CreatedAt,
-                DateOfBirth = patient.DateOfBirth,
+
+                // Patient-specific properties
+            
                 Gender = patient.Gender,
                 Address = patient.Address,
                 EmergencyContact = patient.EmergencyContact,

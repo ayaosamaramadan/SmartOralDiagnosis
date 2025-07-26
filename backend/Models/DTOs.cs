@@ -37,7 +37,7 @@ namespace MedicalManagement.API.Models
 
     public class PatientDto : UserDto
     {
-        public DateTime DateOfBirth { get; set; }
+        
         public string Gender { get; set; } = string.Empty;
         public Address Address { get; set; } = new();
         public EmergencyContact EmergencyContact { get; set; } = new();

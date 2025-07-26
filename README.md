@@ -1,8 +1,8 @@
 Smart System for Oral Disease Diagnosis
 
 ## Team Members
-- Esraa Ashraf Azab (Frontend & Flutter)
-- Aya Osama Mohammed (Frontend & Flutter)
+- Esraa Ashraf Azab (Flutter)
+- Aya Osama Mohammed (Frontend)
 - AbdElrahman Ahmed Mohammed (AI)
 - Abdullah Mohammed Ismail (AI)
 - Mostafa Mahmoud Said (Backend .NET)
