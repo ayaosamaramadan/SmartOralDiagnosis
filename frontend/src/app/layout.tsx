@@ -1,19 +1,33 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "../contexts/AuthContext";
+import Navigation from "../components/Navigation";
 
-export const metadata: Metadata = {
-  title: "Smart Oral Diagnosis",
-  description: "AI-powered oral disease diagnosis platform",
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata = {
+  title: "Medical Management System",
+  description:
+    "Comprehensive medical management system for doctors, patients, and administrators",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>
+        <AuthProvider>
+          <div className="min-h-screen bg-gray-50">
+            <Navigation />
+            <main>{children}</main>
+          </div>
+          <Toaster position="top-right" />
+        </AuthProvider>
+      </body>
     </html>
   );
 }
