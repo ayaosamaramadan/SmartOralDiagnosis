@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Card(
-                color: Colors.white.withOpacity(0.07),
+                color: Colors.white.withAlpha((0.07 * 255).round()),
                 elevation: 12,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(32),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: const Icon(Icons.person, color: Color.fromARGB(255, 175, 199, 250)),
                           labelText: 'Username',
                           filled: true,
-                          fillColor: Colors.white.withOpacity(0.13),
+                          fillColor: Colors.white.withAlpha((0.13 * 255).round()),
                           labelStyle: const TextStyle(color: Colors.white70),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: const Icon(Icons.lock, color: Color.fromARGB(255, 175, 199, 250)),
                           labelText: 'Password',
                           filled: true,
-                          fillColor: Colors.white.withOpacity(0.13),
+                          fillColor: Colors.white.withAlpha((0.13 * 255).round()),
                           labelStyle: const TextStyle(color: Colors.white70),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),

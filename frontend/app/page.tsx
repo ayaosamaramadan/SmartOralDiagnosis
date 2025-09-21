@@ -7,6 +7,7 @@ import Image from "next/image";
 import HomePic from "../assets/home.jpg";
 
 
+
 export default function Home() {
   const router = useRouter();
   const [selectedRole, setSelectedRole] = useState("");
@@ -200,31 +201,30 @@ export default function Home() {
     // </div>
     <>
 
-          <section className="flex flex-col md:flex-row ml-[100px] items-center px-10 py-16">
-            <div className="flex-1 space-y-6">
+            <section className="flex flex-col md:flex-row ml-[100px] items-center px-10 py-16">
+              <div className="flex-1 space-y-6">
               <h2 className="text-4xl md:text-5xl font-bold">
-                <span className="text-blue-400">Unlocking</span> Digital Potential with 
-                <span className="text-blue-600"> Intrinsic</span>
+                <span className="text-blue-400">Scan your mouth</span> with AI to detect
+                <span className="text-blue-600"> oral and dental diseases</span>
               </h2>
               <p className="text-gray-300 max-w-xl">
-                Intrinsic | Unlocking Digital Potential. We're a software, web design and mobile development
-                company focused on empowering businesses with innovative solutions.
+                Use our smart tool to analyze mouth and dental images and detect early signs of oral problems quickly and accurately. Keep your mouth healthy and your smile bright with ease.
               </p>
-              <button className="px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700">Explore</button>
-            </div>
-            <div className="flex-1 flex justify-center mt-10 md:mt-0">
+              <button className="px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700">Start Scan Now</button>
+              </div>
+              <div className="flex-1 flex justify-center mt-10 md:mt-0">
               <div className="relative w-[400px] h-[400px]">
                 <Image
-                  src={HomePic}
-                  alt="AI Robot"
-                  fill
-                  className="object-cover rounded-[20%] rounded-bl-[60%] shadow-lg"
-                  sizes="(max-width: 768px) 300px, 400px"
-                  priority
+                src={HomePic}
+                alt="AI-powered oral and dental scan"
+                fill
+                className="object-cover rounded-[20%] rounded-bl-[60%] shadow-lg"
+                sizes="(max-width: 768px) 300px, 400px"
+                priority
                 />
               </div>
-            </div>
-          </section>
+              </div>
+            </section>
 
           {/* Contact / Info Bar */}
           <section className="flex flex-col md:flex-row justify-center items-center gap-10 px-10 py-10 bg-gray-900 rounded-xl max-w-5xl mx-auto">

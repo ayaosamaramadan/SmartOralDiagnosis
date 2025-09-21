@@ -37,3 +37,8 @@ body {
 .card {
   @apply bg-white rounded-lg shadow-md p-6;
 }
+
+
+.doodlebg {
+  background-image: url('../assets/doodle.png');
+}
