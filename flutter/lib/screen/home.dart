@@ -169,7 +169,9 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/scan');
+              },
             
               label: const Text("Start Scan Now", style: TextStyle(color: Colors.black, fontSize: 16)),
             ),

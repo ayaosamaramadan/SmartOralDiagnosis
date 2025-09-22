@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screen/home.dart';
 import 'screen/login.dart';
+import 'screen/scan.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/scan': (context) => const ScanPage(),
       },
     );
   }
