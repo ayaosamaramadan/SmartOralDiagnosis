@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                 TextSpan(
                   text: "With AI to detect ",
                   style: GoogleFonts.poppins(
-                      fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+                      fontSize: 32, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 255, 255, 255)),
                 ),
                 TextSpan(
                   text: "Oral and dental diseases",
