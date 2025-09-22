@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 // import Link from "next/link";
 import Image from "next/image";
 import HomePic from "../assets/home.jpg";
+import Link from "next/link";
 
 
 
@@ -210,7 +211,10 @@ export default function Home() {
               <p className="text-gray-300 max-w-xl">
                 Use our smart tool to analyze mouth and dental images and detect early signs of oral problems quickly and accurately. Keep your mouth healthy and your smile bright with ease.
               </p>
-              <button className="px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700">Start Scan Now</button>
+              <br />
+              <Link href="/scan">
+               <button className="px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700">Start Scan Now</button>
+              </Link>
               </div>
               <div className="flex-1 flex justify-center mt-10 md:mt-0">
               <div className="relative w-[400px] h-[400px]">
