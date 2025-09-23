@@ -19,9 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="doodlebg" style={inter.style}>
+      <body className={`${inter.className}`}> 
         <AuthProvider>
-          <div className="min-h-screen">
+          <div className="doodlebg min-h-screen">
             <Navigation />
             <main>{children}</main>
           </div>

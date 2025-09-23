@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import loginimg from "../../../assets/login-image.png";
 
 export default function Register() {
   const router = useRouter();
@@ -127,250 +129,239 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Create New Account
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Medical Management System
-        </p>
+    <div className="flex mt-[-45px] overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
+      <div className="hidden lg:flex lg:w-1/2 justify-center items-center">
+      <Image
+        src={loginimg}
+        alt="Registration Illustration"
+        className="w-full max-w-lg rounded-2xl shadow-2xl object-cover"
+        priority
+      />
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* Role Selection */}
-            <div>
-              <label
-                htmlFor="role"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Account Type
-              </label>
-              <div className="mt-1">
-                <select
-                  id="role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                >
-                  <option value="patient">Patient</option>
-                  <option value="doctor">Doctor</option>
-                  <option value="admin">Administrator</option>
-                </select>
-              </div>
-            </div>
+      <div className="w-full max-w-xl mx-auto lg:mx-0 lg:w-2/3">
+        <div className="bg-[#3535354f] py-5 shadow-2xl rounded-3xl px-8 border border-gray-800">
+          <h2 className="text-2xl font-bold text-center text-white mb-4">
+        Sign up
+          </h2>
+          <form className="space-y-3" onSubmit={handleSubmit} autoComplete="off" noValidate>
+        {/* Account Type */}
+        <div>
+          <label htmlFor="role" className="block text-sm text-white">
+            Account Type
+          </label>
+          <select
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+            className="block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
 
-            {/* First Name */}
-            <div>
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                First Name
-              </label>
-              <div className="mt-1">
-                <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  required
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {errors.firstName}
-                  </p>
-                )}
-              </div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* First Name */}
+          <div>
+            <label htmlFor="firstName" className="block text-sm text-white">
+          First Name
+            </label>
+            <input
+          id="firstName"
+          name="firstName"
+          type="text"
+          required
+          value={formData.firstName}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.firstName ? "border-red-500" : "border-gray-700"}`}
+            />
+            {errors.firstName && (
+          <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>
+            )}
+          </div>
 
-            {/* Last Name */}
-            <div>
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Last Name
-              </label>
-              <div className="mt-1">
-                <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  required
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.lastName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
-                )}
-              </div>
-            </div>
+          {/* Last Name */}
+          <div>
+            <label htmlFor="lastName" className="block text-sm text-white">
+          Last Name
+            </label>
+            <input
+          id="lastName"
+          name="lastName"
+          type="text"
+          required
+          value={formData.lastName}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.lastName ? "border-red-500" : "border-gray-700"}`}
+            />
+            {errors.lastName && (
+          <p className="mt-1 text-xs text-red-500">{errors.lastName}</p>
+            )}
+          </div>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
-              </div>
-            </div>
+          {/* Email */}
+          <div className="md:col-span-2">
+            <label htmlFor="email" className="block text-sm text-white">
+          Email
+            </label>
+            <input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          value={formData.email}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.email ? "border-red-500" : "border-gray-700"}`}
+            />
+            {errors.email && (
+          <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+            )}
+          </div>
 
-          
-            <div>
-              <label
-                htmlFor="dateOfBirth"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Date of Birth
-              </label>
-              <div className="mt-1">
-                <input
-                  id="dateOfBirth"
-                  name="dateOfBirth"
-                  type="date"
-                  required
-                  value={formData.dateOfBirth}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.dateOfBirth && (
-                  <p className="mt-1 text-sm text-red-600">{errors.dateOfBirth}</p>
-                )}
-              </div>
-            </div>
+          {/* Date of Birth */}
+          <div>
+            <label htmlFor="dateOfBirth" className="block text-sm text-white">
+          Birth Date
+            </label>
+            <input
+          id="dateOfBirth"
+          name="dateOfBirth"
+          type="date"
+          required
+          value={formData.dateOfBirth}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.dateOfBirth ? "border-red-500" : "border-gray-700"}`}
+          max={new Date().toISOString().split("T")[0]}
+            />
+            {errors.dateOfBirth && (
+          <p className="mt-1 text-xs text-red-500">{errors.dateOfBirth}</p>
+            )}
+          </div>
 
-            {/* Phone Number */}
-            <div>
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number
-              </label>
-              <div className="mt-1">
-                <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="tel"
-                  required
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.phoneNumber && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {errors.phoneNumber}
-                  </p>
-                )}
-              </div>
-            </div>
+          {/* Phone Number */}
+          <div>
+            <label htmlFor="phoneNumber" className="block text-sm text-white">
+          Phone
+            </label>
+            <input
+          id="phoneNumber"
+          name="phoneNumber"
+          type="tel"
+          required
+          value={formData.phoneNumber}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.phoneNumber ? "border-red-500" : "border-gray-700"}`}
+          pattern="^[0-9+\-\s()]{7,}$"
+          placeholder="e.g. +1234567890"
+            />
+            {errors.phoneNumber && (
+          <p className="mt-1 text-xs text-red-500">{errors.phoneNumber}</p>
+            )}
+          </div>
 
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                )}
-              </div>
-            </div>
+          {/* Password */}
+          <div>
+            <label htmlFor="password" className="block text-sm text-white">
+          Password
+            </label>
+            <input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          required
+          value={formData.password}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.password ? "border-red-500" : "border-gray-700"}`}
+          minLength={6}
+            />
+            {errors.password && (
+          <p className="mt-1 text-xs text-red-500">{errors.password}</p>
+            )}
+          </div>
 
-            {/* Confirm Password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.confirmPassword && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {errors.confirmPassword}
-                  </p>
-                )}
-              </div>
-            </div>
+          {/* Confirm Password */}
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm text-white">
+          Confirm
+            </label>
+            <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          autoComplete="new-password"
+          required
+          value={formData.confirmPassword}
+          onChange={handleInputChange}
+          className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.confirmPassword ? "border-red-500" : "border-gray-700"}`}
+          minLength={6}
+            />
+            {errors.confirmPassword && (
+          <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>
+            )}
+          </div>
+        </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-${getRoleColor()}-600 hover:bg-${getRoleColor()}-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${getRoleColor()}-500 disabled:opacity-50`}
-              >
-                {isLoading ? "Creating account..." : "Create account"}
-              </button>
-            </div>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`w-full py-2 px-4 rounded-md text-base font-semibold text-white transition-colors duration-200 ${
+            formData.role === "doctor"
+          ? "bg-green-600 hover:bg-green-700"
+          : formData.role === "admin"
+          ? "bg-purple-600 hover:bg-purple-700"
+          : "bg-blue-600 hover:bg-blue-700"
+          } disabled:opacity-50`}
+        >
+          {isLoading ? (
+            <span className="flex items-center justify-center">
+          <svg
+            className="animate-spin h-5 w-5 mr-2 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8z"
+            ></path>
+          </svg>
+          Creating...
+            </span>
+          ) : (
+            "Sign up"
+          )}
+        </button>
           </form>
 
-          <div className="mt-6">
-            <div className="text-center">
-              <Link
-                href="/auth/login"
-                className="text-sm text-indigo-600 hover:text-indigo-500"
-              >
-                Already have an account? Sign in here
-              </Link>
-            </div>
-            <div className="text-center mt-2">
-              <Link
-                href="/"
-                className="text-sm text-gray-600 hover:text-gray-500"
-              >
-                Back to home
-              </Link>
-            </div>
+          <div className="mt-4 space-y-2">
+        <div className="text-center">
+          <Link
+            href="/auth/login"
+            className="text-sm text-indigo-400 hover:text-indigo-300"
+          >
+            Have an account? Sign in
+          </Link>
+        </div>
+      
           </div>
         </div>
       </div>
     </div>
+    
   );
 }
