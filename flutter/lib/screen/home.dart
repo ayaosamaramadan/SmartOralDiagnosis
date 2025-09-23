@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
             itemBuilder: (context) => [
               PopupMenuItem(
           value: 0,
-          child: _navText("SERVICES"),
+          child: _navText("HOME"),
               ),
               PopupMenuItem(
           value: 1,
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                 side: const BorderSide(color: Colors.white)),
             onPressed: () {
               Navigator.pop(context);
-              // Add your CONTACT US logic here
+              // Add contact functionality here
             },
             child: const Text("CONTACT US"),
           ),
@@ -88,14 +88,24 @@ class HomeScreen extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.pop(context);
-              // Add your OUR TEAM logic here
+              Navigator.pushNamed(context, '/login');
             },
-            child: const Text("OUR TEAM"),
+            child: const Text("LOGIN"),
           ),
               ),
             ],
             onSelected: (value) {
-              // Handle menu item selection if needed
+              switch (value) {
+                case 0:
+                  Navigator.pushNamed(context, '/');
+                  break;
+                case 1:
+                  // Add portfolio navigation here
+                  break;
+                case 2:
+                  // Add about us navigation here
+                  break;
+              }
             },
           ),
         ],

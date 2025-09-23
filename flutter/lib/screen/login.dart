@@ -8,12 +8,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -55,9 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
           gradient: LinearGradient(
             colors: [
               Color(0xFF0F050D),
-              Color.fromARGB(255, 24, 0, 120),
-              Color.fromARGB(255, 99, 133, 207),
-              Color.fromARGB(255, 146, 159, 185),
+              Color.fromARGB(255, 7, 3, 21),
+              Color.fromARGB(255, 19, 22, 32),
+              Color.fromARGB(255, 42, 46, 51),
               ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -90,10 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 28),
                       TextField(
-                        controller: _usernameController,
+                        controller: _emailController,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.person, color: Color.fromARGB(255, 175, 199, 250)),
-                          labelText: 'Username',
+                          prefixIcon: const Icon(Icons.email, color: Color.fromARGB(255, 175, 199, 250)),
+                          labelText: 'Email',
                           filled: true,
                           fillColor: Colors.white.withAlpha((0.13 * 255).round()),
                           labelStyle: const TextStyle(color: Colors.white70),
@@ -151,8 +151,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Don't have an account ? ",
                             style: TextStyle(color: Colors.white70, fontSize: 15),
                           ),
-                          GestureDetector(
-                            onTap: () {
+                          TextButton(
+                            onPressed: () {
+                                Navigator.pop(context);
+                              Navigator.pushNamed(context, '/signup');
                             },
                             child: const Text(
                               'Sign Up',

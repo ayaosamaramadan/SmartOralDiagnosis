@@ -1,23 +1,6 @@
 import 'dart:io' show File;
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
-void main() {
-  runApp(const Scan());
-}
-
-class Scan extends StatelessWidget {
-  const Scan({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'oralScan',
-      home: const ScanPage(),
-    );
-  }
-}
+import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource, XFile;
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -182,7 +165,7 @@ class _ScanPageState extends State<ScanPage> {
             itemBuilder: (context) => [
               PopupMenuItem(
           value: 0,
-          child: _navText("SERVICES"),
+          child: _navText("HOME"),
               ),
               PopupMenuItem(
           value: 1,
@@ -201,7 +184,7 @@ class _ScanPageState extends State<ScanPage> {
                 side: const BorderSide(color: Colors.white)),
             onPressed: () {
               Navigator.pop(context);
-              
+              // Add contact functionality here
             },
             child: const Text("CONTACT US"),
           ),
@@ -215,14 +198,24 @@ class _ScanPageState extends State<ScanPage> {
             ),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/');
+              Navigator.pushNamed(context, '/login');
             },
-            child: const Text("HOME"),
+            child: const Text("LOGIN"),
           ),
               ),
             ],
             onSelected: (value) {
-            
+              switch (value) {
+                case 0:
+                  Navigator.pushNamed(context, '/');
+                  break;
+                case 1:
+                  // Add portfolio navigation here
+                  break;
+                case 2:
+                  // Add about us navigation here
+                  break;
+              }
             },
           ),
         ],
