@@ -10,7 +10,6 @@ interface UploadImageProps {
 export default function UploadImage({ onImageCapture }: UploadImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle file upload
   const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
@@ -22,7 +21,7 @@ export default function UploadImage({ onImageCapture }: UploadImageProps) {
     }
   }, [onImageCapture]);
 
-  // Drag and drop handlers
+  
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
   }, []);

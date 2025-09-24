@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { Camera } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface CameraCaptureProps {
   onImageCapture: (imageData: string) => void;
@@ -27,7 +28,7 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
       setUseCamera(true);
     } catch (error) {
       console.error("Error accessing camera:", error);
-      alert("Could not access camera. Please upload an image instead.");
+      toast.error("Could not access camera. Please upload an image instead.");
     }
   }, []);
 

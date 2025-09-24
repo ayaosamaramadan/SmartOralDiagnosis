@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../../../contexts/AuthContext";
-import ProtectedRoute from "../../../components/ProtectedRoute";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import loginimg from "../../../assets/login-image.png";
@@ -35,7 +34,7 @@ export default function Login() {
     try {
       await login(formData.email, formData.password, role);
       toast.success("Login successful!");
-      router.push("/dashboard");
+      router.push("/");
     } catch (error: any) {
       toast.error(error.message || "Login failed");
     } finally {
@@ -66,7 +65,7 @@ export default function Login() {
   };
 
   return (
-    <ProtectedRoute requireAuth={false}>
+   
       <div className="flex mt-[-40px] overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
        
         <div className="hidden lg:flex lg:w-1/2 justify-center items-center">
@@ -186,6 +185,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
+
   );
 }
