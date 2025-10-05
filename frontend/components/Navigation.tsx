@@ -93,12 +93,12 @@ export default function Navigation() {
         // Not logged in navigation
         <>
           <nav className="space-x-6 hidden md:flex">
-            <a
-              href="#"
+            <Link
+              href="/alldiseases"
               className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
             >
-              Services
-            </a>
+              Diseases & Conditions
+            </Link>
             <a
               href="#"
               className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"

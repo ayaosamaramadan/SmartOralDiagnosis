@@ -1,11 +1,11 @@
-const AllOrals = [
+export const Orals = [
     {
         id: 1,
         title: "Canker Sores",
         shortTitle: "CaS",
         description: "Description for Canker Sores",
         img: [
-            "assets/CaS/CaS.jpg",
+            "/assets/CaS/CaS.jpg",
         ],
         overview: "Canker sores, also called aphthous ulcers, are small, shallow lesions that develop on the soft tissues in your mouth or at the base of your gums. Unlike cold sores, canker sores don't occur on the surface of your lips and they aren't contagious. They can be painful, however, and can make eating and talking difficult. Most canker sores go away on their own in a week or two. Check with your doctor or dentist if you have unusually large or painful canker sores or canker sores that don't seem to heal.",
         symptoms: {
@@ -126,7 +126,7 @@ const AllOrals = [
         shortTitle: "CoS",
         description: "Description for Cold Sores",
         img: [
-            "assets/CoS/CoS.avif",
+            "/assets/CoS/CoS.avif",
         ],
         overview: "Cold sores, or fever blisters, are a common viral infection. They are tiny, fluid-filled blisters on and around the lips. These blisters are often grouped together in patches. After the blisters break, a scab forms that can last several days. Cold sores usually heal in 2 to 3 weeks without leaving a scar. Cold sores spread from person to person by close contact, such as kissing. They're usually caused by herpes simplex virus type 1 (HSV-1), and less commonly herpes simplex virus type 2 (HSV-2). Both of these viruses can affect the mouth or genitals and can be spread by oral sex. The virus can spread even if you don't see the sores. There's no cure for cold sores, but treatment can help manage outbreaks. Prescription antiviral medicine or creams can help sores heal more quickly. And they may make future outbreaks happen less often and be shorter and less serious.",
         symptoms: {
