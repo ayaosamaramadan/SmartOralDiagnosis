@@ -88,7 +88,7 @@ export const Orals = [
             note: "Unlike cold sores, canker sores are not associated with herpes virus infections."
         },
         riskFactors: "Anyone can develop canker sores. But they occur more often in teens and young adults, and they're more common in females. Often people with recurrent canker sores have a family history of the disorder. This may be due to heredity or to a shared factor in the environment, such as certain foods or allergens.",
-        prevwntion: {
+        prevention: {
             title: "Canker sores often recur, but you may be able to reduce their frequency by following these tips:",
             list: [
                 {
