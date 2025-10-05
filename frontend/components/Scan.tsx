@@ -123,6 +123,8 @@ export default function ScanComponent() {
                                         <div
                                             key={index}
                                             className="absolute border-2 border-red-500 bg-red-500/20"
+                                            // Dynamic positioning required for analysis overlay
+                                            // eslint-disable-next-line @next/next/no-inline-styles
                                             style={{
                                                 left: `${area.x}px`,
                                                 top: `${area.y}px`,

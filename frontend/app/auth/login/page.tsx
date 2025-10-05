@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import loginimg from "../../../assets/login-image.png";
 
-export default function Login() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const role = searchParams.get("role") || "Patient";
@@ -185,6 +185,17 @@ export default function Login() {
           </div>
         </div>
       </div>
+    );
+}
 
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
