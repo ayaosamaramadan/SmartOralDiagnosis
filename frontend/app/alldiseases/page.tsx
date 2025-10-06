@@ -18,7 +18,7 @@ export default function Alldiseases() {
               hover:bg-blue-50 hover:shadow-xl"
           >
             <Image
-              src={oral.img && oral.img.length > 0 ? oral.img[0] : "/placeholder.png"}
+              src={oral.img[0]}
               width={200}
               height={150}
               alt={oral.title}
