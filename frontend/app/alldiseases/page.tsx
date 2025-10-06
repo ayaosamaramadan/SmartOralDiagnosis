@@ -18,11 +18,12 @@ export default function Alldiseases() {
               hover:bg-blue-50 hover:shadow-xl"
           >
             <Image
-              src={oral.img && oral.img.length > 0 ? oral.img[0] : "/placeholder.png"}
+              src={oral.img && oral.img.length > 0 ? oral.img[0] : "/placeholder.svg"}
               width={200}
               height={150}
               alt={oral.title}
               className="object-cover w-full md:w-48 h-48 md:h-auto transition-transform duration-300 group-hover:scale-105"
+              priority={oral.id <= 2}
             />
             <div className="p-4 flex-1 flex flex-col">
               <h2 className="text-2xl font-semibold text-blue-600 mb-2 transition-colors duration-300 group-hover:text-blue-800">

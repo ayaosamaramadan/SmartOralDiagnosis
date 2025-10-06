@@ -83,6 +83,11 @@ dist
 
 # Gatsby files
 .cache/
+<<<<<<< HEAD
+=======
+# public - commented out to allow assets in public folder
+# public
+>>>>>>> fad70195574d8113aade82ba5f2da3bbbebdf92c
 
 # Vuepress build output
 .vuepress/dist
