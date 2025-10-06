@@ -1,10 +1,13 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "../contexts/AuthContext";
 import Navigation from "../components/Navigation";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+import Chatbot from "@/components/Chatbot";
+
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
 export const metadata = {
   title: "Medical Management System",
@@ -19,11 +22,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}> 
+  <body className={`${poppins.className}`}> 
         <AuthProvider>
-          <div className="doodlebg min-h-screen">
+          <div className="">
             <Navigation />
             <main>{children}</main>
+           <Chatbot />
+            <Footer/>
           </div>
           <Toaster position="top-right" />
         </AuthProvider>

@@ -59,8 +59,7 @@ export default function Navigation() {
       </Link>
 
       {user ? (
-        // Logged in navigation
-        <>
+         <>
           <nav className="space-x-6 hidden md:flex">
             {getNavItems().map((item) => (
               <Link
@@ -90,8 +89,7 @@ export default function Navigation() {
           </div>
         </>
       ) : (
-        // Not logged in navigation
-        <>
+         <>
           <nav className="space-x-6 hidden md:flex">
             <Link
               href="/alldiseases"
@@ -99,12 +97,12 @@ export default function Navigation() {
             >
               Diseases & Conditions
             </Link>
-            <a
-              href="#"
+            <Link
+              href="/scan"
               className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
             >
-              Features
-            </a>
+              Oral Scanner
+            </Link>
             <a
               href="#"
               className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"

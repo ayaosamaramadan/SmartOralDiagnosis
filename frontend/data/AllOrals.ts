@@ -260,7 +260,7 @@ export const Orals = [
     title: "Gingivostomatitis",
     shortTitle: "Gum",
     description: "Description for Gingivostomatitis",
-    img: ["/assets/Gum/Gum.jpg"],
+    img: ["/assets/GUM/GUM.jpg"],
     overview:
       "Gingivostomatitis is an infection of the mouth and gums that leads to swelling, redness, and sores. It's often the result of a viral or bacterial infection, especially the herpes simplex virus. It commonly affects children and may follow a cold or fever.",
     symptoms: {
@@ -327,7 +327,9 @@ export const Orals = [
     title: "Oral Lichen Planus",
     shortTitle: "OLP",
     description: "Description for Oral Lichen Planus",
-    img: ["/assets/OLP/OLP.jpg"],
+    img: [
+      "/assets/CaS/CaS.jpg"
+    ],
     overview:
       "Oral lichen planus is a chronic inflammatory condition that affects the mucous membranes inside the mouth. It appears as white, lacy patches or red, swollen tissues, and sometimes painful sores.",
     symptoms: {
@@ -438,71 +440,96 @@ export const Orals = [
   },
 
 
-  {
-    id: 6,
-    title: "Mouth Cancer",
-    shortTitle: "MC",
-    description: "Description for Mouth Cancer",
-    img: ["/assets/MC/MC.jpg"],
-    overview:
-      "Mouth cancer refers to cancer that develops in any part of the mouth, such as the lips, tongue, gums, or inner lining of the cheeks. It is a type of head and neck cancer.",
-    symptoms: {
-      title: "Symptoms may include:",
-      list: [
-        "A sore in the mouth that doesn’t heal",
-        "A lump or thickening in the cheek",
-        "White or red patches inside the mouth",
-        "Pain or difficulty swallowing",
-        "Loose teeth or poorly fitting dentures",
-        "Persistent mouth pain or earache",
-      ],
-    },
-    causes: {
-      title: "Causes and risk factors include:",
-      triggers: [
-        {
-          title: "Common factors:",
-          list: [
-            "Tobacco use (smoking or chewing)",
-            "Excessive alcohol consumption",
-            "Human papillomavirus (HPV) infection",
-            "Chronic irritation from rough teeth or dentures",
-            "Prolonged sun exposure (for lip cancer)",
-          ],
-        },
-      ],
-    },
-    riskFactors:
-      "People over 40, tobacco or alcohol users, and those with HPV infection are most at risk.",
-    prevention: {
-      title: "To help prevent mouth cancer:",
-      list: [
-        {
-          id: 1,
-          tip: "Quit smoking and limit alcohol use",
-          desc: "These are the biggest risk factors.",
-        },
-        {
-          id: 2,
-          tip: "Use lip balm with SPF",
-          desc: "Protects against UV-related lip cancers.",
-        },
-        {
-          id: 3,
-          tip: "Regular dental checkups",
-          desc: "Dentists can detect early signs of precancerous changes.",
-        },
-      ],
-    },
+ {
+  id: 6,
+  title: "Mouth Cancer",
+  shortTitle: "MC",
+  description: "Description for Mouth Cancer",
+  img: ["/assets/MC/MC.jpg"],
+  overview:
+    "Mouth cancer is a growth of cells that starts in the mouth. It can occur on the lips, gums, tongue, inner lining of the cheeks, roof of the mouth, or floor of the mouth. The mouth is also called the oral cavity. Cancer that happens in the mouth is sometimes called oral cancer or oral cavity cancer. Mouth cancer is one of several cancers considered types of head and neck cancer, and they often have similar treatments.",
+  symptoms: {
+    title: "Signs and symptoms of mouth cancer may include:",
+    list: [
+      "A lip or mouth sore that won't heal",
+      "A white or reddish patch on the inside of the mouth",
+      "Loose teeth",
+      "A growth or lump inside the mouth",
+      "Mouth pain",
+      "Ear pain",
+      "Difficult or painful swallowing"
+    ],
+    WhenSeeDoctor: [
+      {
+        title: "When to see a doctor:",
+        list: [
+          "Make an appointment with a doctor, dentist, or other healthcare professional if you have any symptoms that worry you."
+        ]
+      }
+    ]
+  },
+  causes: {
+    title: "It's not always clear what causes mouth cancer. Most oral cancers are squamous cell carcinomas, starting in flat, thin cells lining the lips and inside the mouth.",
+    triggers: [
+      {
+        title: "Mouth cancer happens when cells on the lips or in the mouth develop changes in their DNA. These changes cause cells to grow and multiply quickly, forming a mass called a tumor. The tumor can invade and destroy healthy tissue and may spread to other parts of the body (metastatic cancer)."
+      }
+    ]
+  },
+  riskFactors: {
+    title: "Factors that can increase the risk of mouth cancer include:",
+    triggers: [
+      {
+        title: "Risk factors:",
+        list: [
+          "Using tobacco (cigarettes, cigars, pipes, chewing tobacco, snuff)",
+          "Frequent and heavy drinking (especially with tobacco use)",
+          "Excessive sun exposure to the lips",
+          "Being exposed to human papillomavirus (HPV)",
+          "A weakened immune system (due to medicines or illness, such as HIV or organ transplant)"
+        ]
+      }
+    ]
+  },
+  prevention: {
+    title: "There's no proven way to prevent mouth cancer, but you may reduce your risk if you:",
+    list: [
+      {
+        id: 1,
+        tip: "Don't use tobacco",
+        desc: "If you don't use tobacco, don't start. If you currently use tobacco, talk with your healthcare team about strategies to help you quit."
+      },
+      {
+        id: 2,
+        tip: "Limit alcohol intake",
+        desc: "If you choose to drink alcohol, do so in moderation. For healthy adults, that means up to one drink a day for women and up to two drinks a day for men."
+      },
+      {
+        id: 3,
+        tip: "Avoid excessive sun exposure to your lips",
+        desc: "Protect the skin on your lips from the sun by staying in the shade, wearing a broad-brimmed hat, and applying a sunscreen lip product."
+      },
+      {
+        id: 4,
+        tip: "Consider the HPV vaccine",
+        desc: "Receiving a vaccination to prevent HPV infection may reduce your risk of HPV-related cancers, such as mouth cancer. Ask your healthcare team whether the HPV vaccine is appropriate for you."
+      },
+      {
+        id: 5,
+        tip: "Have regular health and dental exams",
+        desc: "During your appointments, your dentist, doctor, or other healthcare provider can check your mouth for signs of cancer."
+      }
+    ]
   },
 
+},
 
   {
     id: 7,
     title: "Oral Cancer",
     shortTitle: "OC",
     description: "Description for Oral Cancer",
-    img: ["/assets/OC/OC.jpg"],
+    img: ["/assets/CaS/CaS.jpg"],
     overview:
       "Oral cancer includes cancers of the lips, tongue, cheeks, floor of the mouth, hard and soft palate, and throat. It is often detected late, which makes early screening important.",
     symptoms: {
