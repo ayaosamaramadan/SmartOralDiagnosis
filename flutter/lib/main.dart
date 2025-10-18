@@ -3,7 +3,7 @@ import 'screen/home.dart';
 import 'screen/login.dart';
 import 'screen/signup.dart';
 import 'screen/scan.dart';
-
+import 'screen/Alldiseases.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,10 +19,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/scan': (context) => const ScanPage(),
+        '/Alldiseasea': (context) => const AlldiseasesScreen(),
       },
     );
   }
 }
-
-// ...existing code...
 

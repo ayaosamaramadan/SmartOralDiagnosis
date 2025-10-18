@@ -68,6 +68,16 @@ flutter:
     - assets/doodle.png
     - assets/login-image.png
     - assets/home.jpg
+    - assets/CaS/CaS.jpg
+    - assets/CoS/CoS.avif
+    - assets/GUM/GUM.jpg
+    - assets/MC/MC.jpg
+    - assets/OT/OT.jpg
+    - assets/OC/OC.jpg
+    - assets/OLP/OLP.png
+
+  
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

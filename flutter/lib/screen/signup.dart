@@ -32,28 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  Color _getButtonColor() {
-    switch (_selectedType) {
-      case 'doctor':
-        return Colors.green.shade600;
-      case 'admin':
-        return Colors.purple.shade600;
-      default:
-        return Colors.blue.shade600;
-    }
-  }
-
-  Color _getButtonHoverColor() {
-    switch (_selectedType) {
-      case 'doctor':
-        return Colors.green.shade700;
-      case 'admin':
-        return Colors.purple.shade700;
-      default:
-        return Colors.blue.shade700;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

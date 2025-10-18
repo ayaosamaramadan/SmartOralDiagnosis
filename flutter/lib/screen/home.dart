@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
               ),
               PopupMenuItem(
           value: 1,
-          child: _navText("PORTFOLIO"),
+          child: _navText("DISEASE & CONDITIONS"),
               ),
               PopupMenuItem(
           value: 2,
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                 side: const BorderSide(color: Colors.white)),
             onPressed: () {
               Navigator.pop(context);
-              // Add contact functionality here
+
             },
             child: const Text("CONTACT US"),
           ),
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/');
                   break;
                 case 1:
-                  // Add portfolio navigation here
+                  Navigator.pushNamed(context, '/Alldiseasea');
                   break;
                 case 2:
                   // Add about us navigation here
