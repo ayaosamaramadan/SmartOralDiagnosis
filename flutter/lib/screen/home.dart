@@ -8,6 +8,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/chat');
+        },
+        backgroundColor: Colors.blueAccent,
+        tooltip: 'Chat',
+        child: const Icon(Icons.chat_bubble, color: Colors.white),
+      ),
       body: Stack(
         children: [
                 Positioned.fill(
@@ -129,7 +138,6 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Image first with rounded left and bottom edges
           ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
@@ -143,7 +151,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          // Heading
           RichText(
             text: TextSpan(
               children: [

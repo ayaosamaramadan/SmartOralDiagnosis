@@ -169,7 +169,7 @@ class _ScanPageState extends State<ScanPage> {
               ),
               PopupMenuItem(
           value: 1,
-          child: _navText("PORTFOLIO"),
+          child: _navText("DISEASE & CONDITIONS"),
               ),
               PopupMenuItem(
           value: 2,
@@ -184,7 +184,6 @@ class _ScanPageState extends State<ScanPage> {
                 side: const BorderSide(color: Colors.white)),
             onPressed: () {
               Navigator.pop(context);
-              // Add contact functionality here
             },
             child: const Text("CONTACT US"),
           ),
@@ -210,7 +209,7 @@ class _ScanPageState extends State<ScanPage> {
                   Navigator.pushNamed(context, '/');
                   break;
                 case 1:
-                  // Add portfolio navigation here
+                  Navigator.pushNamed(context, '/Alldiseasea');
                   break;
                 case 2:
                   // Add about us navigation here
