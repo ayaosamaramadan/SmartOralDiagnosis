@@ -328,7 +328,7 @@ export const Orals = [
     shortTitle: "OLP",
     description: "Description for Oral Lichen Planus",
     img: [
-      "/assets/CaS/CaS.jpg"
+      "/assets/OLP/OLP.png"
     ],
     overview:
       "Oral lichen planus is a chronic inflammatory condition that affects the mucous membranes inside the mouth. It appears as white, lacy patches or red, swollen tissues, and sometimes painful sores.",
@@ -529,7 +529,7 @@ export const Orals = [
     title: "Oral Cancer",
     shortTitle: "OC",
     description: "Description for Oral Cancer",
-    img: ["/assets/CaS/CaS.jpg"],
+    img: ["/assets/OC/OC.jpg"],
     overview:
       "Oral cancer includes cancers of the lips, tongue, cheeks, floor of the mouth, hard and soft palate, and throat. It is often detected late, which makes early screening important.",
     symptoms: {

@@ -42,3 +42,32 @@ body {
 .doodlebg {
   background-image: url('../assets/doodle.png');
 }
+
+@keyframes bot-slide-left {
+  0% {
+    transform: translateY(-50%) translateX(120%);
+  }
+  100% {
+    transform: translateY(-50%) translateX(0%);
+  }
+  
+}
+
+.bot-aimate {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(120%);
+  animation: bot-slide-left 1s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 50;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .bot-aimate {
+    animation: none;
+    transform: translateY(-50%) translateX(0%);
+  }
+}

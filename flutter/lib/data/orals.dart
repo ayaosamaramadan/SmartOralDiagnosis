@@ -1,4 +1,3 @@
-// Generated orals data converted from JS to Dart
 
 final List<Map<String, dynamic>> orals = [
   {
