@@ -184,9 +184,13 @@ class AlldiseasesScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: const FixedButton(
-        label: 'Help',
-        icon: Icons.help_outline,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/chat');
+        },
+        backgroundColor: Colors.blueAccent,
+        tooltip: 'Chat',
+        child: const Icon(Icons.chat_bubble, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

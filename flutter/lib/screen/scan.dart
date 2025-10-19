@@ -35,6 +35,15 @@ class _ScanPageState extends State<ScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/chat');
+        },
+        backgroundColor: Colors.blueAccent,
+        tooltip: 'Chat',
+        child: const Icon(Icons.chat_bubble, color: Colors.white),
+      ),
 
       body: Stack(
         children: [
