@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/');
                   break;
                 case 1:
-                  Navigator.pushNamed(context, '/Alldiseasea');
+                  Navigator.pushNamed(context, '/Alldisease');
                   break;
                 case 2:
                   // Add about us navigation here

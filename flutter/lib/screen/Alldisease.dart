@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/orals.dart';
+import 'disease_detail.dart';
 
 
 class FixedButton extends StatelessWidget {
@@ -21,8 +22,8 @@ class FixedButton extends StatelessWidget {
   }
 }
 
-class AlldiseasesScreen extends StatelessWidget {
-  const AlldiseasesScreen({super.key});
+class AlldiseaseScreen extends StatelessWidget {
+  const AlldiseaseScreen({super.key});
 
   String _assetPath(String path) =>
       path.startsWith('/') ? path.substring(1) : path;
@@ -112,66 +113,10 @@ class AlldiseasesScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         onTap: () {
-                          final overview = item['overview'] as String? ?? '';
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              contentPadding: const EdgeInsets.all(16),
-                              backgroundColor: Colors.transparent,
-                              content: Container(
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xFF0F050D),
-                                      Color.fromARGB(255, 7, 3, 21),
-                                      Color.fromARGB(255, 19, 22, 32),
-                                      Color.fromARGB(255, 42, 46, 51),
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    stops: [0.0, 0.5, 0.8, 1.0],
-                                  ),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      title,
-                                      style: const TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    SingleChildScrollView(
-                                      child: Text(
-                                        overview,
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 16),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context),
-                                        child: const Text(
-                                          'Close',
-                                          style: TextStyle(
-                                              color: Colors.blueAccent),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DiseaseDetailScreen(item: item),
                             ),
                           );
                         },
@@ -268,7 +213,7 @@ class AlldiseasesScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/Alldiseasea');
                   break;
                 case 2:
-                  // TODO: Add About Us page navigation
+                
                   break;
               }
             },
