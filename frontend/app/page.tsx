@@ -9,6 +9,8 @@ import Link from "next/link";
 import { VscArrowRight } from "react-icons/vsc";
 import { IoMailOutline } from "react-icons/io5";
 import { CgArrowLongRight } from "react-icons/cg";
+import { IoMdCall } from "react-icons/io";
+import { FaLocationDot } from "react-icons/fa6";
 
 
 
@@ -22,78 +24,79 @@ export default function Home() {
   };
 
   return (
-    <><div className="doodlebg mt-6"> 
-    <section className=" flex flex-col md:flex-row mx-auto items-center px-32 py-16 gap-48">
-      <div className="flex-1 space-y-6">
-        <h2 className="text-4xl md:text-5xl font-bold">
-          <span className="text-blue-400">Scan your mouth</span> with AI to detect
-          <span className="text-blue-600"> oral and dental diseases</span>
-        </h2>
-        <p className="text-gray-300 max-w-xl">
-          Use our smart tool to analyze mouth and dental images and detect early signs of oral problems quickly and accurately. Keep your mouth healthy and your smile bright with ease.
-        </p>
-        <br />
-        <div className="flex items-center gap-4">
-          <Link href="/scan">
-            <button
-              // onClick={() => handleRoleSelection("patient")}
-              className="px-7 py-2 rounded-3xl text-black font-semibold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-400 transition-all duration-200 shadow-lg
+    <><div className="doodlebg mt-6">
+      <section className=" flex flex-col md:flex-row mx-auto items-center px-32 py-16 gap-48">
+        <div className="flex-1 space-y-6">
+          <h2 className="text-4xl md:text-5xl font-bold">
+            <span className="text-blue-400">Scan your mouth</span> with AI to detect
+            <span className="text-blue-600"> oral and dental diseases</span>
+          </h2>
+          <p className="text-gray-300 max-w-xl">
+            Use our smart tool to analyze mouth and dental images and detect early signs of oral problems quickly and accurately. Keep your mouth healthy and your smile bright with ease.
+          </p>
+          <br />
+          <div className="flex items-center gap-4">
+            <Link href="/scan">
+              <button
+                // onClick={() => handleRoleSelection("patient")}
+                className="px-7 py-2 rounded-3xl text-black font-semibold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-400 transition-all duration-200 shadow-lg
                   hover:from-blue-700 hover:via-blue-800 hover:to-blue-600
                   hover:scale-105 hover:shadow-xl
                   focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-              aria-label="Start Scan Now"
-              type="button"
-            >
-              Start Scan Now
-            </button></Link>
-          <span>
-            <VscArrowRight className="text-blue-400 text-4xl group-hover:text-blue-600 group-hover:scale-125 transition-all duration-200" />
-          </span>
+                aria-label="Start Scan Now"
+                type="button"
+              >
+                Start Scan Now
+              </button></Link>
+            <span>
+              <VscArrowRight className="text-blue-400 text-4xl group-hover:text-blue-600 group-hover:scale-125 transition-all duration-200" />
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="flex-1 flex justify-center mt-10 md:mt-0">
-        <div className="relative w-[400px] h-[400px]">
-          <Image
-            src={HomePic}
-            alt="AI-powered oral and dental scan"
-            fill
-            className="object-cover rounded-[20%] rounded-bl-[60%] shadow-lg"
-            sizes="(max-width: 768px) 300px, 400px"
-            priority
-          />
+        <div className="flex-1 flex justify-center mt-10 md:mt-0">
+          <div className="relative w-[400px] h-[400px]">
+            <Image
+              src={HomePic}
+              alt="AI-powered oral and dental scan"
+              fill
+              className="object-cover rounded-[20%] rounded-bl-[60%] shadow-lg"
+              sizes="(max-width: 768px) 300px, 400px"
+              priority
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       <section className="flex flex-col bg-gradient-to-l from-[rgb(31,31,31)] via-[rgb(49,49,49)] to-[rgb(31,31,31)] md:flex-row justify-center items-center gap-10 px-10 py-10 rounded-full max-w-5xl mx-auto">
+       
         <div className="text-start flex items-start">
           <span className="text-5xl text-blue-500 px-4">
-            <IoMailOutline />
+              <IoMailOutline />
           </span>
           <div>
             <h3 className="text-xl font-semibold">Send Us a Message</h3>
             <p className="text-gray-500 text-sm mt-1">
-              Start a conversation withrt.
+            Start a conversation with our team for support.
             </p>
           </div>
         </div> <div className="text-start flex items-start">
           <span className="text-5xl text-blue-500 px-4">
-            <IoMailOutline />
+          <IoMdCall />
           </span>
           <div>
-            <h3 className="text-xl font-semibold">Send Us a Message</h3>
+            <h3 className="text-xl font-semibold">Schedule a Call</h3>
             <p className="text-gray-500 text-sm mt-1">
-              Start a conversation withrt.
+              Book a time with our team for a personal consultation.
             </p>
           </div>
         </div> <div className="text-start flex items-start">
           <span className="text-5xl text-blue-500 px-4">
-            <IoMailOutline />
+           <FaLocationDot />
           </span>
           <div>
-            <h3 className="text-xl font-semibold">Send Us a Message</h3>
+            <h3 className="text-xl font-semibold">Visit Our Office</h3>
             <p className="text-gray-500 text-sm mt-1">
-              Start a conversation withrt.
+              Visit our office for in-person assistance.
             </p>
           </div>
         </div>
