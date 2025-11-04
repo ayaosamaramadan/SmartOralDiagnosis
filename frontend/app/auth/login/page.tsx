@@ -11,7 +11,8 @@ import loginimg from "../../../assets/login-image.png";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const role = searchParams.get("role") || "Patient";
+  const rawRole = searchParams.get("role") || "patient";
+  const role = rawRole.toString().toLowerCase();
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -43,10 +44,10 @@ function LoginForm() {
   };
 
   const getRoleTitle = () => {
-    switch (role) {
-      case "Doctor":
+    switch (rawRole.toString().toLowerCase()) {
+      case "doctor":
         return "Doctor Login";
-      case "Admin":
+      case "admin":
         return "Admin Login";
       default:
         return "Patient Login";
@@ -54,10 +55,10 @@ function LoginForm() {
   };
 
   const getRoleColor = () => {
-    switch (role) {
-      case "Doctor":
+    switch (rawRole.toString().toLowerCase()) {
+      case "doctor":
         return "green";
-      case "Admin":
+      case "admin":
         return "purple";
       default:
         return "blue";
