@@ -51,7 +51,16 @@ builder.Services.AddCors(options =>
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=OralDatabase.db";
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+// Choose provider: if the connection string points to a .db file use SQLite, otherwise use SQL Server
+if (connectionString.IndexOf(".db", StringComparison.OrdinalIgnoreCase) >= 0)
+{
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+}
+else
+{
+    // SQL Server (for connection strings like: Server=...;Initial Catalog=...;...)
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+}
 
 // JWT Authentication
 var jwtSection = builder.Configuration.GetSection("Jwt");

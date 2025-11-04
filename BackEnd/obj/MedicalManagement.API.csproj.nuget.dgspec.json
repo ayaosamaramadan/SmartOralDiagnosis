@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GraduateProject\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
+    "d:\\GraduateProject\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "D:\\GraduateProject\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
+    "d:\\GraduateProject\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GraduateProject\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectUniqueName": "d:\\GraduateProject\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "D:\\GraduateProject\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectPath": "d:\\GraduateProject\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
         "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
-        "outputPath": "D:\\GraduateProject\\SmartOralDiagnosis\\backend\\obj\\",
+        "outputPath": "d:\\GraduateProject\\SmartOralDiagnosis\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -62,6 +62,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.0, )"
             },
