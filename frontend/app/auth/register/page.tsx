@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -6,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import loginimg from "../../../assets/login-image.png";
 import toast from "react-hot-toast";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Register() {
   const router = useRouter();
@@ -64,6 +66,8 @@ export default function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const { register } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -72,37 +76,20 @@ export default function Register() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            phoneNumber: formData.phoneNumber,
-            role: formData.role,
-          }),
-        }
-      );
+      await register({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        role: formData.role,
+      });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        router.push("/auth/login");
-      } else {
-        const errorData = await response.json();
-        toast.error(errorData.message || "Registration failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("Registration failed. Please try again.");
+      toast.success("Registration successful");
+      router.push("/");
+    } catch (err: any) {
+      console.error("Registration error:", err);
+      toast.error(err?.message || "Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
