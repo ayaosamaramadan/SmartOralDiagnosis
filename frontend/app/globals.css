@@ -16,7 +16,7 @@
   }
 }
 
-body {
+body:not(.bg-black) {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -25,6 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* Ensure when body has bg-black class the text color is white */
+body.bg-black { color: rgb(255,255,255); background-color: #000; }
 
 .btn-primary {
   @apply bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors;

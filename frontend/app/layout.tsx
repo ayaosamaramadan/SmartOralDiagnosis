@@ -22,13 +22,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-  <body className={`${poppins.className}`}> 
+      <body className={`${poppins.className} bg-black text-white`}>
         <AuthProvider>
-          <div className="">
+          <div className="min-h-screen w-full">
             <Navigation />
-            <main>{children}</main>
-           <Chatbot />
-            <Footer/>
+            <main className="min-h-screen container mx-auto px-4">{children}</main>
+            <Chatbot />
+            <Footer />
           </div>
           <Toaster position="top-right" />
         </AuthProvider>
