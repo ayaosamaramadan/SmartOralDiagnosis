@@ -107,7 +107,7 @@ export default function Register() {
   };
 
   return (
-    <div className="doodlebg flex mt-6 overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
+    <div className=" flex mt-6 overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
       <div className="hidden lg:flex lg:w-1/2 justify-center items-center">
         <Image
           src={loginimg}

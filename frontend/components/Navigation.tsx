@@ -1,10 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
-import { CiDark } from "react-icons/ci";
+import Drkbtn from "./Dekbtn";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -132,15 +131,13 @@ export default function Navigation() {
                 LOGIN
               </button>
             </Link>
-            <button
-              title="Toggle Dark Mode"
-              className="px-4 py-2 rounded-xl border border-gray-500 hover:bg-gray-800 hover:text-white transition-colors duration-200"
-            >
-              <CiDark className="inline text-blue-400 text-xl" />
-            </button>
+        
+            <Drkbtn/>
           </div>
         </>
       )}
     </header>
   );
 }
+
+

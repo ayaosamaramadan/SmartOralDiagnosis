@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "../contexts/AuthContext";
 import Navigation from "../components/Navigation";
 import Footer from "@/components/Footer";
+import { ThemeProvider } from "next-themes"
 
 import Chatbot from "@/components/Chatbot";
 
@@ -22,7 +23,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} bg-black text-white`}>
+      <body className={`${poppins.className} dark:bg-black text-white`}>
+           <ThemeProvider attribute="class">
         <AuthProvider>
           <div className="min-h-screen w-full">
             <Navigation />
@@ -31,7 +33,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster position="top-right" />
-        </AuthProvider>
+        </AuthProvider></ThemeProvider>
       </body>
     </html>
   );
