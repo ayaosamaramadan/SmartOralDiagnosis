@@ -3307,19 +3307,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\os\\.nuget\\packages\\": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "projectUniqueName": "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
       "projectName": "MedicalManagement.API",
-      "projectPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
-      "packagesPath": "C:\\Users\\os\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\obj\\",
+      "projectPath": "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\os\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3342,7 +3342,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -3390,7 +3391,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

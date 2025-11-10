@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,6 +14,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // Set your backend base URL here.
+  // If you run the Android emulator (AVD), use 10.0.2.2 to reach host machine.
+  // For example: 'http://10.0.2.2:5000' (emulator) or 'http://localhost:5000' (desktop/web).
+  static const String apiBase = 'http://10.0.2.2:5000';
+
+  // Secure storage for tokens
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
   void dispose() {
@@ -131,7 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             elevation: 6,
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await _login();
+                          },
                           child: const Text(
                             'Sign In',
                             style: TextStyle(
@@ -177,5 +191,71 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      _showMessage('الرجاء إدخال البريد الإلكتروني وكلمة المرور');
+      return;
+    }
+
+  final uri = Uri.parse('$apiBase/api/Auth/login');
+
+    try {
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => const Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      final resp = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email, 'password': password}),
+      );
+
+      if (mounted) Navigator.of(context).pop(); // dismiss loading
+
+      if (resp.statusCode == 200) {
+        // success: backend returns { token, user }
+        final body = jsonDecode(resp.body);
+        final token = body['token'];
+        // Save token securely
+        if (token != null) {
+          await _secureStorage.write(key: 'jwt', value: token.toString());
+        }
+
+        if (!mounted) return;
+        _showMessage('تم تسجيل الدخول بنجاح', success: true);
+        // Navigate to home and remove login from stack
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      } else if (resp.statusCode == 401 || resp.statusCode == 400) {
+        String msg = 'بيانات الدخول غير صحيحة';
+        try {
+          final body = jsonDecode(resp.body);
+          if (body is Map && body['message'] != null) msg = body['message'];
+        } catch (_) {}
+        _showMessage(msg);
+      } else {
+        _showMessage('حصل خطأ غير متوقع، الرجاء المحاولة لاحقاً');
+      }
+    } catch (e) {
+      if (mounted) Navigator.of(context).pop();
+      _showMessage('تعذر الاتصال بالخادم. تحقق من تشغيل الـ backend');
+    }
+  }
+
+  void _showMessage(String message, {bool success = false}) {
+    final snack = SnackBar(
+      content: Text(message),
+      backgroundColor: success ? Colors.green : Colors.redAccent,
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 }

@@ -8,7 +8,7 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             width: double.infinity,
             height: double.infinity,
             child: CustomPaint(painter: _GradientPainter()),

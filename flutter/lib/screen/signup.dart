@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -19,6 +23,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _selectedType = 'patient';
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
   bool _isLoading = false;
+  // TODO: adjust this base URL for your environment:
+  // - Android emulator: use http://10.0.2.2:5000 (or the port Kestrel uses)
+  // - iOS simulator / macOS: use http://localhost:5000
+  // - Physical device: use your machine IP (http://192.168.x.y:5000)
+  static const String _backendBaseUrl = 'http://10.0.2.2:5000';
+
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
   void dispose() {
@@ -260,17 +271,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       elevation: 6,
                     ),
-                    onPressed: _isLoading ? null : () {
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      // Simulate loading
-                      Future.delayed(const Duration(seconds: 2), () {
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      });
-                    },
+                    onPressed: _isLoading ? null : () => _register(),
                     child: _isLoading
                         ? const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -401,6 +402,76 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _register() async {
+    // Basic client-side validation
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final confirm = _confirmPasswordController.text;
+    final phone = _phoneController.text.trim();
+
+    if (firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill required fields')));
+      return;
+    }
+
+    if (password != confirm) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final uri = Uri.parse('$_backendBaseUrl/api/auth/register');
+      final payload = {
+        'email': email,
+        'password': password,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phone,
+        'role': _selectedType[0].toUpperCase() + _selectedType.substring(1) // 'patient' -> 'Patient'
+      };
+
+      final res = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(payload),
+      );
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body) as Map<String, dynamic>;
+        final token = data['token'] as String?;
+        if (token != null && token.isNotEmpty) {
+          await _secureStorage.write(key: 'jwt', value: token);
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Account created successfully')));
+        // navigate to login or home
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        String message = 'Registration failed';
+        try {
+          final body = jsonDecode(res.body);
+          if (body is Map && body['message'] != null) message = body['message'].toString();
+        } catch (_) {}
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }
         
