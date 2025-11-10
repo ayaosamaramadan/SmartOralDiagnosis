@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "builds": [
+        { "src": "package.json", "use": "@vercel/next" }
+    ],
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/api/$1" }
+    ],
+    "routes": [
+        { "src": "/(.*)", "dest": "/$1" }
+    ],
+    "env": {
+        "API_BASE_URL": "https://api.example.com"
+    }
+}
