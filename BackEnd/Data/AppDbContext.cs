@@ -25,6 +25,9 @@ namespace MedicalManagement.API.Data
                 entity.Property(e => e.PhoneNumber).HasMaxLength(25);
                 entity.Property(e => e.LicenseNumber).HasMaxLength(100);
                 entity.Property(e => e.Specialization).HasMaxLength(200);
+                // Ensure decimal precision is specified to avoid silent truncation when using SQL Server
+                // and to make EF Core model validation happy.
+                entity.Property(e => e.ConsultationFee).HasPrecision(18, 2);
             });
         }
     }
