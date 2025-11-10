@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../components/theme_toggle.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,7 +8,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -17,32 +17,30 @@ class HomeScreen extends StatelessWidget {
         tooltip: 'Chat',
         child: const Icon(Icons.chat_bubble, color: Colors.white),
       ),
-      body: Stack(
-        children: [
-                Positioned.fill(
-                    child: ColorFiltered(
-                      colorFilter: const ColorFilter.mode(
-                        Color.fromARGB(255, 255, 255, 255),
-                        BlendMode.srcATop,
-                      ),
-                      child: Opacity(
-                        opacity: 0.3,
-                        child: Image.asset('assets/doodle.png', fit: BoxFit.cover),
-                      ),
-                    ),
-                ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildNavBar(context),
-                const SizedBox(height: 40),
-                _buildHeroSection(context),
-                const SizedBox(height: 40),
-                _buildContactRow(context),
-              ],
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF0F050D),
+              Color.fromARGB(255, 7, 3, 21),
+              Color.fromARGB(255, 19, 22, 32),
+              Color.fromARGB(255, 42, 46, 51),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildNavBar(context),
+              const SizedBox(height: 40),
+              _buildHeroSection(context),
+              const SizedBox(height: 40),
+              _buildContactRow(context),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -53,72 +51,71 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("OralScan",
-              style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Colors.blueAccent)),
-          PopupMenuButton<int>(
-            icon: Icon(Icons.menu, color: Colors.white, size: 32),
-            color: Colors.black87,
-            itemBuilder: (context) => [
-              PopupMenuItem(
-          value: 0,
-          child: _navText("HOME"),
-              ),
-              PopupMenuItem(
-          value: 1,
-          child: _navText("DISEASE & CONDITIONS"),
-              ),
-              PopupMenuItem(
-          value: 2,
-          child: _navText("ABOUT US"),
-              ),
-              PopupMenuDivider(),
-              PopupMenuItem(
-          value: 3,
-          child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Colors.white)),
-            onPressed: () {
-              Navigator.pop(context);
-
-            },
-            child: const Text("CONTACT US"),
-          ),
-              ),
-              PopupMenuItem(
-          value: 4,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          const Text(
+            "OralScan",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
             ),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/login');
-            },
-            child: const Text("LOGIN"),
           ),
+          Row(
+            children: [
+              const ThemeToggle(),
+              const SizedBox(width: 12),
+              PopupMenuButton<int>(
+                icon: const Icon(Icons.menu, color: Colors.white, size: 32),
+                color: Colors.black87,
+                itemBuilder: (context) => [
+                  PopupMenuItem(value: 0, child: _navText("HOME")),
+                  PopupMenuItem(value: 1, child: _navText("DISEASE & CONDITIONS")),
+                  PopupMenuItem(value: 2, child: _navText("ABOUT US")),
+                  const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: 3,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("CONTACT US"),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 4,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: const Text("LOGIN"),
+                    ),
+                  ),
+                ],
+                onSelected: (value) {
+                  switch (value) {
+                    case 0:
+                      Navigator.pushNamed(context, '/');
+                      break;
+                    case 1:
+                      Navigator.pushNamed(context, '/Alldisease');
+                      break;
+                    case 2:
+                      // Add about us navigation here
+                      break;
+                  }
+                },
               ),
             ],
-            onSelected: (value) {
-              switch (value) {
-                case 0:
-                  Navigator.pushNamed(context, '/');
-                  break;
-                case 1:
-                  Navigator.pushNamed(context, '/Alldisease');
-                  break;
-                case 2:
-                  // Add about us navigation here
-                  break;
-              }
-            },
           ),
         ],
-        
       ),
     );
   }
@@ -126,9 +123,14 @@ class HomeScreen extends StatelessWidget {
   Widget _navText(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Text(text,
-          style: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 
@@ -157,17 +159,26 @@ class HomeScreen extends StatelessWidget {
                 TextSpan(
                   text: "Scan your Mouth ",
                   style: GoogleFonts.poppins(
-                      fontSize: 32, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 176, 201, 246)),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 176, 201, 246),
+                  ),
                 ),
                 TextSpan(
                   text: "With AI to detect ",
                   style: GoogleFonts.poppins(
-                      fontSize: 32, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 255, 255, 255)),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 TextSpan(
                   text: "Oral and dental diseases",
                   style: GoogleFonts.poppins(
-                      fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
+                  ),
                 ),
               ],
             ),
@@ -183,14 +194,18 @@ class HomeScreen extends StatelessWidget {
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/scan');
               },
-            
-              label: const Text("Start Scan Now", style: TextStyle(color: Colors.black, fontSize: 16)),
+              label: const Text(
+                "Start Scan Now",
+                style: TextStyle(color: Colors.black, fontSize: 16),
+              ),
             ),
           ),
         ],
@@ -212,8 +227,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             _contactInfo(Icons.location_on, "Visit Us", "Cairo, Egypt"),
             _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082"),
-            _contactInfo(Icons.email, "Send Ussage",
-                "info.egy@gmail.com"),
+            _contactInfo(Icons.email, "Send Ussage", "info.egy@gmail.com"),
           ],
         ),
       ),

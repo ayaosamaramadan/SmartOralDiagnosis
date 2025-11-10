@@ -25,6 +25,8 @@ namespace MedicalManagement.API.Data
                 entity.Property(e => e.PhoneNumber).HasMaxLength(25);
                 entity.Property(e => e.LicenseNumber).HasMaxLength(100);
                 entity.Property(e => e.Specialization).HasMaxLength(200);
+                // ConsultationFee is decimal; explicitly set precision to avoid truncation warnings
+                entity.Property(e => e.ConsultationFee).HasPrecision(18, 2);
             });
         }
     }

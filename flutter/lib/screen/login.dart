@@ -15,12 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Set your backend base URL here.
-  // If you run the Android emulator (AVD), use 10.0.2.2 to reach host machine.
-  // For example: 'http://10.0.2.2:5000' (emulator) or 'http://localhost:5000' (desktop/web).
   static const String apiBase = 'http://10.0.2.2:5000';
 
-  // Secure storage for tokens
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
@@ -198,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      _showMessage('الرجاء إدخال البريد الإلكتروني وكلمة المرور');
+      _showMessage('Please enter your email and password.');
       return;
     }
 
@@ -222,31 +218,28 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) Navigator.of(context).pop(); // dismiss loading
 
       if (resp.statusCode == 200) {
-        // success: backend returns { token, user }
         final body = jsonDecode(resp.body);
         final token = body['token'];
-        // Save token securely
         if (token != null) {
           await _secureStorage.write(key: 'jwt', value: token.toString());
         }
 
         if (!mounted) return;
-        _showMessage('تم تسجيل الدخول بنجاح', success: true);
-        // Navigate to home and remove login from stack
+        _showMessage('Logged in successfully', success: true);
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       } else if (resp.statusCode == 401 || resp.statusCode == 400) {
-        String msg = 'بيانات الدخول غير صحيحة';
+        String msg = 'Login credentials are incorrect';
         try {
           final body = jsonDecode(resp.body);
           if (body is Map && body['message'] != null) msg = body['message'];
         } catch (_) {}
         _showMessage(msg);
       } else {
-        _showMessage('حصل خطأ غير متوقع، الرجاء المحاولة لاحقاً');
+        _showMessage('An unexpected error occurred, please try again later.');
       }
     } catch (e) {
       if (mounted) Navigator.of(context).pop();
-      _showMessage('تعذر الاتصال بالخادم. تحقق من تشغيل الـ backend');
+      _showMessage('Unable to connect to the server. Check if the backend is running.');
     }
   }
 

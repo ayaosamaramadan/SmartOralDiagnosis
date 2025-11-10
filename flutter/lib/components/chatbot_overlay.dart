@@ -23,13 +23,13 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // زر ثابت
+  // Persistent floating button
         Positioned(
           bottom: 24,
           right: 24,
           child: FloatingActionButton(
-            heroTag: null, // ✅ حل مشكلة heroTag
-            backgroundColor: Colors.blue.shade600,
+            heroTag: null, 
+              backgroundColor: Colors.blue.shade600,
             foregroundColor: Colors.white,
             onPressed: _toggle,
             child: Icon(widget.buttonIcon, size: 32),
@@ -46,8 +46,8 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
                 color: Colors.black.withOpacity(0.4),
                 child: Center(
                   child: GestureDetector(
-                    onTap: () {}, // يمنع الإغلاق عند الضغط داخل
-                    child: Container(
+                    onTap: () {}, 
+                      child: Container(
                       width: MediaQuery.of(context).size.width * 0.7,
                       height: MediaQuery.of(context).size.height * 0.8,
                       decoration: BoxDecoration(
@@ -61,7 +61,6 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
                       ),
                       child: Column(
                         children: [
-                          // الهيدر
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                             child: Row(
@@ -76,7 +75,7 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
                             ),
                           ),
 
-                          // المحتوى
+                          // Content
                           Expanded(
                             child: ListView(
                               padding: const EdgeInsets.all(16),
@@ -103,7 +102,7 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
                             ),
                           ),
 
-                          // الإدخال
+                          // Input
                           Padding(
                             padding: const EdgeInsets.all(16),
                             child: Row(

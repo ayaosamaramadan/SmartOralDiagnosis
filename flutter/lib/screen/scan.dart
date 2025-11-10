@@ -11,13 +11,13 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   final ImagePicker _picker = ImagePicker();
-  File? _imageFile; 
+  File? _imageFile;
 
   Future<void> _pickFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
-        _imageFile = File(image.path); 
+        _imageFile = File(image.path);
       });
     }
   }
@@ -26,7 +26,7 @@ class _ScanPageState extends State<ScanPage> {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
-        _imageFile = File(image.path); 
+        _imageFile = File(image.path);
       });
     }
   }
@@ -34,8 +34,7 @@ class _ScanPageState extends State<ScanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/chat');
@@ -44,30 +43,23 @@ class _ScanPageState extends State<ScanPage> {
         tooltip: 'Chat',
         child: const Icon(Icons.chat_bubble, color: Colors.white),
       ),
-
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: ColorFiltered(
-              colorFilter: const ColorFilter.mode(
-                Color.fromARGB(255, 255, 255, 255),
-                BlendMode.srcATop,
-              ),
-              child: Opacity(
-                opacity: 0.2,
-                child: Image.asset(
-                  'assets/doodle.png', 
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.transparent,
-                    );
-                  },
-                ),
-              ),
-            ),
+      body: Container(
+          width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF0F050D),
+              Color.fromARGB(255, 7, 3, 21),
+              Color.fromARGB(255, 19, 22, 32),
+              Color.fromARGB(255, 42, 46, 51),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          SingleChildScrollView(
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 _buildNavBar(context),
@@ -79,12 +71,13 @@ class _ScanPageState extends State<ScanPage> {
                     children: [
                       const Text(
                         "Take a photo or upload an image for AI-powered dental analysis",
-                        style: TextStyle(fontSize: 16, color: Color.fromARGB(221, 255, 255, 255)),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(221, 255, 255, 255),
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 50),
-
-                    
                       Container(
                         width: double.infinity,
                         height: 300,
@@ -93,40 +86,44 @@ class _ScanPageState extends State<ScanPage> {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: Colors.white30, width: 2),
                         ),
-                        child: _imageFile != null 
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(14),
-                              child: Image.file(_imageFile!, fit: BoxFit.cover),
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.image_outlined, size: 80, color: Colors.white54),
-                                const SizedBox(height: 16),
-                                Text(
-                                  "Image will appear here",
-                                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                                ),
-                              ],
-                            ),
+                        child: _imageFile != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(14),
+                                child: Image.file(_imageFile!, fit: BoxFit.cover),
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.image_outlined,
+                                      size: 80, color: Colors.white54),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    "Image will appear here",
+                                    style: TextStyle(
+                                        color: Colors.white70, fontSize: 16),
+                                  ),
+                                ],
+                              ),
                       ),
-
                       const SizedBox(height: 30),
-
                       Row(
                         children: [
                           Expanded(
                             child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                               onPressed: _pickFromCamera,
-                              icon: Icon(Icons.camera_alt_outlined, color: Colors.white),
-                              label: Text("Camera", style: TextStyle(color: Colors.white, fontSize: 16)),
+                              icon: const Icon(Icons.camera_alt_outlined,
+                                  color: Colors.white),
+                              label: const Text("Camera",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16)),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -134,14 +131,18 @@ class _ScanPageState extends State<ScanPage> {
                             child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                               onPressed: _pickFromGallery,
-                              icon: Icon(Icons.upload_file, color: Colors.white),
-                              label: Text("Gallery", style: TextStyle(color: Colors.white, fontSize: 16)),
+                              icon: const Icon(Icons.upload_file,
+                                  color: Colors.white),
+                              label: const Text("Gallery",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16)),
                             ),
                           ),
                         ],
@@ -152,7 +153,7 @@ class _ScanPageState extends State<ScanPage> {
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -163,53 +164,49 @@ class _ScanPageState extends State<ScanPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("OralScan",
-              style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Colors.blueAccent)),
+          const Text(
+            "OralScan",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
+            ),
+          ),
           PopupMenuButton<int>(
-            icon: Icon(Icons.menu, color: Colors.white, size: 32),
+            icon: const Icon(Icons.menu, color: Colors.white, size: 32),
             color: Colors.black87,
             itemBuilder: (context) => [
+              PopupMenuItem(value: 0, child: _navText("HOME")),
+              PopupMenuItem(value: 1, child: _navText("DISEASE & CONDITIONS")),
+              PopupMenuItem(value: 2, child: _navText("ABOUT US")),
+              const PopupMenuDivider(),
               PopupMenuItem(
-          value: 0,
-          child: _navText("HOME"),
+                value: 3,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("CONTACT US"),
+                ),
               ),
               PopupMenuItem(
-          value: 1,
-          child: _navText("DISEASE & CONDITIONS"),
-              ),
-              PopupMenuItem(
-          value: 2,
-          child: _navText("ABOUT US"),
-              ),
-              PopupMenuDivider(),
-              PopupMenuItem(
-          value: 3,
-          child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Colors.white)),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("CONTACT US"),
-          ),
-              ),
-              PopupMenuItem(
-          value: 4,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/login');
-            },
-            child: const Text("LOGIN"),
-          ),
+                value: 4,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: const Text("LOGIN"),
+                ),
               ),
             ],
             onSelected: (value) {
@@ -227,7 +224,6 @@ class _ScanPageState extends State<ScanPage> {
             },
           ),
         ],
-        
       ),
     );
   }
@@ -235,9 +231,14 @@ class _ScanPageState extends State<ScanPage> {
   Widget _navText(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Text(text,
-          style: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
