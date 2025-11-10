@@ -32,7 +32,7 @@ export default function Register() {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // Clear error when user starts typing
+    
     if (errors[e.target.name]) {
       setErrors((prev) => ({
         ...prev,
@@ -107,7 +107,7 @@ export default function Register() {
   };
 
   return (
-    <div className=" flex mt-6 overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
+    <div className="md:mt-[-50px] flex overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
       <div className="hidden lg:flex lg:w-1/2 justify-center items-center">
         <Image
           src={loginimg}
@@ -118,13 +118,13 @@ export default function Register() {
       </div>
 
       <div className="w-full max-w-xl mx-auto lg:mx-0 lg:w-2/3">
-        <div className="bg-[#3535354f] py-5 shadow-2xl rounded-3xl px-8 border border-gray-800">
-          <h2 className="text-2xl font-bold text-center text-white mb-4">
+        <div className="bg-white dark:bg-[#3535354f] py-5 shadow-2xl rounded-3xl px-8 border border-gray-300 dark:border-gray-800">
+          <h2 className="text-2xl font-bold text-center text-black dark:text-white mb-4">
             Sign up
           </h2>
           <form className="space-y-3" onSubmit={handleSubmit} autoComplete="off" noValidate>
             <div>
-              <label htmlFor="role" className="block text-sm text-white">
+              <label htmlFor="role" className="block text-sm text-black dark:text-white">
                 Account Type
               </label>
               <select
@@ -132,7 +132,7 @@ export default function Register() {
                 name="role"
                 value={formData.role}
                 onChange={handleInputChange}
-                className="block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
                 <option value="patient">Patient</option>
                 <option value="doctor">Doctor</option>
@@ -142,7 +142,7 @@ export default function Register() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label htmlFor="firstName" className="block text-sm text-white">
+                <label htmlFor="firstName" className="block text-sm text-black dark:text-white">
                   First Name
                 </label>
                 <input
@@ -152,7 +152,7 @@ export default function Register() {
                   required
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.firstName ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.firstName ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>
@@ -160,7 +160,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="lastName" className="block text-sm text-white">
+                <label htmlFor="lastName" className="block text-sm text-black dark:text-white">
                   Last Name
                 </label>
                 <input
@@ -170,7 +170,7 @@ export default function Register() {
                   required
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.lastName ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.lastName ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-xs text-red-500">{errors.lastName}</p>
@@ -179,7 +179,7 @@ export default function Register() {
 
 
               <div className="md:col-span-2">
-                <label htmlFor="email" className="block text-sm text-white">
+                <label htmlFor="email" className="block text-sm text-black dark:text-white">
                   Email
                 </label>
                 <input
@@ -190,7 +190,7 @@ export default function Register() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.email ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.email ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                 />
                 {errors.email && (
                   <p className="mt-1 text-xs text-red-500">{errors.email}</p>
@@ -198,7 +198,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="dateOfBirth" className="block text-sm text-white">
+                <label htmlFor="dateOfBirth" className="block text-sm text-black dark:text-white">
                   Birth Date
                 </label>
                 <input
@@ -208,7 +208,7 @@ export default function Register() {
                   required
                   value={formData.dateOfBirth}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.dateOfBirth ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.dateOfBirth ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                   max={new Date().toISOString().split("T")[0]}
                 />
                 {errors.dateOfBirth && (
@@ -217,7 +217,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="phoneNumber" className="block text-sm text-white">
+                <label htmlFor="phoneNumber" className="block text-sm text-black dark:text-white">
                   Phone
                 </label>
                 <input
@@ -227,7 +227,7 @@ export default function Register() {
                   required
                   value={formData.phoneNumber}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.phoneNumber ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.phoneNumber ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                   pattern="^[0-9+\-\s()]{7,}$"
                   placeholder="e.g. +1234567890"
                 />
@@ -237,7 +237,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm text-white">
+                <label htmlFor="password" className="block text-sm text-black dark:text-white">
                   Password
                 </label>
                 <input
@@ -248,7 +248,7 @@ export default function Register() {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.password ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.password ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                   minLength={6}
                 />
                 {errors.password && (
@@ -257,7 +257,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm text-white">
+                <label htmlFor="confirmPassword" className="block text-sm text-black dark:text-white">
                   Confirm
                 </label>
                 <input
@@ -268,7 +268,7 @@ export default function Register() {
                   required
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.confirmPassword ? "border-red-500" : "border-gray-700"}`}
+                  className={`block w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm ${errors.confirmPassword ? "border-red-500" : "border-gray-300 dark:border-gray-700"}`}
                   minLength={6}
                 />
                 {errors.confirmPassword && (
@@ -321,7 +321,7 @@ export default function Register() {
             <div className="text-center">
               <Link
                 href="/auth/login"
-                className="text-sm text-indigo-400 hover:text-indigo-300"
+                className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
               >
                 Have an account? Sign in
               </Link>

@@ -66,7 +66,7 @@ export default function Navigation() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-black dark:text-white hover:text-blue-400 dark:hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
+              className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
             >
               {item.label}
             </Link>
@@ -95,10 +95,10 @@ export default function Navigation() {
           ) : (
             <>
               <div className="hidden md:flex items-center gap-6">
-                <Link href="/alldiseases" className="text-black dark:text-white hover:text-blue-400">Diseases & Conditions</Link>
-                <Link href="/scan" className="text-black dark:text-white hover:text-blue-400">Oral Scanner</Link>
-                <a href="#" className="text-black dark:text-white hover:text-blue-400">Pricing</a>
-                <a href="#" className="text-black dark:text-white hover:text-blue-400">About Us</a>
+                <Link href="/alldiseases" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">Diseases & Conditions</Link>
+                <Link href="/scan" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">Oral Scanner</Link>
+                <a href="#" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">Pricing</a>
+                <a href="#" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">About Us</a>
               </div>
 
               <div className="hidden md:flex items-center gap-4">

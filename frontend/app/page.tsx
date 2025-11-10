@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 // import Link from "next/link";
 import Image from "next/image";
@@ -11,12 +11,25 @@ import { IoMailOutline } from "react-icons/io5";
 import { CgArrowLongRight } from "react-icons/cg";
 import { IoMdCall } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
-
-
-
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function Home() {
   const router = useRouter();
+  const [showLoading, setShowLoading] = useState(true);
+
+  const handleLoadingComplete = () => {
+    setShowLoading(false);
+  };
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisited');
+    if (hasVisited) {
+      setShowLoading(false);
+    } else {
+      localStorage.setItem('hasVisited', 'true');
+    }
+  }, []);
+
   const [selectedRole, setSelectedRole] = useState("");
 
   const handleRoleSelection = (role: string) => {
@@ -24,9 +37,13 @@ export default function Home() {
     router.push(`/auth/login?role=${role}`);
   };
 
+  if (showLoading) {
+    return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
+  }
+
   return (
     <>
-    <div className="doodlebg mt-6 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className=" mt-6 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <section className="flex flex-col md:flex-row mx-auto items-center px-8 md:px-32 py-12 md:py-16 gap-12 md:gap-48">
           <div className="flex-1 space-y-6">
         <h2 className="text-3xl md:text-5xl font-bold">
@@ -66,42 +83,45 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10 px-6 md:px-10 py-8 md:py-10 rounded-full max-w-5xl mx-auto
-          bg-slate-50 dark:bg-gradient-to-l dark:from-[rgb(31,31,31)] dark:via-[rgb(49,49,49)] dark:to-[rgb(31,31,31)] shadow-sm">
-          <div className="text-start flex items-start">
-        <span className="text-4xl md:text-5xl text-indigo-600 dark:text-blue-400 px-3">
-          <IoMailOutline />
-        </span>
-        <div>
-          <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">Send Us a Message</h3>
-          <p className="text-gray-700 dark:text-gray-300 text-sm mt-1">
-        Start a conversation with our team for support.
-          </p>
-        </div>
+        <section
+          className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10 px-6 md:px-10 py-8 md:py-10 max-w-5xl mx-auto
+            md:bg-gradient-to-l md:from-[rgb(90,90,90)] md:via-[rgb(146,146,146)] md:to-[rgb(88,88,88)]
+          md:rounded-full md:dark:shadow-sm md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)]"
+        >
+          <div className="text-start flex items-start w-full md:w-auto md:flex-1">
+            <span className="text-4xl md:text-5xl text-blue-400 px-3">
+              <IoMailOutline />
+            </span>
+            <div>
+              <h3 className="text-lg md:text-xl font-semibold text-gray-900 md:text-white dark:text-gray-100">Send Us a Message</h3>
+              <p className="text-gray-700 md:text-white dark:text-gray-300 text-sm mt-1">
+          Start a conversation with our team for support.
+              </p>
+            </div>
           </div>
 
-          <div className="text-start flex items-start">
-        <span className="text-4xl md:text-5xl text-indigo-600 dark:text-blue-400 px-3">
-          <IoMdCall />
-        </span>
-        <div>
-          <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">Schedule a Call</h3>
-          <p className="text-gray-700 dark:text-gray-300 text-sm mt-1">
-        Book a time with our team for a personal consultation.
-          </p>
-        </div>
+          <div className="text-start flex items-start w-full md:w-auto md:flex-1">
+            <span className="text-4xl md:text-5xl text-blue-400 px-3">
+              <IoMdCall />
+            </span>
+            <div>
+              <h3 className="text-lg md:text-xl font-semibold text-gray-900 md:text-white dark:text-gray-100">Schedule a Call</h3>
+              <p className="text-gray-700 md:text-white dark:text-gray-300 text-sm mt-1">
+          Book a time with our team for a personal consultation.
+              </p>
+            </div>
           </div>
 
-          <div className="text-start flex items-start">
-        <span className="text-4xl md:text-5xl text-indigo-600 dark:text-blue-400 px-3">
-          <FaLocationDot />
-        </span>
-        <div>
-          <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">Visit Our Office</h3>
-          <p className="text-gray-700 dark:text-gray-400 text-sm mt-1">
-        Visit our office for in-person assistance.
-          </p>
-        </div>
+          <div className="text-start flex items-start w-full md:w-auto md:flex-1">
+            <span className="text-4xl md:text-5xl text-blue-400 px-3">
+              <FaLocationDot />
+            </span>
+            <div>
+              <h3 className="text-lg md:text-xl font-semibold text-gray-900 md:text-white dark:text-gray-100">Visit Our Office</h3>
+              <p className="text-gray-700 md:text-white dark:text-gray-400 text-sm mt-1">
+          Visit our office for in-person assistance.
+              </p>
+            </div>
           </div>
         </section>
 

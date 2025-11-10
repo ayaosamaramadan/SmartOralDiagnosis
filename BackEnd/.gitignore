@@ -68,9 +68,19 @@ PublishOutput/
 MedicalManagement.API.csproj.nuget.g.props
 MedicalManagement.API.csproj.nuget.g.targets
 
+# Build artifacts
 obj/
+bin/
+
+# MSBuild / NuGet generated files
 MedicalManagement.API.csproj.nuget.g.props
 MedicalManagement.API.csproj.nuget.g.targets
-    
+**/*.nuget.dgspec.json
+**/*.dgspec.json
+
+# Generated assembly info
+MedicalManagement.API.AssemblyInfo.cs
+
 # If you have any large generated folders for the project (e.g. tools, generated images), add them below.
+# /generated/
 # generated/
