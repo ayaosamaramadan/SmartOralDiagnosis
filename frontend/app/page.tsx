@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="dark:doodlebg mt-6 bg-slate-50 dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="doodlebg mt-6 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <section className="flex flex-col md:flex-row mx-auto items-center px-8 md:px-32 py-12 md:py-16 gap-12 md:gap-48">
           <div className="flex-1 space-y-6">
         <h2 className="text-3xl md:text-5xl font-bold">

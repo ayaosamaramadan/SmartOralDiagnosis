@@ -36,7 +36,7 @@ const Chatbot = () => {
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="chatbot-title"
-                        className="relative pointer-events-auto w-full sm:max-w-md md:max-w-3xl h-[85vh] max-h-[90vh] bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition duration-300 ease-out hover:shadow-2xl focus-visible:ring-4 focus-visible:ring-blue-200"
+                        className="relative pointer-events-auto w-full sm:max-w-md md:max-w-3xl h-[85vh] max-h-[90vh] bg-white/85 dark:bg-gray-900/95 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition duration-300 ease-out hover:shadow-2xl focus-visible:ring-4 focus-visible:ring-blue-200"
                         onKeyDown={(e) => {
                             if (e.key === "Escape") setOpen(false);
                         }}

@@ -65,5 +65,12 @@ PublishOutput/
 **/*.nuget.dgspec.json
 **/*.dgspec.json
 
+MedicalManagement.API.csproj.nuget.g.props
+MedicalManagement.API.csproj.nuget.g.targets
+
+obj/
+MedicalManagement.API.csproj.nuget.g.props
+MedicalManagement.API.csproj.nuget.g.targets
+    
 # If you have any large generated folders for the project (e.g. tools, generated images), add them below.
 # generated/

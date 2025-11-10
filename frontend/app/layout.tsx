@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} dark:bg-black text-white`}>
+      <body className={`${poppins.className} bg-slate-50 dark:bg-black text-gray-900 dark:text-gray-100`}>
            <ThemeProvider attribute="class">
         <ReduxProvider>
           <AuthProvider>

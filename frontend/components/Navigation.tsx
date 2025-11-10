@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
@@ -52,7 +51,7 @@ export default function Navigation() {
     }
   };
   return (
-    <header className="bg-black">
+    <header className="dark:bg-black">
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
       {  <Link href="/">
           <h1
@@ -67,7 +66,7 @@ export default function Navigation() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-white hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
+              className="text-black dark:text-white hover:text-blue-400 dark:hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
             >
               {item.label}
             </Link>
@@ -78,10 +77,10 @@ export default function Navigation() {
         <div className="flex items-center gap-4">
           {user ? (
             <>
-              <div className="hidden md:flex items-center text-white text-sm">
+              <div className="hidden md:flex items-center text-black dark:text-white text-sm">
                 <span className="text-blue-400">Welcome,&nbsp;</span>
                 <span className="font-semibold">{user.firstName}</span>
-                <span className="text-gray-400 ml-2">({user.role})</span>
+                <span className="text-gray-400 dark:text-gray-500 ml-2">({user.role})</span>
               </div>
 
               <button
@@ -96,14 +95,14 @@ export default function Navigation() {
           ) : (
             <>
               <div className="hidden md:flex items-center gap-6">
-                <Link href="/alldiseases" className="text-white hover:text-blue-400">Diseases & Conditions</Link>
-                <Link href="/scan" className="text-white hover:text-blue-400">Oral Scanner</Link>
-                <a href="#" className="text-white hover:text-blue-400">Pricing</a>
-                <a href="#" className="text-white hover:text-blue-400">About Us</a>
+                <Link href="/alldiseases" className="text-black dark:text-white hover:text-blue-400">Diseases & Conditions</Link>
+                <Link href="/scan" className="text-black dark:text-white hover:text-blue-400">Oral Scanner</Link>
+                <a href="#" className="text-black dark:text-white hover:text-blue-400">Pricing</a>
+                <a href="#" className="text-black dark:text-white hover:text-blue-400">About Us</a>
               </div>
 
               <div className="hidden md:flex items-center gap-4">
-                <button className="px-7 py-2 rounded-3xl border border-white hover:bg-white hover:text-black transition-colors duration-200">
+                <button className="px-7 py-2 rounded-3xl border border-black dark:border-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors text-black dark:text-white duration-200">
                   Contact Us
                 </button>
                 <Link href="/auth/register">
@@ -123,7 +122,7 @@ export default function Navigation() {
           )}
 
           <button
-            className="md:hidden p-2 rounded-md text-white hover:bg-white/10 focus:outline-none"
+            className="md:hidden p-2 rounded-md text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 focus:outline-none"
             onClick={() => dispatch(toggleSidebar())}
             aria-label="Toggle menu"
           >
@@ -136,7 +135,7 @@ export default function Navigation() {
 
     
       {isMenuOpen && (
-        <div className="md:hidden bg-black/90 text-white">
+        <div className="md:hidden bg-white/90 dark:bg-black/90 text-black dark:text-white">
           <div className="px-6 py-4 space-y-4">
             {getNavItems().length ? (
               getNavItems().map((item) => (
@@ -153,7 +152,7 @@ export default function Navigation() {
               </>
             )}
 
-            <div className="pt-2 border-t border-white/10">
+            <div className="pt-2 border-t border-black/10 dark:border-white/10">
               {user ? (
                 <>
                   <div className="py-2">Welcome, <span className="font-semibold">{user.firstName}</span></div>

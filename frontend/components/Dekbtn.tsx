@@ -28,7 +28,7 @@ const ThemeToggle = () => {
         >
           <span className="absolute inset-0 rounded-full transition-colors duration-300 bg-gradient-to-r from-sky-400 to-indigo-500 shadow-sm" />
           <span className="absolute top-1 right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md transform transition-all duration-300">
-            <CiDark className="text-indigo-600" />
+            <IoSunnySharp className="text-indigo-600" />
           </span>
         </button>
       )
@@ -44,7 +44,7 @@ const ThemeToggle = () => {
       >
         <span className="absolute inset-0 rounded-full transition-colors duration-300 bg-gradient-to-r from-sky-400 to-indigo-500 shadow-sm" />
         <span className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md transform transition-all duration-300">
-          <IoSunnySharp className="text-indigo-600" />
+          <CiDark className="text-indigo-600" />
         </span>
       </button>
     )

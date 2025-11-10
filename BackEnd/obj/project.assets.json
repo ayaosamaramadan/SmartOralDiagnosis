@@ -4499,19 +4499,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\os\\.nuget\\packages\\": {}
+    "C:\\Users\\ayara\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "projectUniqueName": "C:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
       "projectName": "MedicalManagement.API",
-      "projectPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
-      "packagesPath": "C:\\Users\\os\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\obj\\",
+      "projectPath": "C:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "packagesPath": "C:\\Users\\ayara\\.nuget\\packages\\",
+      "outputPath": "C:\\SmartOralDiagnosis\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\os\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\ayara\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4586,7 +4586,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.414/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
