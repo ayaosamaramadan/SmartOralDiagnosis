@@ -36,16 +36,24 @@ const Footer = () => {
                         <h2 className="text-lg font-semibold text-white mb-4">Follow Us</h2>
                         <div className="flex items-center gap-4 mb-4">
                             <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-600 rounded">
-                                <FaLinkedin className="text-blue-600 text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaLinkedin className="text-blue-600 text-2xl" />
+                                </span>
                             </a>
                             <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-red-600 rounded">
-                                <FaYoutube className="text-red-600 text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaYoutube className="text-red-600 text-2xl" />
+                                </span>
                             </a>
                             <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-600 rounded">
-                                <FaFacebook className="text-blue-600 text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaFacebook className="text-blue-600 text-2xl" />
+                                </span>
                             </a>
                             <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-white rounded">
-                                <FaXTwitter className="text-white text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaXTwitter className="text-white text-2xl" />
+                                </span>
                             </a>
                         </div>
                         <ul className="space-y-2 text-gray-300 text-xs">

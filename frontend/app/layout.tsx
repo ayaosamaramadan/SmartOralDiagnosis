@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={`${poppins.className} dark:bg-black text-white`}>
            <ThemeProvider attribute="class">
         <AuthProvider>
-          <div className="min-h-screen w-full">
+          <div className="min-h-screen mt-4 w-full">
             <Navigation />
             <main className="min-h-screen container mx-auto px-4">{children}</main>
             <Chatbot />
