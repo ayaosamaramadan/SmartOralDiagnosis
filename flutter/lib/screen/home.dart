@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/theme_toggle.dart';
+import '../theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
@@ -18,13 +20,12 @@ class HomeScreen extends StatelessWidget {
         child: const Icon(Icons.chat_bubble, color: Colors.white),
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF0F050D),
-              Color.fromARGB(255, 7, 3, 21),
-              Color.fromARGB(255, 19, 22, 32),
-              Color.fromARGB(255, 42, 46, 51),
+              appColors.gradientStart,
+              appColors.gradientMiddle,
+              appColors.gradientEnd,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -61,7 +62,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Row(
             children: [
-              const ThemeToggle(),
+              const ThemeToggle(), // زر تفعيل Dark/Light mode
               const SizedBox(width: 12),
               PopupMenuButton<int>(
                 icon: const Icon(Icons.menu, color: Colors.white, size: 32),
@@ -194,8 +195,7 @@ class HomeScreen extends StatelessWidget {
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),

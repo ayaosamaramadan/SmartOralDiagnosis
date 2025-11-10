@@ -1,5 +1,6 @@
 import 'dart:io' show File;
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource, XFile;
 
 class ScanPage extends StatefulWidget {
@@ -33,26 +34,26 @@ class _ScanPageState extends State<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/chat');
         },
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         tooltip: 'Chat',
-        child: const Icon(Icons.chat_bubble, color: Colors.white),
+        child: Icon(Icons.chat_bubble, color: Theme.of(context).colorScheme.onPrimary),
       ),
       body: Container(
           width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF0F050D),
-              Color.fromARGB(255, 7, 3, 21),
-              Color.fromARGB(255, 19, 22, 32),
-              Color.fromARGB(255, 42, 46, 51),
+              appColors.gradientStart,
+              appColors.gradientMiddle,
+              appColors.gradientEnd,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -69,11 +70,11 @@ class _ScanPageState extends State<ScanPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Take a photo or upload an image for AI-powered dental analysis",
                         style: TextStyle(
                           fontSize: 16,
-                          color: Color.fromARGB(221, 255, 255, 255),
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -82,7 +83,7 @@ class _ScanPageState extends State<ScanPage> {
                         width: double.infinity,
                         height: 300,
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey[900],
+                          color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: Colors.white30, width: 2),
                         ),
@@ -111,7 +112,7 @@ class _ScanPageState extends State<ScanPage> {
                           Expanded(
                             child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
+                                backgroundColor: Theme.of(context).colorScheme.primary,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
@@ -130,7 +131,7 @@ class _ScanPageState extends State<ScanPage> {
                           Expanded(
                             child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
@@ -164,17 +165,17 @@ class _ScanPageState extends State<ScanPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
+          Text(
             "OralScan",
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: Colors.blueAccent,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           PopupMenuButton<int>(
-            icon: const Icon(Icons.menu, color: Colors.white, size: 32),
-            color: Colors.black87,
+            icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.onBackground, size: 32),
+            color: Theme.of(context).cardColor,
             itemBuilder: (context) => [
               PopupMenuItem(value: 0, child: _navText("HOME")),
               PopupMenuItem(value: 1, child: _navText("DISEASE & CONDITIONS")),
@@ -184,8 +185,8 @@ class _ScanPageState extends State<ScanPage> {
                 value: 3,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.white),
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                    side: BorderSide(color: Theme.of(context).colorScheme.onSurface),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -197,7 +198,7 @@ class _ScanPageState extends State<ScanPage> {
                 value: 4,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
                   ),

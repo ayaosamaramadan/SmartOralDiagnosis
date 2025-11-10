@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/orals.dart';
+import '../theme/app_theme.dart';
 
 
 class FixedButton extends StatelessWidget {
@@ -29,22 +30,20 @@ class AlldiseasesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF0F050D),
-              Color.fromARGB(255, 7, 3, 21),
-              Color.fromARGB(255, 19, 22, 32),
-              Color.fromARGB(255, 42, 46, 51),
-            ],
+            colors: [appColors.gradientStart, appColors.gradientMiddle, appColors.gradientEnd],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.0, 0.5, 0.8, 1.0],
+            stops: const [0.0, 0.5, 0.8],
           ),
         ),
         child: SafeArea(
@@ -67,9 +66,8 @@ class AlldiseasesScreen extends StatelessWidget {
                     final imgAsset = rawImg != null ? _assetPath(rawImg) : null;
 
                     return Card(
-                      color: Colors.white.withAlpha((0.07 * 255).round()),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                      color: Theme.of(context).cardColor,
+                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
                       child: ListTile(
@@ -85,29 +83,26 @@ class AlldiseasesScreen extends StatelessWidget {
                                   errorBuilder: (ctx, err, st) => Container(
                                     width: 64,
                                     height: 64,
-                                    color: Colors.grey.shade800,
-                                    child: const Icon(Icons.broken_image,
-                                        color: Colors.white54),
+                                    color: Theme.of(context).colorScheme.surface,
+                                    child: Icon(Icons.broken_image,
+                                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
                                   ),
                                 ),
                               )
                             : CircleAvatar(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 255, 255, 255),
+                                backgroundColor: colorScheme.primary,
                                 child: Text(short,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
+                                    style: TextStyle(color: colorScheme.onPrimary)),
                               ),
                         title: Text(
                           title,
-                          style: const TextStyle(
-                              color: Colors.white,
+                          style: TextStyle(
+                              color: colorScheme.onBackground,
                               fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text(
                           desc,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255)),
+                          style: TextStyle(color: colorScheme.onBackground),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -122,29 +117,22 @@ class AlldiseasesScreen extends StatelessWidget {
                               backgroundColor: Colors.transparent,
                               content: Container(
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xFF0F050D),
-                                      Color.fromARGB(255, 7, 3, 21),
-                                      Color.fromARGB(255, 19, 22, 32),
-                                      Color.fromARGB(255, 42, 46, 51),
-                                    ],
+                                  gradient: LinearGradient(
+                                    colors: [appColors.gradientStart, appColors.gradientMiddle, appColors.gradientEnd],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
-                                    stops: [0.0, 0.5, 0.8, 1.0],
                                   ),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 padding: const EdgeInsets.all(16),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       title,
-                                      style: const TextStyle(
-                                          color: Colors.blueAccent,
+                                      style: TextStyle(
+                                          color: colorScheme.primary,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 22),
                                     ),
@@ -152,20 +140,17 @@ class AlldiseasesScreen extends StatelessWidget {
                                     SingleChildScrollView(
                                       child: Text(
                                         overview,
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 16),
+                                        style: TextStyle(color: colorScheme.onBackground, fontSize: 16),
                                       ),
                                     ),
                                     const SizedBox(height: 16),
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context),
-                                        child: const Text(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text(
                                           'Close',
-                                          style: TextStyle(
-                                              color: Colors.blueAccent),
+                                          style: TextStyle(color: colorScheme.primary),
                                         ),
                                       ),
                                     ),
@@ -188,15 +173,16 @@ class AlldiseasesScreen extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamed(context, '/chat');
         },
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: colorScheme.primary,
         tooltip: 'Chat',
-        child: const Icon(Icons.chat_bubble, color: Colors.white),
+        child: Icon(Icons.chat_bubble, color: colorScheme.onPrimary),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
   Widget _buildNavBar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
@@ -205,37 +191,36 @@ class AlldiseasesScreen extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back,
-                    color: Colors.white, size: 28),
+                icon: Icon(Icons.arrow_back, color: colorScheme.onBackground, size: 28),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               const SizedBox(width: 6),
-              const Text(
+              Text(
                 "All Diseases",
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
+                  color: colorScheme.primary,
                 ),
               ),
             ],
           ),
           PopupMenuButton<int>(
-            icon: const Icon(Icons.menu, color: Colors.white, size: 32),
-            color: Colors.black87,
+            icon: Icon(Icons.menu, color: colorScheme.onBackground, size: 32),
+            color: Theme.of(context).cardColor,
             itemBuilder: (context) => [
-              PopupMenuItem(value: 0, child: _navText("HOME")),
-              PopupMenuItem(value: 1, child: _navText("DISEASE & CONDITIONS")),
-              PopupMenuItem(value: 2, child: _navText("ABOUT US")),
+              PopupMenuItem(value: 0, child: _navText(context, "HOME")),
+              PopupMenuItem(value: 1, child: _navText(context, "DISEASE & CONDITIONS")),
+              PopupMenuItem(value: 2, child: _navText(context, "ABOUT US")),
               const PopupMenuDivider(),
               PopupMenuItem(
                 value: 3,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.white),
+                    foregroundColor: colorScheme.onSurface,
+                    side: BorderSide(color: colorScheme.onSurface.withOpacity(0.12)),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -247,9 +232,8 @@ class AlldiseasesScreen extends StatelessWidget {
                 value: 4,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
+                    backgroundColor: colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -278,15 +262,16 @@ class AlldiseasesScreen extends StatelessWidget {
     );
   }
 
-  Widget _navText(String text) {
+  Widget _navText(BuildContext context, String text) {
+    final color = Theme.of(context).colorScheme.onBackground;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
-          color: Colors.white,
+          color: color,
         ),
       ),
     );

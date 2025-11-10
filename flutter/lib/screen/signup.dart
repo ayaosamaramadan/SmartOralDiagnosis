@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../theme/app_theme.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -45,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
@@ -79,17 +81,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF0F050D),
-              Color.fromARGB(255, 7, 3, 21),
-              Color.fromARGB(255, 19, 22, 32),
-              Color.fromARGB(255, 42, 46, 51),
-              ],
+              appColors.gradientStart,
+              appColors.gradientMiddle,
+              appColors.gradientEnd,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.0, 0.5, 0.8, 1.0],
+            stops: const [0.0, 0.5, 0.8],
           ),
         ),
         child: SingleChildScrollView(

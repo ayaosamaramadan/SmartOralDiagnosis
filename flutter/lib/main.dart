@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'screen/home.dart';
 import 'services/theme_service.dart';
+import 'theme/app_theme.dart';
 import 'screen/login.dart';
 import 'screen/signup.dart';
 import 'screen/scan.dart';
@@ -21,10 +23,21 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeService.notifier,
       builder: (context, themeMode, _) {
+        // Use centralized theme builders which include AppColors extension.
+        final lightTheme = buildLightTheme().copyWith(
+          textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
+          useMaterial3: true,
+        );
+
+        final darkTheme = buildDarkTheme().copyWith(
+          textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
+          useMaterial3: true,
+        );
+
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
+          theme: lightTheme,
+          darkTheme: darkTheme,
           themeMode: themeMode,
           home: const HomeScreen(),
           routes: {
@@ -44,4 +57,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

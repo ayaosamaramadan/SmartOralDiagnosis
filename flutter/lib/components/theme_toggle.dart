@@ -18,9 +18,8 @@ class _ThemeToggleState extends State<ThemeToggle> {
   @override
   void initState() {
     super.initState();
-    // Wait a microtask to ensure ThemeService.init() (called in main) has run.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // small delay to ensure persisted value is loaded
+    
       await Future<void>.delayed(const Duration(milliseconds: 10));
       if (mounted) setState(() => _ready = true);
     });
@@ -33,7 +32,7 @@ class _ThemeToggleState extends State<ThemeToggle> {
     } else if (current == ThemeMode.light) {
       ThemeService.setThemeMode(ThemeMode.dark);
     } else {
-      // if system, switch to dark first
+    
       ThemeService.setThemeMode(ThemeMode.dark);
     }
   }
@@ -45,7 +44,7 @@ class _ThemeToggleState extends State<ThemeToggle> {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeService.notifier,
       builder: (context, mode, _) {
-        // Determine effective brightness
+      
         final brightness = mode == ThemeMode.system
             ? MediaQuery.of(context).platformBrightness
             : (mode == ThemeMode.dark ? Brightness.dark : Brightness.light);
