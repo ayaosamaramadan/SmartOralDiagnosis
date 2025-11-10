@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -67,7 +66,7 @@ function LoginForm() {
 
   return (
    
-      <div className="flex doodlebg mt-6 overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
+      <div className="flex mt-[-50px] overflow-y-hidden lg:flex-row justify-center items-center min-h-screen py-8">
        
         <div className="hidden lg:flex lg:w-1/2 justify-center items-center">
       <Image
@@ -79,18 +78,18 @@ function LoginForm() {
       </div>
   
         <div className="w-full max-w-xl mx-auto lg:mx-0 lg:w-2/3">
-          <div className="bg-[#3535354f] py-8 shadow-2xl rounded-3xl px-8 border border-gray-800">
-        <h2 className="text-2xl font-bold text-center text-white mb-4">
+          <div className="bg-white dark:bg-[#3535354f] py-8 shadow-2xl rounded-3xl px-8 border border-gray-300 dark:border-gray-800">
+        <h2 className="text-2xl font-bold text-center text-black dark:text-white mb-4">
           {getRoleTitle()}
         </h2>
-        <p className="text-center text-sm text-gray-300 mb-6">
+        <p className="text-center text-sm text-gray-600 dark:text-gray-300 mb-6">
           Medical Management System
         </p>
         <form className="space-y-6" onSubmit={handleSubmit} autoComplete="off" noValidate>
           <div>
             <label
           htmlFor="email"
-          className="block text-sm font-medium text-white"
+          className="block text-sm font-medium text-black dark:text-white"
             >
           Email address
             </label>
@@ -103,7 +102,7 @@ function LoginForm() {
             required
             value={formData.email}
             onChange={handleInputChange}
-            className="appearance-none block w-full px-3 py-2 border border-gray-700 rounded-md placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md placeholder-gray-400 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
             </div>
           </div>
@@ -111,7 +110,7 @@ function LoginForm() {
           <div>
             <label
           htmlFor="password"
-          className="block text-sm font-medium text-white"
+          className="block text-sm font-medium text-black dark:text-white"
             >
           Password
             </label>
@@ -124,7 +123,7 @@ function LoginForm() {
             required
             value={formData.password}
             onChange={handleInputChange}
-            className="appearance-none block w-full px-3 py-2 border border-gray-700 rounded-md placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md placeholder-gray-400 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
             </div>
           </div>
@@ -176,7 +175,7 @@ function LoginForm() {
           <div className="text-center">
             <Link
           href="/auth/register"
-          className="text-sm text-indigo-400 hover:text-indigo-300"
+          className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
             >
           Don't have an account? Register here
             </Link>

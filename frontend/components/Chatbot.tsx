@@ -24,10 +24,10 @@ const Chatbot = () => {
             </button>
 
             {open && (
-                <div className="bot-aimate fixed w-[45%] z-50 flex items-end justify-end p-6 ">
-                 
+                <div className="bot-aimate fixed inset-0 z-50 flex items-center justify-end p-6">
+
                     <div
-                        className="absolute inset-0 bg-[rgb(0 0 0 / 0.4)] "
+                        className="absolute inset-0 bg-[rgb(0 0 0 / 0.4)]"
                         onClick={() => setOpen(false)}
                         aria-hidden="true"
                     />
@@ -36,12 +36,12 @@ const Chatbot = () => {
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="chatbot-title"
-                        className="relative pointer-events-auto w-full max-w-3xl h-[90vh] max-h-[90vh] bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition duration-300 ease-out hover:shadow-2xl focus-visible:ring-4 focus-visible:ring-blue-200"
+                        className="relative pointer-events-auto w-full sm:max-w-md md:max-w-3xl h-[85vh] max-h-[90vh] bg-white/85 dark:bg-gray-900/95 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition duration-300 ease-out hover:shadow-2xl focus-visible:ring-4 focus-visible:ring-blue-200"
                         onKeyDown={(e) => {
                             if (e.key === "Escape") setOpen(false);
                         }}
                     >
-                        <header id="chatbot-title" className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+                        <header id="chatbot-title" className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 dark:border-gray-800">
                             <h3 className="text-lg font-semibold transition-colors duration-200 hover:text-blue-600">Chat</h3>
                             <div className="flex items-center gap-2">
                                 <button
@@ -51,7 +51,7 @@ const Chatbot = () => {
                                     title="Discover"
                                 >
                                     <RiCompassDiscoverFill className="w-4 h-4 text-gray-700 dark:text-gray-200" />
-                                    <span className="text-sm text-gray-700 dark:text-gray-200">Discover</span>
+                                    <span className="text-sm text-gray-700 dark:text-gray-200 hidden sm:inline">Discover</span>
                                 </button>
 
                                 <button
@@ -61,7 +61,7 @@ const Chatbot = () => {
                                     title="New chat"
                                 >
                                     <TfiWrite className="w-4 h-4 text-gray-700 dark:text-gray-200" />
-                                    <span className="text-sm text-gray-700 dark:text-gray-200">New Chat</span>
+                                    <span className="text-sm text-gray-700 dark:text-gray-200 hidden sm:inline">New Chat</span>
                                 </button>
                               
                                 
@@ -77,19 +77,19 @@ const Chatbot = () => {
                             </div>
                         </header>
 
-                        <div className="backdrop-blur-sm p-8 overflow-y-auto flex-1 flex items-center justify-center flex-col text-center space-y-4 group" role="document">
-                            <PiChatCenteredDotsDuotone className="w-20 h-20 text-gray-400 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-500" />
-                            <h2 className="text-2xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 transition-all duration-200 group-hover:tracking-wide">Chat with Medical Assistant</h2>
-                            <p className="text-md md:text-md text-gray-700 dark:text-gray-300 max-w-2xl transition-colors duration-200 group-hover:text-gray-900 dark:group-hover:text-gray-100">
+                        <div className="backdrop-blur-sm p-6 sm:p-8 overflow-y-auto flex-1 flex items-center justify-center flex-col text-center space-y-4 group" role="document">
+                            <PiChatCenteredDotsDuotone className="w-16 h-16 sm:w-20 sm:h-20 text-gray-400 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-500" />
+                            <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-gray-100 transition-all duration-200 group-hover:tracking-wide">Chat with Medical Assistant</h2>
+                            <p className="text-sm sm:text-md text-gray-700 dark:text-gray-300 max-w-xl sm:max-w-2xl transition-colors duration-200 group-hover:text-gray-900 dark:group-hover:text-gray-100">
                                 Immediate and reliable medical answers — clear, concise, and trustworthy.
                             </p>
-                            <p className="text-base md:text-md text-gray-600 dark:text-gray-300 max-w-2xl transition-colors duration-200 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+                            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl sm:max-w-2xl transition-colors duration-200 group-hover:text-gray-800 dark:group-hover:text-gray-200">
                                 Hey! Curious about something medical? Let’s dive in
                             </p>
                         </div>
 
                         <form
-                            className="p-4 border-t border-gray-200 dark:border-gray-800"
+                            className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-800"
                             onSubmit={(e) => {
                                 e.preventDefault();
                                     }}
@@ -113,7 +113,7 @@ const Chatbot = () => {
                                      
                                     >
                                         <FaUserDoctor className="w-4 h-4" />
-                                        <span>Talk to Doctor</span>
+                                        <span className="hidden sm:inline">Talk to Doctor</span>
                                     </button>
 
                                   

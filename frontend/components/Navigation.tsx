@@ -1,13 +1,14 @@
 "use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
-import { CiDark } from "react-icons/ci";
+import Drkbtn from "./Dekbtn";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { toggleSidebar, setSidebarOpen } from "../store/slices/uiSlice";
 
 export default function Navigation() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isMenuOpen = useAppSelector((s) => s.ui.sidebarOpen);
+  const dispatch = useAppDispatch();
   const { user, logout } = useAuth();
   const router = useRouter();
 
@@ -49,98 +50,126 @@ export default function Navigation() {
         return commonItems;
     }
   };
-
   return (
-    <header className="flex justify-between items-center px-10 py-6 bg-black">
-      <Link href="/">
-        <h1 className="text-2xl font-bold bg-gradient-to-t from-blue-950 via-blue-600 to-blue-100 bg-clip-text text-transparent hover:bg-gradient-to-t hover:from-blue-100 hover:via-blue-600 hover:to-blue-950 transition-colors duration-200 cursor-pointer transform hover:scale-110">
-          OralScan
-        </h1>
-      </Link>
+    <header className="dark:bg-black">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
+      {  <Link href="/">
+          <h1
+          onClick={() => isMenuOpen && dispatch(setSidebarOpen(false))}
+             className="text-2xl font-bold bg-gradient-to-t from-blue-950 via-blue-600 to-blue-100 bg-clip-text text-transparent hover:bg-gradient-to-t hover:from-blue-100 hover:via-blue-600 hover:to-blue-950 transition-colors duration-200 cursor-pointer transform hover:scale-110">
+            OralScan
+          </h1>
+        </Link>}
 
-      {user ? (
-         <>
-          <nav className="space-x-6 hidden md:flex">
-            {getNavItems().map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          
-          <div className="flex items-center space-x-4">
-            <div className="text-white text-sm">
-              <span className="text-blue-400">Welcome, </span>
-              <span className="font-semibold">{user.firstName}
-                
-              </span>
-              <span className="text-gray-400 ml-2">({user.role})</span>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200"
-            >
-              Logout
-            </button>
-          </div>
-        </>
-      ) : (
-         <>
-          <nav className="space-x-6 hidden md:flex">
+        <nav className="hidden md:flex items-center gap-8">
+          {getNavItems().map((item) => (
             <Link
-              href="/alldiseases"
-              className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
+              key={item.href}
+              href={item.href}
+              className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
             >
-              Diseases & Conditions
+              {item.label}
             </Link>
-            <Link
-              href="/scan"
-              className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
-            >
-              Oral Scanner
-            </Link>
-            <a
-              href="#"
-              className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
-            >
-              Pricing
-            </a>
-            <a
-              href="#"
-              className="hover:text-blue-400 transition-colors duration-200 ease-in-out underline-offset-4 hover:underline"
-            >
-              About Us
-            </a>
-          </nav>
-          <div className="space-x-4">
-            <button className="px-7 py-2 rounded-3xl border border-white hover:bg-white hover:text-black transition-colors duration-200">
-              Contact Us
-            </button>
-            <Link href="/auth/register">
+          ))}
+        </nav>
+
+       
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <div className="hidden md:flex items-center text-black dark:text-white text-sm">
+                <span className="text-blue-400">Welcome,&nbsp;</span>
+                <span className="font-semibold">{user.firstName}</span>
+                <span className="text-gray-400 dark:text-gray-500 ml-2">({user.role})</span>
+              </div>
+
               <button
-                className="px-7 py-2 rounded-3xl text-black bg-gradient-to-r from-blue-500 via-blue-500 to-blue-300 hover:from-blue-600 hover:to-blue-800 hover:scale-105 transition-all duration-200"
+                onClick={handleLogout}
+                className="hidden md:inline-block px-4 py-2 rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200"
               >
-                SIGN UP
+                Logout
               </button>
-            </Link>
-            <Link href="/auth/login">
-              <button className="px-7 py-2 rounded-3xl border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors duration-200">
-                LOGIN
-              </button>
-            </Link>
-            <button
-              title="Toggle Dark Mode"
-              className="px-4 py-2 rounded-xl border border-gray-500 hover:bg-gray-800 hover:text-white transition-colors duration-200"
-            >
-              <CiDark className="inline text-blue-400 text-xl" />
-            </button>
+
+              <Drkbtn />
+            </>
+          ) : (
+            <>
+              <div className="hidden md:flex items-center gap-6">
+                <Link href="/alldiseases" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">Diseases & Conditions</Link>
+                <Link href="/scan" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">Oral Scanner</Link>
+                <a href="#" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">Pricing</a>
+                <a href="#" className="text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-300">About Us</a>
+              </div>
+
+              <div className="hidden md:flex items-center gap-4">
+                <button className="px-7 py-2 rounded-3xl border border-black dark:border-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors text-black dark:text-white duration-200">
+                  Contact Us
+                </button>
+                <Link href="/auth/register">
+                  <button className="px-7 py-2 rounded-3xl text-black bg-gradient-to-r from-blue-500 via-blue-500 to-blue-300 hover:from-blue-600 hover:to-blue-800 hover:scale-105 transition-all duration-200">
+                    SIGN UP
+                  </button>
+                </Link>
+                <Link href="/auth/login">
+                  <button className="px-7 py-2 rounded-3xl border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors duration-200">
+                    LOGIN
+                  </button>
+                </Link>
+              </div>
+
+              <Drkbtn />
+            </>
+          )}
+
+          <button
+            className="md:hidden p-2 rounded-md text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 focus:outline-none"
+            onClick={() => dispatch(toggleSidebar())}
+            aria-label="Toggle menu"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    
+      {isMenuOpen && (
+        <div className="md:hidden bg-white/90 dark:bg-black/90 text-black dark:text-white">
+          <div className="px-6 py-4 space-y-4">
+            {getNavItems().length ? (
+              getNavItems().map((item) => (
+                <Link key={item.href} href={item.href} className="block text-lg" onClick={() => dispatch(setSidebarOpen(false))}>
+                  {item.label}
+                </Link>
+              ))
+            ) : (
+              <>
+                <Link href="/alldiseases" className="block text-lg" onClick={() => dispatch(setSidebarOpen(false))}>Diseases & Conditions</Link>
+                <Link href="/scan" className="block text-lg" onClick={() => dispatch(setSidebarOpen(false))}>Oral Scanner</Link>
+                <a href="#" className="block text-lg">Pricing</a>
+                <a href="#" className="block text-lg">About Us</a>
+              </>
+            )}
+
+            <div className="pt-2 border-t border-black/10 dark:border-white/10">
+              {user ? (
+                <>
+                  <div className="py-2">Welcome, <span className="font-semibold">{user.firstName}</span></div>
+                  <button onClick={handleLogout} className="w-full text-left py-2">Logout</button>
+                </>
+                  ) : (
+                <>
+                  <Link href="/auth/login" className="block py-2" onClick={() => dispatch(setSidebarOpen(false))}>Login</Link>
+                  <Link href="/auth/register" className="block py-2" onClick={() => dispatch(setSidebarOpen(false))}>Sign up</Link>
+                </>
+              )}
+            </div>
           </div>
-        </>
+        </div>
       )}
     </header>
   );
 }
+
+

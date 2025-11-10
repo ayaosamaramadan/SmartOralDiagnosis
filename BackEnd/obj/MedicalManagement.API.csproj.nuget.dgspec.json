@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
+    "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
+    "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "projectUniqueName": "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "projectPath": "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Dell\\SmartOralDiagnosis\\BackEnd\\obj\\",
+        "outputPath": "c:\\Dell\\SmartOralDiagnosis\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -55,6 +55,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.0, )"
             },

@@ -15,8 +15,8 @@ export default function DiseasePage() {
     return (
       <div className="leading-tight space-y-3 max-w-6xl mx-auto rounded-xl shadow-lg p-8 mt-8">
         <h1 className="text-2xl font-bold text-red-600">Disease not found</h1>
-        <p className="text-gray-600 mt-4">Requested ID: {id}</p>
-        <p className="text-gray-600">Available IDs: {Orals.map(o => o.id).join(', ')}</p>
+        <p className="text-gray-300 mt-4">Requested ID: {id}</p>
+        <p className="text-gray-300">Available IDs: {Orals.map(o => o.id).join(', ')}</p>
       </div>
     );
   }

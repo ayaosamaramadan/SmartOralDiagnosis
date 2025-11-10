@@ -6,11 +6,11 @@ import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
     return (
         <>
-            <footer className="bg-black mx-auto rounded-xl shadow-lg p-8 bg-gradient-to-br from-[#23252641] via-[#35353594] to-[#24242442]">
+            <footer className="bg-green-50 dark:bg-black mx-auto rounded-xl shadow-lg p-8 dark:bg-gradient-to-br dark:from-[#23252641] dark:via-[#35353594] dark:to-[#24242442]">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                     <section>
-                        <h2 className="text-lg font-semibold text-white mb-4">Quick Links</h2>
-                        <ul className="space-y-2 text-gray-300 text-sm">
+                        <h2 className="text-lg font-semibold text-green-600 dark:text-white mb-4">Quick Links</h2>
+                        <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
                             <li><a className="hover:underline">Find a doctor</a></li>
                             <li><a className="hover:underline">Explore careers</a></li>
                             <li><a className="hover:underline">Sign up for free e-newsletters</a></li>
@@ -21,8 +21,8 @@ const Footer = () => {
                     </section>
 
                     <section>
-                        <h2 className="text-lg font-semibold text-white mb-4">Resources</h2>
-                        <ul className="space-y-2 text-gray-300 text-sm">
+                        <h2 className="text-lg font-semibold text-green-600 dark:text-white mb-4">Resources</h2>
+                        <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
                             <li><a className="hover:underline">Health Information Policy</a></li>
                             <li><a className="hover:underline">Clinical Trials</a></li>
                             <li><a className="hover:underline">Refer a Patient</a></li>
@@ -33,22 +33,30 @@ const Footer = () => {
                     </section>
 
                     <section>
-                        <h2 className="text-lg font-semibold text-white mb-4">Follow Us</h2>
+                        <h2 className="text-lg font-semibold text-green-600 dark:text-white mb-4">Follow Us</h2>
                         <div className="flex items-center gap-4 mb-4">
                             <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-600 rounded">
-                                <FaLinkedin className="text-blue-600 text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaLinkedin className="text-blue-600 text-2xl" />
+                                </span>
                             </a>
                             <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-red-600 rounded">
-                                <FaYoutube className="text-red-600 text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaYoutube className="text-red-600 text-2xl" />
+                                </span>
                             </a>
                             <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-600 rounded">
-                                <FaFacebook className="text-blue-600 text-2xl" />
+                                <span suppressHydrationWarning>
+                                    <FaFacebook className="text-blue-600 text-2xl" />
+                                </span>
                             </a>
-                            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-white rounded">
-                                <FaXTwitter className="text-white text-2xl" />
+                            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white rounded">
+                                <span suppressHydrationWarning>
+                                    <FaXTwitter className="text-black dark:text-white text-2xl" />
+                                </span>
                             </a>
                         </div>
-                        <ul className="space-y-2 text-gray-300 text-xs">
+                        <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-xs">
                             <li><a className="hover:underline">Terms & Conditions</a></li>
                             <li><a className="hover:underline">Privacy Policy</a></li>
                             <li><a className="hover:underline">Notice of Nondiscrimination</a></li>
@@ -58,11 +66,11 @@ const Footer = () => {
                         </ul>
                     </section>
                 </div>
-                <div className="flex flex-col md:flex-row justify-between items-center mt-8 border-t border-gray-700 pt-4">
-                    <span className="text-xs text-gray-400">
+                <div className="flex flex-col md:flex-row justify-between items-center mt-8 border-t border-gray-300 dark:border-gray-700 pt-4">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
                         &copy; {new Date().getFullYear()} Smart Oral Diagnosis. All rights reserved.
                     </span>
-                    <span className="text-xs text-gray-400 mt-2 md:mt-0">Language: English</span>
+                    <span className="text-xs text-gray-600 dark:text-gray-400 mt-2 md:mt-0">Language: English</span>
                 </div>
             </footer>
         </>

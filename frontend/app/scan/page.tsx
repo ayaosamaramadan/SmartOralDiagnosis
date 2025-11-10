@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ScanPage() {
   return (
-    <div className="min-h-screen bg-black py-8">
+    <div className="min-h-screen py-8">
       <ScanComponent />
     </div>
   );

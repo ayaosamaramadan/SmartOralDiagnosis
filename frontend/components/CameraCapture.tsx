@@ -60,7 +60,7 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
 
   if (useCamera) {
     return (
-      <div className="bg-gray-900 rounded-lg p-6 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 text-center">
         <div className="relative inline-block">
           <video
             ref={videoRef}
@@ -79,7 +79,7 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
           </button>
           <button
             onClick={stopCamera}
-            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
           >
             Cancel
           </button>
@@ -90,10 +90,10 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
   }
 
   return (
-    <div className="bg-gray-900 rounded-lg border-2 border-dashed border-gray-600 p-8 text-center hover:border-blue-400 transition-colors">
-      <Camera className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-      <h3 className="text-lg font-medium text-white mb-2">Take Photo</h3>
-      <p className="text-gray-400 mb-4">Use your camera to capture an image</p>
+    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 p-8 text-center hover:border-blue-400 transition-colors">
+      <Camera className="mx-auto h-12 w-12 text-gray-500 dark:text-gray-400 mb-4" />
+      <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Take Photo</h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">Use your camera to capture an image</p>
       <button
         onClick={startCamera}
         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
