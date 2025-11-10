@@ -4504,11 +4504,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "projectUniqueName": "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
       "projectName": "MedicalManagement.API",
-      "projectPath": "C:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "projectPath": "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "C:\\Dell\\SmartOralDiagnosis\\backend\\obj\\",
+      "outputPath": "c:\\Dell\\SmartOralDiagnosis\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4590,5 +4590,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file c:\\Dell\\SmartOralDiagnosis\\backend\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
+    }
+  ]
 }
