@@ -4,9 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import Drkbtn from "./Dekbtn";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { toggleSidebar, setSidebarOpen } from "../store/slices/uiSlice";
 
 export default function Navigation() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isMenuOpen = useAppSelector((s) => s.ui.sidebarOpen);
+  const dispatch = useAppDispatch();
   const { user, logout } = useAuth();
   const router = useRouter();
 
@@ -51,11 +54,13 @@ export default function Navigation() {
   return (
     <header className="bg-black">
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
-        <Link href="/">
-          <h1 className="text-2xl font-bold bg-gradient-to-t from-blue-950 via-blue-600 to-blue-100 bg-clip-text text-transparent hover:bg-gradient-to-t hover:from-blue-100 hover:via-blue-600 hover:to-blue-950 transition-colors duration-200 cursor-pointer transform hover:scale-110">
+      {  <Link href="/">
+          <h1
+          onClick={() => isMenuOpen && dispatch(setSidebarOpen(false))}
+             className="text-2xl font-bold bg-gradient-to-t from-blue-950 via-blue-600 to-blue-100 bg-clip-text text-transparent hover:bg-gradient-to-t hover:from-blue-100 hover:via-blue-600 hover:to-blue-950 transition-colors duration-200 cursor-pointer transform hover:scale-110">
             OralScan
           </h1>
-        </Link>
+        </Link>}
 
         <nav className="hidden md:flex items-center gap-8">
           {getNavItems().map((item) => (
@@ -119,7 +124,7 @@ export default function Navigation() {
 
           <button
             className="md:hidden p-2 rounded-md text-white hover:bg-white/10 focus:outline-none"
-            onClick={() => setIsMenuOpen((s) => !s)}
+            onClick={() => dispatch(toggleSidebar())}
             aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -135,14 +140,14 @@ export default function Navigation() {
           <div className="px-6 py-4 space-y-4">
             {getNavItems().length ? (
               getNavItems().map((item) => (
-                <Link key={item.href} href={item.href} className="block text-lg" onClick={() => setIsMenuOpen(false)}>
+                <Link key={item.href} href={item.href} className="block text-lg" onClick={() => dispatch(setSidebarOpen(false))}>
                   {item.label}
                 </Link>
               ))
             ) : (
               <>
-                <Link href="/alldiseases" className="block text-lg" onClick={() => setIsMenuOpen(false)}>Diseases & Conditions</Link>
-                <Link href="/scan" className="block text-lg" onClick={() => setIsMenuOpen(false)}>Oral Scanner</Link>
+                <Link href="/alldiseases" className="block text-lg" onClick={() => dispatch(setSidebarOpen(false))}>Diseases & Conditions</Link>
+                <Link href="/scan" className="block text-lg" onClick={() => dispatch(setSidebarOpen(false))}>Oral Scanner</Link>
                 <a href="#" className="block text-lg">Pricing</a>
                 <a href="#" className="block text-lg">About Us</a>
               </>
@@ -154,10 +159,10 @@ export default function Navigation() {
                   <div className="py-2">Welcome, <span className="font-semibold">{user.firstName}</span></div>
                   <button onClick={handleLogout} className="w-full text-left py-2">Logout</button>
                 </>
-              ) : (
+                  ) : (
                 <>
-                  <Link href="/auth/login" className="block py-2" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                  <Link href="/auth/register" className="block py-2" onClick={() => setIsMenuOpen(false)}>Sign up</Link>
+                  <Link href="/auth/login" className="block py-2" onClick={() => dispatch(setSidebarOpen(false))}>Login</Link>
+                  <Link href="/auth/register" className="block py-2" onClick={() => dispatch(setSidebarOpen(false))}>Sign up</Link>
                 </>
               )}
             </div>

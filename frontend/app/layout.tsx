@@ -5,6 +5,7 @@ import { AuthProvider } from "../contexts/AuthContext";
 import Navigation from "../components/Navigation";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "next-themes"
+import ReduxProvider from "../components/ReduxProvider";
 
 import Chatbot from "@/components/Chatbot";
 
@@ -25,15 +26,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.className} dark:bg-black text-white`}>
            <ThemeProvider attribute="class">
-        <AuthProvider>
-          <div className="min-h-screen mt-4 w-full">
-            <Navigation />
-            <main className="min-h-screen container mx-auto px-4">{children}</main>
-            <Chatbot />
-            <Footer />
-          </div>
-          <Toaster position="top-right" />
-        </AuthProvider></ThemeProvider>
+        <ReduxProvider>
+          <AuthProvider>
+            <div className="min-h-screen mt-4 w-full">
+              <Navigation />
+              <main className="min-h-screen container mx-auto px-4">{children}</main>
+              <Chatbot />
+              <Footer />
+            </div>
+            <Toaster position="top-right" />
+          </AuthProvider>
+        </ReduxProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
