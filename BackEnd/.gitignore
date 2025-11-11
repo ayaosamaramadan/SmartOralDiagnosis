@@ -41,6 +41,7 @@ obj/
 # User secrets (if used) and local appsettings
 secrets.json
 appsettings.*.json
+.env
 
 # OS files
 Thumbs.db
