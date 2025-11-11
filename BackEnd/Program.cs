@@ -122,5 +122,7 @@ using (var scope = app.Services.CreateScope())
 await SeedData.EnsureSeedDataAsync(app.Services);
 
 app.Run();
+builder.Services.AddControllers();
+builder.Services.AddSingleton<MongoDbService>();
 
 public partial class Program { }

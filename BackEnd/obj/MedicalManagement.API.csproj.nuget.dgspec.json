@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
+    "D:\\SmartOral\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
+    "D:\\SmartOral\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectUniqueName": "D:\\SmartOral\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "c:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "c:\\Dell\\SmartOralDiagnosis\\backend\\obj\\",
+        "projectPath": "D:\\SmartOral\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
+        "outputPath": "D:\\SmartOral\\SmartOralDiagnosis\\backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\k\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,6 +72,10 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.5.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
