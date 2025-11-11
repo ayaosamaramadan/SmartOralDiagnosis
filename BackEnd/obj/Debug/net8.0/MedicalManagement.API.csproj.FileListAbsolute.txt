@@ -335,3 +335,4 @@ C:\Users\os\Desktop\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Driver.d
 C:\Users\os\Desktop\SmartOralDiagnosis\backend\bin\Debug\net8.0\SharpCompress.dll
 C:\Users\os\Desktop\SmartOralDiagnosis\backend\bin\Debug\net8.0\Snappier.dll
 C:\Users\os\Desktop\SmartOralDiagnosis\backend\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\os\Desktop\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
