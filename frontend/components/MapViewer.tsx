@@ -93,13 +93,16 @@ export default function MapViewer() {
         load();
     }, []);
 
+
+    const STADIA_KEY = process.env.NEXT_PUBLIC_STADIA_API_KEY;
     const effectiveTheme = mounted ? (resolvedTheme ?? theme) : "light";
     const isDark = effectiveTheme === "dark";
     const tileUrl = satelliteView
-        ? "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg"
+   // https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg?api_key=${STADIA_KEY}
+        ? `https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg?api_key=${STADIA_KEY}`
         : isDark
-            ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+            ? `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${STADIA_KEY}`
+            : `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?api_key=${STADIA_KEY}`;
     const clinicColor = isDark ? "#34D399" : "#10B981";
     const userColor = "#60A5FA";
 
