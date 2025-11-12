@@ -16,6 +16,7 @@ const Chatbot = () => {
                 onClick={() => setOpen((s) => !s)}
                 className="fixed bottom-6 right-6 z-50 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition group"
                 aria-label="Open chat overlay"
+                   style={{ zIndex: 2147483647 }}
             >
                 <IoChatbubbleEllipses />
                 <span className="absolute right-full mr-2 bottom-1/2 translate-y-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
@@ -24,7 +25,7 @@ const Chatbot = () => {
             </button>
 
             {open && (
-                <div className="bot-aimate fixed inset-0 z-50 flex items-center justify-end p-6">
+                <div style={{ zIndex: 2147483647 }} className="bot-aimate fixed inset-0 z-50 flex items-center justify-end p-6">
 
                     <div
                         className="absolute inset-0 bg-[rgb(0 0 0 / 0.4)]"
