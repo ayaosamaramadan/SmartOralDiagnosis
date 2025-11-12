@@ -11,9 +11,13 @@ import 'screen/disease_detail.dart';
 import 'screen/Alldisease.dart';
 import 'screen/clinic_map.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: '.env');
+  try {
+    await ThemeService.init();
+  } catch (_) { /* fallback */ }
   runApp(const MyApp());
 }
 

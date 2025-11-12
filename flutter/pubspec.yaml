@@ -36,12 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.0.0
   image_picker: ^1.1.2
-  http: ^1.5.0
+  http: ^0.13.5
   flutter_secure_storage: ^9.2.4
   flutter_dotenv: ^6.0.0
   flutter_map: ^8.2.2
   latlong2: ^0.9.1
   url_launcher: ^6.3.2
+  geolocator: ^9.0.2
+  fluttertoast: ^8.2.1
+  permission_handler: ^10.4.0
 
 
 dev_dependencies:
