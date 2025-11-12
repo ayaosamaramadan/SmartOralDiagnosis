@@ -94,15 +94,46 @@ export default function MapViewer() {
     }, []);
 
 
-    const STADIA_KEY = process.env.NEXT_PUBLIC_STADIA_API_KEY;
+    // Read the StadiaMaps API key (frontend env var must be NEXT_PUBLIC_STADIAMAPS_API_KEY)
+    const STADIA_KEY = process.env.NEXT_PUBLIC_STADIAMAPS_API_KEY;
     const effectiveTheme = mounted ? (resolvedTheme ?? theme) : "light";
     const isDark = effectiveTheme === "dark";
-    const tileUrl = satelliteView
-   // https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg?api_key=${STADIA_KEY}
-        ? `https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg?api_key=${STADIA_KEY}`
-        : isDark
-            ? `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${STADIA_KEY}`
-            : `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?api_key=${STADIA_KEY}`;
+
+    // Tile error diagnostics
+    const [tileErrorCount, setTileErrorCount] = useState(0);
+
+    // Choose tile URL and options. IMPORTANT: do NOT append api_key to OpenStreetMap URLs.
+    let tileUrl: string;
+    let tileSubdomains: string[] | undefined = undefined;
+    let tileAttribution = '';
+    let tileMaxZoom = 19;
+
+    if (satelliteView) {
+        // Satellite: prefer Stadia (when key present), otherwise fall back to Esri World Imagery
+        if (STADIA_KEY) {
+            tileUrl = `https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg?api_key=${STADIA_KEY}`;
+            tileAttribution = '© Stadia Maps';
+            tileMaxZoom = 19;
+        } else {
+            // Esri uses {z}/{y}/{x}
+            tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+            tileAttribution = 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community';
+            tileMaxZoom = 19;
+        }
+    } else if (isDark) {
+        // Dark-mode tiles: CartoDB Dark Matter
+        tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+        tileSubdomains = ['a', 'b', 'c'];
+        tileAttribution = '&copy; <a href="https://carto.com/attributions">CARTO</a> contributors';
+        tileMaxZoom = 19;
+    } else {
+        // Standard light tiles from OpenStreetMap — do NOT add an api_key param here
+        tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        tileSubdomains = ['a', 'b', 'c'];
+        tileAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+        tileMaxZoom = 19;
+    }
+
     const clinicColor = isDark ? "#34D399" : "#10B981";
     const userColor = "#60A5FA";
 
@@ -152,6 +183,11 @@ export default function MapViewer() {
                 </span>
             </button>
             <div className="min-h-screen flex flex-col items-center justify-start p-6 -z-10">
+                {tileErrorCount > 0 && (
+                    <div className="fixed top-20 right-6 z-[2147483647] bg-yellow-500 text-white px-3 py-2 rounded shadow">
+                        Map tiles failed to load ({tileErrorCount}). Using fallback tiles where available.
+                    </div>
+                )}
                 <h1 className="text-4xl sm:text-3xl md:text-4xl mb-5 tracking-tight leading-tight sm:leading-snug text-gray-900 dark:text-white antialiased">
                     Find Nearby Clinics
                 </h1>
@@ -229,7 +265,21 @@ export default function MapViewer() {
                                 scrollWheelZoom={true}
                                 style={{ height: "100%", width: "100%" }}
                             >
-                                <RLTileLayer url={tileUrl} />
+                                    <RLTileLayer
+                                        url={tileUrl}
+                                        attribution={tileAttribution}
+                                        maxZoom={tileMaxZoom}
+                                        {...(tileSubdomains ? { subdomains: tileSubdomains } : {})}
+                                        eventHandlers={{
+                                            tileerror: (e: any) => {
+                                                setTileErrorCount((c) => c + 1);
+                                                console.warn("Map tile error:", e);
+                                                if (typeof window !== 'undefined') {
+                                                    toast.error('Some map tiles failed to load; falling back to alternatives.');
+                                                }
+                                            },
+                                        }}
+                                    />
                                 <FlyToLocation location={focusedLocation ?? userLocation} />
 
                                 {(clinics.length ? clinics : ClinicsPlaces).map((c) => (
