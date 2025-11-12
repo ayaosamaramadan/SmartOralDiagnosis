@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { Orals } from "../../../data/allOrals";
+import { Orals } from "../../../data/AllOrals";
 import Image from "next/image";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
