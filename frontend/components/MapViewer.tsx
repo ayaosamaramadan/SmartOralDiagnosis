@@ -122,7 +122,8 @@ export default function MapViewer() {
         }
     } else if (isDark) {
         // Dark-mode tiles: CartoDB Dark Matter
-        tileUrl = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
+        // Use CARTO Dark tiles (no API key required) — works on Vercel public deployments
+        tileUrl = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png';
         tileSubdomains = ['a', 'b', 'c'];
         tileAttribution = '&copy; <a href="https://carto.com/attributions">CARTO</a> contributors';
         tileMaxZoom = 19;
