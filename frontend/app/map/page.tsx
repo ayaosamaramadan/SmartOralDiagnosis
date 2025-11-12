@@ -2,13 +2,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { MapContainer, TileLayer, Popup, CircleMarker, Tooltip, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaSatelliteDish } from "react-icons/fa6";
 import { SiGooglemaps } from "react-icons/si";
 import { MdContentCopy } from "react-icons/md";
-import { ClinicsPlaces } from "../../data/Clinics";
+import { ClinicsPlaces } from "../../data/Data";
+
+import "leaflet/dist/leaflet.css";
 import toast from "react-hot-toast";
 const RLMapContainer: any = MapContainer;
 const RLTileLayer: any = TileLayer;
