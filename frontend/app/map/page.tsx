@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Popup, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaLocationCrosshairs } from "react-icons/fa6";
+import { ClinicsPlaces } from "../../data/Clinics";
 const RLMapContainer: any = MapContainer;
 const RLTileLayer: any = TileLayer;
 const RLCircleMarker: any = CircleMarker;
 const RLPopup: any = Popup;
 const RLTooltip: any = Tooltip;
-
 
 function FlyToLocation({ location }: { location: [number, number] | null }) {
     const map: any = useMap();
@@ -27,6 +27,9 @@ function FlyToLocation({ location }: { location: [number, number] | null }) {
 export default function MapPage() {
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
+    type Clinic = { id: string; name: string; lat: number; lng: number; address?: string };
+    const [clinics, setClinics] = useState<Clinic[]>([]);
+
     useEffect(() => {
         if (typeof window === "undefined") return;
         if (!navigator.geolocation) return;
@@ -40,6 +43,28 @@ export default function MapPage() {
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
+    }, []);
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await fetch('/api/clinics');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length) {
+                        setClinics(data as Clinic[]);
+                        return;
+                    }
+                }
+            } catch (e) {
+
+            }
+
+            setClinics([
+                ...ClinicsPlaces
+            ]);
+        };
+        load();
     }, []);
 
     return (
@@ -70,32 +95,148 @@ export default function MapPage() {
                 </span>
             </button>
             <div className="min-h-screen flex flex-col items-center justify-start p-6 -z-10">
-
-                <div className="w-full max-w-5xl h-[70vh] rounded-lg overflow-hidden shadow-lg relative">
-
-                    <RLMapContainer zoom={12} style={{ height: "100%", width: "100%" }}>
-                        <RLTileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <FlyToLocation location={userLocation} />
-                        {userLocation && (
-                            <RLCircleMarker key="user-location" center={userLocation} radius={10} pathOptions={{ color: "#60A5FA", fillColor: "#60A5FA", fillOpacity: 0.9 }}>
-                                <RLPopup>
-                                    <div>
-                                        <strong>Your location</strong>
+                <h1 className="text-4xl sm:text-3xl md:text-4xl mb-5 tracking-tight leading-tight sm:leading-snug text-gray-900 dark:text-white antialiased">
+                    Find Nearby Clinics
+                </h1>
+                <div className="w-full flex flex-col md:flex-row gap-4 items-start md:items-stretch">
+                   <aside
+                        aria-label="Clinic list"
+                        className="hidden md:block w-72 bg-white dark:bg-gray-800 text-black dark:text-white rounded-md p-3 shadow-lg max-h-[80vh] overflow-auto z-50 sticky top-20"
+                    >
+                        <div className="mb-3">
+                            <h2 className="text-lg font-semibold">Clinics</h2>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Tap a clinic to center it on the map</p>
+                        </div>
+                        <ul className="space-y-3">
+                            {(clinics.length ? clinics : ClinicsPlaces).map((clinic) => (
+                                <li
+                                    key={clinic.id}
+                                    className="bg-gray-50 dark:bg-gray-900 rounded p-2 hover:shadow-md transition cursor-pointer"
+                                    onClick={() => setUserLocation([clinic.lat, clinic.lng])}
+                                >
+                                    <div className="flex justify-between items-start">
                                         <div>
-                                            Lat: {userLocation[0].toFixed(5)}, Lng: {userLocation[1].toFixed(5)}
+                                            <h3 className="font-semibold text-sm text-gray-900 dark:text-white">{clinic.name}</h3>
+                                            {clinic.address && <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">{clinic.address}</div>}
                                         </div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 ml-2">→</div>
                                     </div>
-                                </RLPopup>
-                                <RLTooltip direction="top">You</RLTooltip>
-                            </RLCircleMarker>
-                        )}
-                    </RLMapContainer>
+                                </li>
+                            ))}
+                        </ul>
+                    </aside>
+
+                    <details className="md:hidden w-full mb-2">
+                        <summary className="w-full flex items-center justify-between bg-white dark:bg-gray-800 text-black dark:text-white rounded-md p-3 shadow-sm cursor-pointer">
+                            <div>
+                                <span className="font-medium">Clinics</span>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">Tap to open list</div>
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">▾</div>
+                        </summary>
+                        <div className="mt-2 bg-white dark:bg-gray-800 rounded-md p-3 shadow-inner max-h-[40vh] overflow-auto">
+                            <ul className="space-y-3">
+                                {(clinics.length ? clinics : ClinicsPlaces).map((clinic) => (
+                                    <li
+                                        key={clinic.id}
+                                        className="bg-gray-50 dark:bg-gray-900 rounded p-2 hover:shadow transition cursor-pointer"
+                                        onClick={(e: any) => {
+                                             const d = (e.currentTarget.closest('details') as HTMLDetailsElement | null);
+                                            if (d) d.open = false;
+                                            setUserLocation([clinic.lat, clinic.lng]);
+                                        }}
+                                    >
+                                        <h3 className="font-semibold text-sm text-gray-900 dark:text-white">{clinic.name}</h3>
+                                        {clinic.address && <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">{clinic.address}</div>}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </details>
+
+                    <div className="flex-1 w-full rounded-lg overflow-hidden shadow-lg relative">
+                        <div className="w-full h-[60vh] md:h-[80vh]">
+                            <RLMapContainer
+                                center={
+                                    userLocation ??
+                                    (clinics[0] ? [clinics[0].lat, clinics[0].lng] : [20, 0])
+                                }
+                                zoom={12}
+                                scrollWheelZoom={true}
+                                style={{ height: "100%", width: "100%" }}
+                            >
+                                <RLTileLayer
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <FlyToLocation location={userLocation} />
+
+                                {(clinics.length ? clinics : ClinicsPlaces).map((c) => (
+                                    <RLCircleMarker
+                                        key={c.id}
+                                        center={[c.lat, c.lng]}
+                                        radius={9}
+                                        pathOptions={{ color: "#10B981", fillColor: "#10B981", fillOpacity: 0.95 }}
+                                    >
+                                        <RLPopup>
+                                            <div className="text-left">
+                                                <div className="font-semibold">{c.name}</div>
+                                                {c.address && <div className="text-sm">{c.address}</div>}
+                                            </div>
+                                        </RLPopup>
+                                        <RLTooltip direction="top">{c.name}</RLTooltip>
+                                    </RLCircleMarker>
+                                ))}
+
+                                {userLocation && (
+                                    <RLCircleMarker
+                                        key="user-location"
+                                        center={userLocation}
+                                        radius={10}
+                                        pathOptions={{ color: "#60A5FA", fillColor: "#60A5FA", fillOpacity: 0.9 }}
+                                    >
+                                        <RLPopup>
+                                            <div>
+                                                <strong>Your location</strong>
+                                                <div>
+                                                    Lat: {userLocation[0].toFixed(5)}, Lng: {userLocation[1].toFixed(5)}
+                                                </div>
+                                            </div>
+                                        </RLPopup>
+                                        <RLTooltip direction="top">You</RLTooltip>
+                                    </RLCircleMarker>
+                                )}
+                            </RLMapContainer>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-sm text-gray-300 mt-3">The map will center on your location if you allow location access.</p>
-            </div>
+                    </div>  
+
+             
+
+                <p className="text-sm dark:text-gray-300 text-gray-900 mt-3">The map will center on your location if you allow location access.</p>
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </>
     );
 }
