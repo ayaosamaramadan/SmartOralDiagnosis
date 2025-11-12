@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { MapContainer, TileLayer, Popup, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaLocationCrosshairs } from "react-icons/fa6";
-import { ClinicsPlaces } from "../../data/Clinics";
+import { ClinicsPlaces } from "../../data/clinics";
 const RLMapContainer: any = MapContainer;
 const RLTileLayer: any = TileLayer;
 const RLCircleMarker: any = CircleMarker;
@@ -26,6 +27,11 @@ function FlyToLocation({ location }: { location: [number, number] | null }) {
 
 export default function MapPage() {
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+
+    // Theme handling (next-themes) — guard SSR with mounted check
+    const { theme, resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
 
     type Clinic = { id: string; name: string; lat: number; lng: number; address?: string };
     const [clinics, setClinics] = useState<Clinic[]>([]);
@@ -67,6 +73,17 @@ export default function MapPage() {
         load();
     }, []);
 
+     const effectiveTheme = mounted ? (resolvedTheme ?? theme) : "light";
+    const isDark = effectiveTheme === "dark";
+   const tileUrl = isDark
+        ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+        : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    const tileAttribution = isDark
+        ? '&copy; <a href="https://stadiamaps.com/">Alidade Satellite</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    const clinicColor = isDark ? "#34D399" : "#10B981";
+    const userColor = "#60A5FA";
+
     return (
         <>
             <button
@@ -85,7 +102,7 @@ export default function MapPage() {
                         { enableHighAccuracy: true, timeout: 10000 }
                     );
                 }}
-                className="fixed bottom-6 left-6 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition group"
+                className="fixed bottom-6 left-6 bg-blue-600 text-[white] rounded-full p-4 shadow-lg hover:bg-blue-700 transition group"
                 style={{ zIndex: 2147483647 }}
                 aria-label="Locate me"
             >
@@ -163,12 +180,9 @@ export default function MapPage() {
                                 }
                                 zoom={12}
                                 scrollWheelZoom={true}
-                                style={{ height: "100%", width: "100%" }}
+                                style={{ height: "100%", width: "100%"  }}
                             >
-                                <RLTileLayer
-                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                />
+                                <RLTileLayer attribution={tileAttribution} url={tileUrl} />
                                 <FlyToLocation location={userLocation} />
 
                                 {(clinics.length ? clinics : ClinicsPlaces).map((c) => (
@@ -176,14 +190,18 @@ export default function MapPage() {
                                         key={c.id}
                                         center={[c.lat, c.lng]}
                                         radius={9}
-                                        pathOptions={{ color: "#10B981", fillColor: "#10B981", fillOpacity: 0.95 }}
+                                        pathOptions={{
+                                                color: clinicColor,
+                                                fillColor: clinicColor,
+                                                fillOpacity: 0.95,
+                                            }}
                                     >
-                                        <RLPopup>
-                                            <div className="text-left">
-                                                <div className="font-semibold">{c.name}</div>
-                                                {c.address && <div className="text-sm">{c.address}</div>}
-                                            </div>
-                                        </RLPopup>
+                                            <RLPopup>
+                                                <div className="text-left">
+                                                    <div className="font-semibold">{c.name}</div>
+                                                    {c.address && <div className="text-sm">{c.address}</div>}
+                                                </div>
+                                            </RLPopup>
                                         <RLTooltip direction="top">{c.name}</RLTooltip>
                                     </RLCircleMarker>
                                 ))}
@@ -193,7 +211,7 @@ export default function MapPage() {
                                         key="user-location"
                                         center={userLocation}
                                         radius={10}
-                                        pathOptions={{ color: "#60A5FA", fillColor: "#60A5FA", fillOpacity: 0.9 }}
+                                        pathOptions={{ color: userColor, fillColor: userColor, fillOpacity: 0.95 }}
                                     >
                                         <RLPopup>
                                             <div>

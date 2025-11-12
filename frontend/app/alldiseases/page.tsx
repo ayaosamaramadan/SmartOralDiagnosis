@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {Orals} from "../../data/AllOrals";
+import {Orals} from "../../data/allOrals";
 import Link from "next/link";
 export default function Alldiseases() {
   return (
