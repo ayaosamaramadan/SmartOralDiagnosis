@@ -5,7 +5,8 @@ import { useTheme } from "next-themes";
 import { MapContainer, TileLayer, Popup, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaLocationCrosshairs } from "react-icons/fa6";
-import { ClinicsPlaces } from "../../data/clinics";
+import { FaSatelliteDish } from "react-icons/fa6";
+import { ClinicsPlaces } from "../../data/Clinics";
 const RLMapContainer: any = MapContainer;
 const RLTileLayer: any = TileLayer;
 const RLCircleMarker: any = CircleMarker;
@@ -27,8 +28,8 @@ function FlyToLocation({ location }: { location: [number, number] | null }) {
 
 export default function MapPage() {
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+    const [satelliteView, setSatelliteView] = useState(false);
 
-    // Theme handling (next-themes) — guard SSR with mounted check
     const { theme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
@@ -75,17 +76,30 @@ export default function MapPage() {
 
      const effectiveTheme = mounted ? (resolvedTheme ?? theme) : "light";
     const isDark = effectiveTheme === "dark";
-   const tileUrl = isDark
-        ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-        : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-    const tileAttribution = isDark
-        ? '&copy; <a href="https://stadiamaps.com/">Alidade Satellite</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-    const clinicColor = isDark ? "#34D399" : "#10B981";
+const tileUrl = satelliteView
+    ? "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg"
+    : isDark
+    ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+    : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+     const clinicColor = isDark ? "#34D399" : "#10B981";
     const userColor = "#60A5FA";
 
     return (
         <>
+         <button
+                onClick={() => {
+                    setSatelliteView(!satelliteView);
+                 
+                }}
+                className="fixed bottom-24 left-6 bg-green-500 text-[white] rounded-full p-4 shadow-lg hover:bg-green-700 transition group"
+                style={{ zIndex: 2147483647 }}
+                aria-label="Locate me"
+            >
+               <FaSatelliteDish />
+                <span className="absolute left-full ml-2 bottom-1/2 translate-y-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                  satellite view
+                </span>
+            </button>
             <button
                 onClick={() => {
                     if (typeof window === "undefined") return;
@@ -102,7 +116,7 @@ export default function MapPage() {
                         { enableHighAccuracy: true, timeout: 10000 }
                     );
                 }}
-                className="fixed bottom-6 left-6 bg-blue-600 text-[white] rounded-full p-4 shadow-lg hover:bg-blue-700 transition group"
+                className="fixed bottom-6 left-6 bg-gray-500 text-[white] rounded-full p-4 shadow-lg hover:bg-gray-700 transition group"
                 style={{ zIndex: 2147483647 }}
                 aria-label="Locate me"
             >
@@ -118,7 +132,7 @@ export default function MapPage() {
                 <div className="w-full flex flex-col md:flex-row gap-4 items-start md:items-stretch">
                    <aside
                         aria-label="Clinic list"
-                        className="hidden md:block w-72 bg-white dark:bg-gray-800 text-black dark:text-white rounded-md p-3 shadow-lg max-h-[80vh] overflow-auto z-50 sticky top-20"
+                        className="hidden md:block w-72 bg-gray-400 dark:bg-gray-800 text-black dark:text-white rounded-md p-3 shadow-lg max-h-[80vh] overflow-auto z-50 sticky top-20"
                     >
                         <div className="mb-3">
                             <h2 className="text-lg font-semibold">Clinics</h2>
@@ -182,7 +196,7 @@ export default function MapPage() {
                                 scrollWheelZoom={true}
                                 style={{ height: "100%", width: "100%"  }}
                             >
-                                <RLTileLayer attribution={tileAttribution} url={tileUrl} />
+                                <RLTileLayer url={tileUrl} />
                                 <FlyToLocation location={userLocation} />
 
                                 {(clinics.length ? clinics : ClinicsPlaces).map((c) => (
