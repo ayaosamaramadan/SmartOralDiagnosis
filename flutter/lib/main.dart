@@ -9,9 +9,11 @@ import 'screen/scan.dart';
 import 'screen/chat.dart';
 import 'screen/disease_detail.dart';
 import 'screen/Alldisease.dart';
+import 'screen/clinic_map.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ThemeService.init();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -23,7 +25,6 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeService.notifier,
       builder: (context, themeMode, _) {
-        // Use centralized theme builders which include AppColors extension.
         final lightTheme = buildLightTheme().copyWith(
           textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
           useMaterial3: true,
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
             '/signup': (context) => const SignUpScreen(),
             '/scan': (context) => const ScanPage(),
             '/chat': (context) => const ChatScreen(),
+            '/map': (context) => const ClinicMap(),
             '/Alldisease': (context) => const AlldiseaseScreen(),
             '/diseaseDetail': (context) {
               final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;

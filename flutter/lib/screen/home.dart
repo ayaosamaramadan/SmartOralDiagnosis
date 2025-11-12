@@ -39,7 +39,85 @@ class HomeScreen extends StatelessWidget {
               _buildHeroSection(context),
               const SizedBox(height: 40),
               _buildContactRow(context),
+              const SizedBox(height: 32),
+              _buildFindClinicsSection(context),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFindClinicsSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1000),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey.shade900.withOpacity(0.8)
+                  : Colors.white.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : Colors.grey.shade200,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.06),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Find Clinics on the Map',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black87),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Locate nearby clinics and specialists, compare reviews, and get directions quickly.',
+                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/map');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo.shade600,
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    elevation: 6,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      CircleAvatar(
+                        backgroundColor: Colors.white24,
+                        radius: 16,
+                        child: Icon(Icons.location_on, color: Colors.white, size: 18),
+                      ),
+                      SizedBox(width: 10),
+                      Text('Open Map', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                      SizedBox(width: 8),
+                      Icon(Icons.arrow_forward, color: Colors.white),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
