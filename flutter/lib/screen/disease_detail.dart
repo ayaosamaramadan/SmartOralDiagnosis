@@ -72,9 +72,13 @@ class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
           } else {
             final List<Widget> entry = [];
             entry.add(Text(s['type'] ?? '', style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600)));
-            if (s['desc'] != null && s['desc'].toString().isNotEmpty) entry.add(Padding(padding: const EdgeInsets.only(top: 6), child: Text(s['desc'], style: GoogleFonts.poppins(color: _muted))));
-            if (s['dots'] is List) for (var d in (s['dots'] as List)) {
-              entry.add(_bullet(d.toString()));
+            if (s['desc'] != null && s['desc'].toString().isNotEmpty) {
+              entry.add(Padding(padding: const EdgeInsets.only(top: 6), child: Text(s['desc'], style: GoogleFonts.poppins(color: _muted))));
+            }
+            if (s['dots'] is List) {
+              for (var d in (s['dots'] as List)) {
+                entry.add(_bullet(d.toString()));
+              }
             }
             entry.add(const SizedBox(height: 8));
             symptomChildren.add(Column(crossAxisAlignment: CrossAxisAlignment.start, children: entry));
@@ -84,11 +88,17 @@ class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
       if (symptoms['WhenSeeDoctor'] is List) {
         for (var w in (symptoms['WhenSeeDoctor'] as List)) {
           final List<Widget> whenChildren = [];
-          if (w['title'] != null) whenChildren.add(Padding(padding: const EdgeInsets.only(top: 8), child: Text(w['title'], style: GoogleFonts.poppins(color: Colors.white70, fontWeight: FontWeight.w600))));
-          if (w['list'] is List) for (var li in (w['list'] as List)) {
-            whenChildren.add(_bullet(li.toString()));
+          if (w['title'] != null) {
+            whenChildren.add(Padding(padding: const EdgeInsets.only(top: 8), child: Text(w['title'], style: GoogleFonts.poppins(color: Colors.white70, fontWeight: FontWeight.w600))));
           }
-          if (w['note'] != null) whenChildren.add(Padding(padding: const EdgeInsets.only(top: 6), child: Text(w['note'], style: GoogleFonts.poppins(color: _muted))));
+          if (w['list'] is List) {
+            for (var li in (w['list'] as List)) {
+              whenChildren.add(_bullet(li.toString()));
+            }
+          }
+          if (w['note'] != null) {
+            whenChildren.add(Padding(padding: const EdgeInsets.only(top: 6), child: Text(w['note'], style: GoogleFonts.poppins(color: _muted))));
+          }
           symptomChildren.add(Column(crossAxisAlignment: CrossAxisAlignment.start, children: whenChildren));
         }
       }
@@ -102,9 +112,13 @@ class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
       if (causes['triggers'] is List) {
         for (var t in (causes['triggers'] as List)) {
           final List<Widget> tChildren = [];
-          if (t['title'] != null) tChildren.add(Padding(padding: const EdgeInsets.only(top: 6), child: Text(t['title'], style: GoogleFonts.poppins(color: Colors.white70, fontWeight: FontWeight.w600))));
-          if (t['list'] is List) for (var li in (t['list'] as List)) {
-            tChildren.add(_bullet(li.toString()));
+          if (t['title'] != null) {
+            tChildren.add(Padding(padding: const EdgeInsets.only(top: 6), child: Text(t['title'], style: GoogleFonts.poppins(color: Colors.white70, fontWeight: FontWeight.w600))));
+          }
+          if (t['list'] is List) {
+            for (var li in (t['list'] as List)) {
+              tChildren.add(_bullet(li.toString()));
+            }
           }
           causeChildren.add(Column(crossAxisAlignment: CrossAxisAlignment.start, children: tChildren));
         }
@@ -117,7 +131,9 @@ class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
           causeChildren.add(_bullet(li.toString()));
         }
       }
-      if (causes['note'] != null) causeChildren.add(Padding(padding: const EdgeInsets.only(top: 8), child: Text(causes['note'], style: GoogleFonts.poppins(color: _muted))));
+      if (causes['note'] != null) {
+        causeChildren.add(Padding(padding: const EdgeInsets.only(top: 8), child: Text(causes['note'], style: GoogleFonts.poppins(color: _muted))));
+      }
       causesSection = _sectionCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: causeChildren));
     }
 
@@ -129,8 +145,10 @@ class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
       final List<Widget> prevChildren = [];
       prevChildren.add(Text(prevention['title'] as String? ?? 'Prevention', style: GoogleFonts.poppins(color: _accent, fontSize: 16, fontWeight: FontWeight.w600)));
       prevChildren.add(const SizedBox(height: 8));
-      if (prevention['list'] is List) for (var p in (prevention['list'] as List)) {
-        prevChildren.add(Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [if (p['tip'] != null) Text(p['tip'], style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600)), if (p['desc'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text(p['desc'], style: GoogleFonts.poppins(color: _muted)))])));
+      if (prevention['list'] is List) {
+        for (var p in (prevention['list'] as List)) {
+          prevChildren.add(Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [if (p['tip'] != null) Text(p['tip'], style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600)), if (p['desc'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text(p['desc'], style: GoogleFonts.poppins(color: _muted)))])));
+        }
       }
       preventionSection = _sectionCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: prevChildren));
     }

@@ -135,12 +135,12 @@ class ChatScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 14, vertical: 8),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.07),
+                          color: Colors.white.withAlpha((0.07 * 255).round()),
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                                color: Colors.white.withOpacity(0.15)),
+                            color: Colors.white.withAlpha((0.15 * 255).round())),
                           ),
-                          child: Row(
+                            child: Row(
                             children: [
                               Expanded(
                                 child: TextField(

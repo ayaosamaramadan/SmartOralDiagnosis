@@ -24,7 +24,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _selectedType = 'patient';
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
   bool _isLoading = false;
-  // TODO: adjust this base URL for your environment:
   // - Android emulator: use http://10.0.2.2:5000 (or the port Kestrel uses)
   // - iOS simulator / macOS: use http://localhost:5000
   // - Physical device: use your machine IP (http://192.168.x.y:5000)
@@ -428,6 +427,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _isLoading = true;
     });
 
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+
     try {
       final uri = Uri.parse('$_backendBaseUrl/api/auth/register');
       final payload = {
@@ -452,9 +454,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           await _secureStorage.write(key: 'jwt', value: token);
         }
 
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Account created successfully')));
+        if (!mounted) return;
+        messenger.showSnackBar(const SnackBar(content: Text('Account created successfully')));
         // navigate to login or home
-        Navigator.pushReplacementNamed(context, '/login');
+        navigator.pushReplacementNamed('/login');
       } else {
         String message = 'Registration failed';
         try {
@@ -462,10 +465,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if (body is Map && body['message'] != null) message = body['message'].toString();
         } catch (_) {}
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        if (mounted) messenger.showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      if (mounted) messenger.showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
       if (mounted) {
         setState(() {

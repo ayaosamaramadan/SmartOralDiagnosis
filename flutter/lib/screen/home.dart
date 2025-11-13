@@ -56,17 +56,17 @@ class HomeScreen extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Container(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+              decoration: BoxDecoration(
               color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.grey.shade900.withOpacity(0.8)
-                  : Colors.white.withOpacity(0.9),
+                ? Colors.grey.shade900.withAlpha((0.8 * 255).round())
+                : Colors.white.withAlpha((0.9 * 255).round()),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : Colors.grey.shade200,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Colors.black.withAlpha((0.06 * 255).round()),
                   blurRadius: 10,
                 ),
               ],

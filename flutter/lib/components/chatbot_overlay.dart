@@ -5,10 +5,10 @@ class ChatbotOverlay extends StatefulWidget {
   final IconData buttonIcon;
 
   const ChatbotOverlay({
-    Key? key,
+    super.key,
     this.buttonLabel = 'Ask Chat',
     this.buttonIcon = Icons.chat_bubble_outline,
-  }) : super(key: key);
+  });
 
   @override
   State<ChatbotOverlay> createState() => _ChatbotOverlayState();
@@ -28,12 +28,12 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
           bottom: 24,
           right: 24,
           child: FloatingActionButton(
-            heroTag: null, 
-              backgroundColor: Colors.blue.shade600,
+            heroTag: null,
+            backgroundColor: Colors.blue.shade600,
             foregroundColor: Colors.white,
             onPressed: _toggle,
-            child: Icon(widget.buttonIcon, size: 32),
             tooltip: widget.buttonLabel,
+            child: Icon(widget.buttonIcon, size: 32),
           ),
         ),
 
@@ -42,8 +42,8 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
           Positioned.fill(
             child: GestureDetector(
               onTap: _toggle,
-              child: Container(
-                color: Colors.black.withOpacity(0.4),
+                child: Container(
+                color: Colors.black.withAlpha((0.4 * 255).round()),
                 child: Center(
                   child: GestureDetector(
                     onTap: () {}, 
@@ -52,8 +52,8 @@ class _ChatbotOverlayState extends State<ChatbotOverlay> {
                       height: MediaQuery.of(context).size.height * 0.8,
                       decoration: BoxDecoration(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey.shade900.withOpacity(0.95)
-                            : Colors.white.withOpacity(0.95),
+                          ? Colors.grey.shade900.withAlpha((0.95 * 255).round())
+                          : Colors.white.withAlpha((0.95 * 255).round()),
                         borderRadius: BorderRadius.circular(24),
                         boxShadow: const [
                           BoxShadow(color: Colors.black26, blurRadius: 24)

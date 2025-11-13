@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.0.0
   image_picker: ^1.1.2
-  http: ^0.13.5
+  http: ^1.5.0
   flutter_secure_storage: ^9.2.4
   flutter_dotenv: ^6.0.0
   flutter_map: ^8.2.2
@@ -44,7 +44,8 @@ dependencies:
   url_launcher: ^6.3.2
   geolocator: ^9.0.2
   fluttertoast: ^8.2.1
-  permission_handler: ^10.4.0
+  # permission_handler removed temporarily to avoid Android build issues
+  # Add it back if you need advanced permission flows after upgrading plugins
 
 
 dev_dependencies:
@@ -83,6 +84,7 @@ flutter:
     - assets/OT/OT.jpg
     - assets/OC/OC.jpg
     - assets/OLP/OLP.png
+    - .env
 
   
 
