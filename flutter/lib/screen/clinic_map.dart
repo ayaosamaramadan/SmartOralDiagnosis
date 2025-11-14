@@ -131,6 +131,61 @@ class _ClinicMapState extends State<ClinicMap> {
     }
   }
 
+  void _openClinicsMenu() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetCtx) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.6,
+          minChildSize: 0.25,
+          maxChildSize: 0.95,
+          builder: (context, scrollController) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Container(
+                    width: 36,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: clinicPlaces.length,
+                    itemBuilder: (cctx, idx) {
+                      final clinic = clinicPlaces[idx];
+                      return ListTile(
+                        title: Text(clinic['name'] ?? ''),
+                        subtitle: clinic['address'] != null ? Text(clinic['address']) : null,
+                        leading: const Icon(Icons.location_on),
+                        onTap: () {
+                          Navigator.of(sheetCtx).pop();
+                          final lat = clinic['lat'] as double;
+                          final lng = clinic['lng'] as double;
+                          _mapController.move(LatLng(lat, lng), 15.0);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final apiKey = dotenv.env['FLUTTER_PUBLIC_STADIAMAPS_API_KEY'];
@@ -140,14 +195,6 @@ class _ClinicMapState extends State<ClinicMap> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: const [ThemeToggle()],
-        elevation: 0,
-      ),
       body: Stack(
         children: [
           FlutterMap(
@@ -297,28 +344,185 @@ class _ClinicMapState extends State<ClinicMap> {
                 ),
             ],
           ),
-   Positioned(
-            left: 16,
-            bottom: 84,
-            child: FloatingActionButton(
-              heroTag: 'sat_toggle',
-              mini: true,
-              backgroundColor: _satelliteView ? Colors.indigo : null,
-              onPressed: () {
-                setState(() => _satelliteView = !_satelliteView);
-              },
-              child: const Icon(Icons.satellite),
+          // Top-left back button (overlay, not AppBar)
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 8,
+            left: 12,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor.withOpacity(0.9),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.arrow_back, color: Theme.of(context).iconTheme.color),
+                ),
+              ),
             ),
           ),
 
-         Positioned(
-            left: 16,
-            bottom: 16,
-            child: FloatingActionButton(
-              heroTag: 'locate_me',
-              mini: true,
-              onPressed: _goToMyLocation,
-              child: const Icon(Icons.my_location),
+          // Top-right theme toggle (overlay, not AppBar)
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 8,
+            right: 12,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ThemeToggle(),
+              ),
+            ),
+          ),
+  Positioned(
+    left: 16,
+    bottom: 16,
+    child: Material(
+      color: Colors.transparent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Satellite toggle (top)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: _satelliteView
+                  ? Theme.of(context).colorScheme.primary.withOpacity(0.14)
+                  : Theme.of(context).cardColor.withOpacity(0.96),
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Tooltip(
+              message: _satelliteView ? 'Satellite view (on)' : 'Satellite view (off)',
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () => setState(() => _satelliteView = !_satelliteView),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.satellite,
+                        size: 20,
+                        color: _satelliteView
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).iconTheme.color,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Satellite',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).textTheme.bodyMedium!.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // Locate me (bottom)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor.withOpacity(0.96),
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Tooltip(
+              message: 'Go to my location',
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: _goToMyLocation,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.my_location,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Locate',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).textTheme.bodyMedium!.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+          // Centered 'CLINICS' pill button (opens clinics modal)
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: GestureDetector(
+                onTap: _openClinicsMenu,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(999),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.location_on, size: 20, color: Theme.of(context).colorScheme.primary),
+                      const SizedBox(width: 8),
+                      const Text('CLINICS', style: TextStyle(fontWeight: FontWeight.w600)),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.arrow_drop_down, size: 24),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],
