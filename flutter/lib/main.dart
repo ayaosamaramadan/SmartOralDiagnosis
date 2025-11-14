@@ -17,7 +17,7 @@ Future<void> main() async {
     await dotenv.load(fileName: '.env');
     debugPrint('.env file loaded successfully');
   } catch (e) {
-    debugPrint('⚠ Failed to load .env file: $e');
+    debugPrint('Failed to load .env file: $e');
   }
   
   try {
