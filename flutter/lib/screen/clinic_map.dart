@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:geolocator/geolocator.dart';
+import '../components/theme_toggle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +43,6 @@ class _ClinicMapState extends State<ClinicMap> {
 
   Future<void> _goToMyLocation() async {
     try {
-      // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -54,7 +54,6 @@ class _ClinicMapState extends State<ClinicMap> {
         return;
       }
 
-      // Check and request permissions
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -85,12 +84,10 @@ class _ClinicMapState extends State<ClinicMap> {
         return;
       }
 
-      // Show loading indicator
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Getting your location...')),
       );
 
-      // Get current position with timeout
       final Position pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
         timeLimit: const Duration(seconds: 10),
@@ -135,14 +132,14 @@ class _ClinicMapState extends State<ClinicMap> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clinic Map'),
-        backgroundColor: const Color.fromARGB(255, 29, 95, 208),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/home');
-          },
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: const [
+          ThemeToggle(),
+        ],
+        elevation: 0,
       ),
       body: Stack(
         children: [
@@ -189,4 +186,5 @@ class _ClinicMapState extends State<ClinicMap> {
       ),
     );
   }
+
 }
