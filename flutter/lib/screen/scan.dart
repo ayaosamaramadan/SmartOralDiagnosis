@@ -74,7 +74,7 @@ class _ScanPageState extends State<ScanPage> {
                         "Take a photo or upload an image for AI-powered dental analysis",
                         style: TextStyle(
                           fontSize: 16,
-                          color: Theme.of(context).colorScheme.onBackground,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -174,7 +174,7 @@ class _ScanPageState extends State<ScanPage> {
             ),
           ),
           PopupMenuButton<int>(
-            icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.onBackground, size: 32),
+            icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.onSurface, size: 32),
             color: Theme.of(context).cardColor,
             itemBuilder: (context) => [
               PopupMenuItem(value: 0, child: _navText("HOME")),

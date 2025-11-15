@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screen/home.dart';
 import 'services/theme_service.dart';
 import 'theme/app_theme.dart';
@@ -8,10 +9,23 @@ import 'screen/signup.dart';
 import 'screen/scan.dart';
 import 'screen/chat.dart';
 import 'screen/disease_detail.dart';
-import 'screen/Alldisease.dart';
-void main() async {
+import 'screen/clinic_map.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ThemeService.init();
+  try {
+    await dotenv.load(fileName: '.env');
+    debugPrint('.env file loaded successfully');
+  } catch (e) {
+    debugPrint('⚠ Failed to load .env file: $e');
+  }
+  
+  try {
+    await ThemeService.init();
+  } catch (e) {
+    debugPrint('Theme initialization failed: $e');
+  }
+
   runApp(const MyApp());
 }
 
@@ -23,15 +37,16 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeService.notifier,
       builder: (context, themeMode, _) {
-        // Use centralized theme builders which include AppColors extension.
         final lightTheme = buildLightTheme().copyWith(
-          textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
-          useMaterial3: true,
+          textTheme: GoogleFonts.poppinsTextTheme(
+            ThemeData.light(useMaterial3: true).textTheme,
+          ),
         );
 
         final darkTheme = buildDarkTheme().copyWith(
-          textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
-          useMaterial3: true,
+          textTheme: GoogleFonts.poppinsTextTheme(
+            ThemeData.dark(useMaterial3: true).textTheme,
+          ),
         );
 
         return MaterialApp(
@@ -46,7 +61,7 @@ class MyApp extends StatelessWidget {
             '/signup': (context) => const SignUpScreen(),
             '/scan': (context) => const ScanPage(),
             '/chat': (context) => const ChatScreen(),
-            '/Alldisease': (context) => const AlldiseaseScreen(),
+            '/map': (context) => const ClinicMap(),
             '/diseaseDetail': (context) {
               final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
               return DiseaseDetailScreen(item: args);

@@ -6,7 +6,7 @@ import '../services/theme_service.dart';
 /// - toggles between light/dark and persists choice
 /// - waits for ThemeService notifier to be initialized (mounted-like guard)
 class ThemeToggle extends StatefulWidget {
-  const ThemeToggle({Key? key}) : super(key: key);
+  const ThemeToggle({super.key});
 
   @override
   State<ThemeToggle> createState() => _ThemeToggleState();

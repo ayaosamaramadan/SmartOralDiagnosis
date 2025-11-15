@@ -73,11 +73,10 @@ class AppColors extends ThemeExtension<AppColors> {
 
 ThemeData buildLightTheme() {
   final base = ThemeData.light();
-  return base.copyWith(
+    return base.copyWith(
     colorScheme: base.colorScheme.copyWith(
       primary: const Color(0xFF2563EB),
       secondary: const Color(0xFF16A34A),
-      background: const Color(0xFFFFFFFF),
       surface: const Color(0xFFF8FAFF),
     ),
     scaffoldBackgroundColor: const Color(0xFFFFFFFF),
@@ -88,11 +87,10 @@ ThemeData buildLightTheme() {
 
 ThemeData buildDarkTheme() {
   final base = ThemeData.dark();
-  return base.copyWith(
+    return base.copyWith(
     colorScheme: base.colorScheme.copyWith(
       primary: const Color(0xFF3B82F6),
       secondary: const Color(0xFF16A34A),
-      background: const Color(0xFF0B1220),
       surface: const Color(0xFF1F2937),
     ),
     scaffoldBackgroundColor: const Color(0xFF0B1220),

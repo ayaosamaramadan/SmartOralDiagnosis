@@ -24,17 +24,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} bg-slate-50 dark:bg-black text-gray-900 dark:text-gray-100`}>
+      <body className={`${poppins.className} bg-[#f7f7f7] dark:bg-black text-gray-800 dark:text-gray-100 transition-colors duration-200`}>
            <ThemeProvider attribute="class">
         <ReduxProvider>
           <AuthProvider>
-            <div className="min-h-screen mt-4 w-full">
-              <Navigation />
-              <main className="min-h-screen container mx-auto px-4">{children}</main>
-              <Chatbot />
-              <Footer />
-            </div>
-            <Toaster position="top-right" />
+        <div className="min-h-screen mt-4 w-full">
+          <Navigation />
+          <main className="min-h-screen container mx-auto px-4">{children}</main>
+          <Chatbot />
+          <Footer />
+        </div>
+        <Toaster position="top-right" />
           </AuthProvider>
         </ReduxProvider>
         </ThemeProvider>

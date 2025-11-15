@@ -13,11 +13,14 @@ namespace MedicalManagement.API.Controllers
     {
         private readonly AppDbContext _db;
         private readonly JwtService _jwt;
+        private readonly MongoDbService _mongo;
 
-        public AuthController(AppDbContext db, JwtService jwt)
+        // Constructor accepts MongoDbService via DI
+        public AuthController(AppDbContext db, JwtService jwt, MongoDbService mongo)
         {
             _db = db;
             _jwt = jwt;
+            _mongo = mongo;
         }
 
         [HttpPost("register")]
@@ -44,6 +47,18 @@ namespace MedicalManagement.API.Controllers
 
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
+
+            // Also insert into MongoDB (best-effort). If Mongo fails, we don't want to crash the whole request.
+            try
+            {
+                var usersCollection = _mongo.GetCollection<User>("users");
+                await usersCollection.InsertOneAsync(user);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception; do not expose sensitive details to the client. In production use a logger.
+                Console.Error.WriteLine($"Failed to write user to MongoDB: {ex.Message}");
+            }
 
             var token = _jwt.GenerateToken(user);
             return Ok(new { token, user });

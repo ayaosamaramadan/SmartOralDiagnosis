@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MedicalManagement.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MedicalManagement.API.props",
+      "PackagePath": "build\\MedicalManagement.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MedicalManagement.API.props",
+      "PackagePath": "buildMultiTargeting\\MedicalManagement.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MedicalManagement.API.props",
+      "PackagePath": "buildTransitive\\MedicalManagement.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
