@@ -20,8 +20,8 @@ __pycache__/
 *.pyd
 *.pyc
 venv/
-.env
-.env.*
+
+
 pip-log.txt
 pip-delete-this-directory.txt
 .pytest_cache/
@@ -68,7 +68,6 @@ temp/
 
 # Docker
 docker-compose.override.yml
-.env.docker
 
 # Databases
 *.sqlite
@@ -86,7 +85,6 @@ htmlcov/
 *.key
 *.crt
 *.pfx
-*.env.local
 credentials/
 secrets.json
 

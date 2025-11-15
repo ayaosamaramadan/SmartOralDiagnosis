@@ -8,6 +8,53 @@ using MedicalManagement.API.Services;
 using MedicalManagement.API.Middleware;
 using Microsoft.OpenApi.Models;
 
+// Load .env if present so sensitive settings (like Mongo connection strings) can be provided from a .env file.
+// The loader looks for a `.env` file in the BackEnd folder and then repository root.
+void LoadDotEnv()
+{
+    try
+    {
+        string? cwd = Directory.GetCurrentDirectory();
+        var candidates = new[] {
+            Path.Combine(cwd, ".env"),
+            Path.Combine(cwd, "..", ".env"),
+            Path.Combine(cwd, "..", "..", ".env")
+        };
+
+        foreach (var path in candidates)
+        {
+            if (File.Exists(path))
+            {
+                var lines = File.ReadAllLines(path);
+                foreach (var raw in lines)
+                {
+                    var line = raw.Trim();
+                    if (string.IsNullOrEmpty(line) || line.StartsWith("#")) continue;
+                    var idx = line.IndexOf('=');
+                    if (idx <= 0) continue;
+                    var key = line.Substring(0, idx).Trim();
+                    var val = line.Substring(idx + 1).Trim().Trim('"').Trim('\'');
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        // If env var already present, don't overwrite
+                        if (Environment.GetEnvironmentVariable(key) == null)
+                        {
+                            Environment.SetEnvironmentVariable(key, val);
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+    catch
+    {
+        // Fail silently; missing .env is not fatal.
+    }
+}
+
+LoadDotEnv();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
