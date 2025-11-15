@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+
     "D:\\SmartOral\\BackEnd\\MedicalManagement.API.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "D:\\SmartOral\\BackEnd\\MedicalManagement.API.csproj",
         "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
         "outputPath": "D:\\SmartOral\\BackEnd\\obj\\",
+
+    "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "projectName": "MedicalManagement.API",
+        "projectPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "packagesPath": "C:\\Users\\os\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\obj\\",
+
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -106,4 +120,6 @@
       }
     }
   }
+}
+}
 }

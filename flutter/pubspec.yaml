@@ -44,6 +44,7 @@ dependencies:
   url_launcher: ^6.3.2
   geolocator: ^9.0.2
   fluttertoast: ^8.2.1
+  permission_handler: ^12.0.1
   # permission_handler removed temporarily to avoid Android build issues
   # Add it back if you need advanced permission flows after upgrading plugins
 

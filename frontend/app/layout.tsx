@@ -34,7 +34,7 @@ export default function RootLayout({
           <Chatbot />
           <Footer />
         </div>
-        <Toaster position="top-right" />
+        <Toaster position="bottom-left" />
           </AuthProvider>
         </ReduxProvider>
         </ThemeProvider>
