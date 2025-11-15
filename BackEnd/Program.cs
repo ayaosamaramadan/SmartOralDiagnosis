@@ -127,7 +127,30 @@ if (app.Environment.IsDevelopment())
 // Global exception handler
 app.UseGlobalExceptionHandler();
 
-app.UseHttpsRedirection();
+// Only enable HTTPS redirection when an HTTPS endpoint is configured.
+// This avoids the runtime warning: "Failed to determine the https port for redirect." during development.
+var httpsConfigured = false;
+
+// Check common places where an HTTPS URL/port can be set
+var httpsEnv = Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT") ??
+               Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+if (!string.IsNullOrWhiteSpace(httpsEnv))
+{
+    httpsConfigured = httpsEnv.Contains("https://") || httpsEnv.Any(char.IsDigit);
+}
+
+// Check Kestrel endpoint config (if present)
+var kestrelHttps = builder.Configuration["Kestrel:Endpoints:Https:Url"]; 
+if (!string.IsNullOrWhiteSpace(kestrelHttps)) httpsConfigured = true;
+
+if (httpsConfigured)
+{
+    app.UseHttpsRedirection();
+}
+else
+{
+    app.Logger.LogInformation("Skipping HTTPS redirection: no HTTPS endpoint detected. To enable, set 'ASPNETCORE_HTTPS_PORT' or configure Kestrel endpoints in appsettings.json or launchSettings.json.");
+}
 
 // Serve static files (for uploads)
 // Only call UseStaticFiles if the web root folder actually exists to avoid noisy warnings
