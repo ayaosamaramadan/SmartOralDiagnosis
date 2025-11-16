@@ -10,21 +10,12 @@ export default function Navigation() {
   const isMenuOpen = useAppSelector((s) => s.ui.sidebarOpen);
   const dispatch = useAppDispatch();
   const { user, logout } = useAuth();
+  
   const router = useRouter();
 
   console.log('User in Navigation:', user);
 
- const normalizeRole = (raw: any) => {
-    if (typeof raw === "string") return raw.toLowerCase();
-    if (typeof raw === "number") {
-      // match server-side enum: Patient = 0, Doctor = 1, Admin = 2
-      if (raw === 0) return "patient";
-      if (raw === 1) return "doctor";
-      if (raw === 2) return "admin";
-      return String(raw);
-    }
-    return String(raw || "");
-  };
+
 
   const getNavItems = () => {
     if (!user) return [];
@@ -34,7 +25,7 @@ export default function Navigation() {
      { href: "/profile", label: "Profile" },
     ];
 
-    const role = normalizeRole(user.role);
+    const role = user.role;
 
     switch (role) {
       case "patient":
@@ -173,7 +164,8 @@ export default function Navigation() {
                 Settings
               </Link>
 
-              {normalizeRole(user.role) === "admin" && (
+              {
+              user.role=== "admin" && (
                 <Link
                 href="/admin"
                 role="menuitem"

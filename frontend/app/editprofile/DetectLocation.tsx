@@ -2,6 +2,7 @@
 import React from "react";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../../store/hooks";
+import { MdLocationSearching } from "react-icons/md";
 import { updateField, setIsSubmitting } from "../../store/slices/profileSlice";
 
 const detectLocationString = (options?: PositionOptions): Promise<string> => {
@@ -72,9 +73,12 @@ export default function DetectLocation() {
     <button
       type="button"
       onClick={handleDetect}
-      className="px-3 py-2 rounded border bg-white dark:bg-gray-800 text-sm hover:shadow-sm"
+      title="Detect my location"
+      aria-label="Detect my location"
+      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 shadow-sm hover:shadow-md hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
     >
-      Detect
+      <MdLocationSearching className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+      <span className="hidden sm:inline">Detect location</span>
     </button>
   );
 }

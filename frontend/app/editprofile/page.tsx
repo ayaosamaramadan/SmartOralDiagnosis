@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+
 import { patientService, doctorService } from "@/services/api";
 import { useRouter } from "next/navigation";
+import { FaRegFilePdf } from "react-icons/fa6";
 
 import DetectLocation from "./DetectLocation";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
@@ -16,18 +17,21 @@ import toast from "react-hot-toast";
 import Loading from "@/auth/loading";
 
 import CompletedOr from "./CompletedOr";
+import Langu from "./Langu";
+
+import { useAuth } from "../../contexts/AuthContext";
 
 const Edit = () => {
-  const { user, loading } = useAuth();
+  const { loading ,user} = useAuth();
   const router = useRouter();
-
-
 
   const dispatch = useAppDispatch();
   const form = useAppSelector((s: any) => s.profile.form);
   const isSubmitting = useAppSelector((s: any) => s.profile.isSubmitting);
   const error = useAppSelector((s: any) => s.profile.error);
   const success = useAppSelector((s: any) => s.profile.success);
+
+ 
 
   useEffect(() => {
     if (user) {
@@ -118,7 +122,11 @@ const Edit = () => {
 
           <div className="flex flex-col gap-6 md:w-2/3">
 
-            <div className="dark:bg-gray-800 bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div className="relative md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)] bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+
+              <div className="absolute top-4 right-4">
+                <Langu />
+              </div>
 
               <div className="flex items-center text-left">
                 <div className="relative">
@@ -126,11 +134,11 @@ const Edit = () => {
                     <img
                       src={form.photo || (user as any).photo}
                       alt="User avatar"
-                      className="h-32 w-32 rounded-full object-cover ring-4 ring-primary-100 shadow-md"
+                      className="h-32 w-32 rounded-full object-cover ring-4 ring-gray-100 shadow-md"
                       loading="lazy"
                     />
                   ) : (
-                    <div className=" mr-7 h-32 w-32 rounded-full bg-gradient-to-tr from-primary-700 to-primary-500 text-white flex items-center justify-center text-3xl font-semibold shadow-md">
+                    <div className=" mr-7 h-32 w-32 rounded-full bg-gradient-to-tr from-blue-700 to-blue-500 text-white flex items-center justify-center text-3xl font-semibold shadow-md">
                       {user.firstName?.[0]?.toUpperCase() ?? "U"}
                     </div>
                   )}
@@ -143,18 +151,26 @@ const Edit = () => {
                     <div className="text-sm text-gray-600 dark:text-gray-400">{(user as any).email}</div>
                   </div>
 
-                  <div className="mt-5 flex-col gap-2 w-full">
+                  <div className="mt-5 flex gap-2 w-full">
                     <button
-                      onClick={() => router.push('/profile')}
-                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-medium transition-shadow shadow-sm"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition-shadow shadow-sm"
                     >
                       Upload new photo
+                    </button>    
+                 { String(user?.role ?? "").toLowerCase() !== "doctor" && (
+                    <button
+        
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-red-800 hover:bg-red-700 text-white font-medium transition-shadow shadow-sm"
+                    >
+                    <FaRegFilePdf />  Medical License (Required)
                     </button>
-                  </div></div>
+                 )}
+                  </div>
+                </div>
               </div>
             </div>
 
-            <section className="dark:bg-gray-800 bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 overflow-auto">
+            <section className="md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)] bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 overflow-auto">
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
                   <div className="text-red-800 bg-red-50 border border-red-200 dark:text-red-200 dark:bg-red-900/20 dark:border-red-700 p-2 rounded">{error}</div>
@@ -170,7 +186,7 @@ const Edit = () => {
                       name="firstName"
                       value={form.firstName}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                     />
                   </div>
 
@@ -180,7 +196,7 @@ const Edit = () => {
                       name="lastName"
                       value={form.lastName}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                     />
                   </div>
                 </div>
@@ -203,19 +219,19 @@ const Edit = () => {
                     name="phoneNumber"
                     value={form.phoneNumber}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                   />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Location</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Location</label>
                   <div className="flex gap-2 items-center">
                     <input
                       name="location"
                       value={(form as any).location ?? ""}
                       onChange={handleChange}
                       placeholder="City, State or coordinates"
-                      className="flex-1 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                      className="flex-1 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                     />
                     <div className="shrink-0">
                       <DetectLocation />
@@ -228,10 +244,10 @@ const Edit = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button
+                  <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center px-4 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-semibold transition disabled:opacity-60"
+                    className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold transition disabled:opacity-60"
                   >
                     {isSubmitting ? "Saving..." : "Save changes"}
                   </button>
@@ -248,8 +264,8 @@ const Edit = () => {
             </section>
           </div>
 
-          <div className="flex-1 md:w-2/3 dark:bg-gray-800 bg-white">
-            <div className="w-full h-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 bg-white dark:bg-gray-800">
+          <div className="flex-1 md:w-2/3 md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(32,32,32)] md:dark:to-[rgb(31,31,31)] bg-white">
+            <div className="w-full h-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 bg-white md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)]">
               <CompletedOr form={form} />
             </div>
           </div>

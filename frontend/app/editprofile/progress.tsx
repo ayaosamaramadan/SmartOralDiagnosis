@@ -3,7 +3,7 @@ const Prog = ( { percent, r, c, dashOffset }: { percent: number; r: number; c: n
     <div className="w-full flex items-center justify-center">
         <div className="w-48 h-48 mx-auto">
             <div className="relative w-full h-full">
-                <svg className="w-full h-full" viewBox="0 0 48 48" fill="none" aria-hidden={true}>
+                <svg className="w-full h-full" viewBox="0 0 48 48" fill="none" role="img" aria-label={`Profile completion ${percent}%`}>
                     <circle
                         cx="24"
                         cy="24"
@@ -18,7 +18,7 @@ const Prog = ( { percent, r, c, dashOffset }: { percent: number; r: number; c: n
                         r={r}
                         strokeWidth="4"
                         stroke="currentColor"
-                        className="text-green-400"
+                        className="text-green-500 dark:text-green-400"
                         strokeLinecap="round"
                         strokeDasharray={c}
                         strokeDashoffset={dashOffset}
