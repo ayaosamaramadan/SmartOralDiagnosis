@@ -1,4 +1,3 @@
-// Common types and interfaces for the Medical Management System
 
 export interface User {
   id: string;
@@ -6,6 +5,7 @@ export interface User {
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  photo?: string;
   role: UserRole;
   isActive: boolean;
   createdAt: string;

@@ -110,7 +110,15 @@ export default function Navigation() {
                 className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold transform transition-all duration-200 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:ring-2 group-hover:ring-blue-300"
                 aria-hidden="true"
               >
-                {(user?.firstName?.charAt(0) || "U").toUpperCase()}
+                {user?.photo ? (
+                  <img
+                    src={user.photo}
+                    alt={`${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || "User avatar"}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span>{(user?.firstName?.charAt(0) || "U").toUpperCase()}</span>
+                )}
               </div>
 
               <span className="hidden md:inline font-medium text-black dark:text-white transition-colors duration-200 group-hover:text-blue-600">

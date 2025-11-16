@@ -15,6 +15,24 @@
   @apply bg-white rounded-lg shadow-md p-6;
 }
 
+/* Dark mode variants for common components */
+.dark .card {
+  @apply bg-[#0b1220] text-gray-100 border border-white/5;
+}
+
+.dark .btn-primary {
+  @apply bg-primary-600 hover:bg-primary-700 text-white;
+}
+
+.dark .btn-secondary {
+  @apply bg-gray-800 hover:bg-gray-700 text-gray-200;
+}
+
+.dark .hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.18);
+  transform: scale(1.01);
+}
+
 @keyframes bot-slide-left {
   0% {
     transform: translateY(-50%) translateX(120%);

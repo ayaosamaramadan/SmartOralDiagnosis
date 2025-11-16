@@ -15,6 +15,8 @@ interface User {
   firstName: string;
   lastName: string;
   role: string;
+  phoneNumber?: string | null;
+  photo?: string | null;
 }
 
 interface AuthContextType {

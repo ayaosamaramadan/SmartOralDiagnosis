@@ -63,7 +63,8 @@ namespace MedicalManagement.API.Controllers
                     { "birthday", user.DateOfBirth ?? string.Empty },
                     { "email", user.Email },
                     { "pass", user.PasswordHash },
-                    { "phone", user.PhoneNumber ?? string.Empty }
+                    { "phone", user.PhoneNumber ?? string.Empty },
+                    { "photo", user.Photo ?? string.Empty }
                 };
                 await coll.InsertOneAsync(doc);
                 _logger?.LogInformation("Inserted user {Email} into MongoDB 'users' collection.", user.Email);
@@ -100,6 +101,7 @@ namespace MedicalManagement.API.Controllers
                         Email = mongoDoc.GetValue("email").AsString,
                         FirstName = mongoDoc.Contains("firstname") ? mongoDoc.GetValue("firstname").AsString : string.Empty,
                         LastName = mongoDoc.Contains("lastname") ? mongoDoc.GetValue("lastname").AsString : string.Empty,
+                        Photo = mongoDoc.Contains("photo") ? mongoDoc.GetValue("photo").AsString : null,
                         PasswordHash = mongoDoc.Contains("pass") ? mongoDoc.GetValue("pass").AsString : string.Empty,
                         PhoneNumber = mongoDoc.Contains("phone") ? mongoDoc.GetValue("phone").AsString : null,
                         DateOfBirth = mongoDoc.Contains("birthday") ? mongoDoc.GetValue("birthday").AsString : null,

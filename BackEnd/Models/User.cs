@@ -44,6 +44,14 @@ namespace MedicalManagement.API.Models
         public string? MedicalHistoryJson { get; set; }
         public string? AssignedDoctorId { get; set; }
 
+        // Profile photo (stored as URL or base64 string)
+        [MaxLength(1000)]
+        public string? Photo { get; set; }
+
+         public string? Location { get; set; }
+
+        
+
         // Doctor-specific
         public string? Specialization { get; set; }
         public string? LicenseNumber { get; set; }
