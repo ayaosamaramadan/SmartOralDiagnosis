@@ -84,12 +84,17 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // CORS (allow frontend during development)
-var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000";
+// `FrontendOrigin` can be a single origin or a comma-separated list of origins.
+var frontendOriginsRaw = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000";
+var frontendOrigins = frontendOriginsRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+    .Select(o => o.Trim())
+    .Where(o => !string.IsNullOrEmpty(o))
+    .ToArray();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(frontendOrigin)
+        policy.WithOrigins(frontendOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -211,11 +216,12 @@ else
     app.Logger.LogInformation("WebRootPath '{path}' not found; skipping static file middleware.", app.Environment.WebRootPath);
 }
 
+// IMPORTANT: CORS must be enabled before authentication/authorization and before mapping controllers
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors("AllowFrontend");
 
 // Seed data (development)
 // Ensure database is created (no migrations required in dev) and seed sample data
