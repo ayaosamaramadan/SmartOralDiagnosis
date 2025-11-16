@@ -13,6 +13,8 @@ import {
 
 } from "../../store/slices/profileSlice";
 import toast from "react-hot-toast";
+import Loading from "@/auth/loading";
+import Prog from "./progress";
 
 const Edit = () => {
   const { user, loading } = useAuth();
@@ -41,7 +43,7 @@ const Edit = () => {
     }
   }, [user, dispatch]);
 
-  if (loading) return <div className="p-4">Loading...</div>;
+  if (loading) return <Loading />;
   if (!user) return <div className="p-4">Please sign in to edit your profile.</div>;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -107,7 +109,7 @@ const Edit = () => {
   };
 
   return (
-    <div className="w-full max-h-full mt-4 p-6 bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-black">
+    <div className="w-full max-h-full p-6">
       <div className="flex items-center justify-between mb-6">
       <div>
         <h1 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-t from-primary-700 to-primary-500">Edit Profile</h1>
@@ -116,7 +118,7 @@ const Edit = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 min-h-[60vh] md:min-h-[66vh] overflow-auto">
-      <aside className="md:w-1/3 card hover-glow md:h-auto">
+      <aside className="md:w-1/3 card md:h-auto">
         <div className="flex flex-col items-center text-center">
         <div className="relative">
           {form.photo || (user as any).photo ? (
@@ -144,13 +146,6 @@ const Edit = () => {
           >
           Upload new photo
           </button>
-
-          <button
-          onClick={() => router.push('/')}
-          className="btn-secondary w-full"
-          >
-          Back to dashboard
-          </button>
         </div>
 
         <div className="w-full mt-6 bg-white dark:bg-gray-800 rounded-md p-4 text-left shadow-sm">
@@ -159,19 +154,23 @@ const Edit = () => {
             <h3 className="text-sm font-semibold">Complete your profile</h3>
             <p className="text-xs text-gray-500">Fill the sections below to complete your profile</p>
           </div>
-          <div className="w-32">
-            <div className="w-full h-2 bg-gray-200 rounded overflow-hidden">
-            <div
-              className="h-2 bg-primary-600 rounded"
-              style={{
-              width: `${Math.round(
-                (([!!(form.firstName.trim() && form.lastName.trim()), !!(form.email.trim() && (form.phoneNumber?.trim() ?? "")), !!(form.photo || (user as any).photo)]
-                .filter(Boolean).length) / 3) * 100
-              )}%`,
-              }}
-            />
-            </div>
-          </div>
+            {(() => {
+            const completed = [
+              !!(form.firstName.trim() && form.lastName.trim()),
+              !!(form.email.trim() && (form.phoneNumber?.trim() ?? "")),
+              !!(form.photo || (user as any).photo),
+            ].filter(Boolean).length;
+            const percent = Math.round((completed / 3) * 100);
+            const r = 18;
+            const c = 2 * Math.PI * r;
+            const dashOffset = c * (1 - percent / 100);
+
+            return (
+           <>
+           <Prog percent={percent} r={r} c={c} dashOffset={dashOffset} />
+           </>
+            );
+            })()}
           </div>
 
           <ul className="flex flex-col gap-3">

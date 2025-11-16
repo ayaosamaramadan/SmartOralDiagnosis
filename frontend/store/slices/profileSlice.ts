@@ -12,8 +12,7 @@ interface ProfileForm {
 interface ProfileState {
   form: ProfileForm;
   isSubmitting: boolean;
-  error: string | null;
-  success: string | null;
+
 }
 
 const initialState: ProfileState = {
@@ -26,8 +25,7 @@ const initialState: ProfileState = {
     location: "",
   },
   isSubmitting: false,
-  error: null,
-  success: null,
+
 };
 
 const profileSlice = createSlice({
@@ -44,21 +42,13 @@ const profileSlice = createSlice({
     setIsSubmitting(state, action: PayloadAction<boolean>) {
       state.isSubmitting = action.payload;
     },
-    setError(state, action: PayloadAction<string | null>) {
-      state.error = action.payload;
-    },
-    setSuccess(state, action: PayloadAction<string | null>) {
-      state.success = action.payload;
-    },
+  
     reset(state) {
       state.form = initialState.form;
       state.isSubmitting = false;
-      state.error = null;
-      state.success = null;
     },
   },
 });
 
-export const { setForm, updateField, setIsSubmitting, setError, setSuccess, reset } = profileSlice.actions;
-
+export const { setForm, updateField, setIsSubmitting, reset } = profileSlice.actions;
 export default profileSlice.reducer;
