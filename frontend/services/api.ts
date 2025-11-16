@@ -44,6 +44,7 @@ export const authService = {
     role: string;
   }) => {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
+         mode: 'no-cors',
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
