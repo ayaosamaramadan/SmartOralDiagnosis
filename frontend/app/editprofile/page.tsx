@@ -1,55 +1,63 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { patientService, doctorService } from "@/services/api";
 import { useRouter } from "next/navigation";
+
+import DetectLocation from "./DetectLocation";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import {
+  setForm as setProfileForm,
+  updateField,
+  setIsSubmitting as setProfileIsSubmitting,
+
+} from "../../store/slices/profileSlice";
+import toast from "react-hot-toast";
 
 const Edit = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    photo: "",
-  });
+ 
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const form = useAppSelector((s: any) => s.profile.form);
+  const isSubmitting = useAppSelector((s: any) => s.profile.isSubmitting);
+  const error = useAppSelector((s: any) => s.profile.error);
+  const success = useAppSelector((s: any) => s.profile.success);
 
   useEffect(() => {
     if (user) {
-      setForm({
-        firstName: user.firstName ?? "",
-        lastName: user.lastName ?? "",
-        email: (user as any).email ?? "",
-        phoneNumber: (user as any).phoneNumber ?? "",
-        photo: (user as any).photo ?? "",
-      });
+      dispatch(
+        setProfileForm({
+          firstName: user.firstName ?? "",
+          lastName: user.lastName ?? "",
+          email: (user as any).email ?? "",
+          phoneNumber: (user as any).phoneNumber ?? "",
+          photo: (user as any).photo ?? "",
+          location: (user as any).location ?? "",
+        })
+      );
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   if (loading) return <div className="p-4">Loading...</div>;
   if (!user) return <div className="p-4">Please sign in to edit your profile.</div>;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm((s) => ({ ...s, [name]: value }));
+    dispatch(updateField({ name: name as any, value }));
   };
 
   const validate = () => {
     if (!form.firstName.trim() || !form.lastName.trim()) {
-      setError("First name and last name are required.");
+     toast.error("First name and last name are required.");
+
       return false;
     }
     const emailRe = /\S+@\S+\.\S+/;
     if (!emailRe.test(form.email)) {
-      setError("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       return false;
     }
     return true;
@@ -57,10 +65,9 @@ const Edit = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
+    toast.dismiss();
     if (!validate()) return;
-    setIsSubmitting(true);
+    dispatch(setProfileIsSubmitting(true));
 
     try {
       const payload: any = {
@@ -87,15 +94,15 @@ const Edit = () => {
           email: updated.email ?? form.email,
         };
         localStorage.setItem("user", JSON.stringify(toStore));
-        setSuccess("Profile updated successfully.");
+        toast.success("Profile updated successfully.");
         router.refresh();
       } else {
-        setSuccess("Profile updated.");
+        toast.success("Profile updated.");
       }
     } catch (err: any) {
-      setError(err?.message ?? "Failed to update profile.");
+      toast.error(err?.message ?? "Failed to update profile.");
     } finally {
-      setIsSubmitting(false);
+      dispatch(setProfileIsSubmitting(false));
     }
   };
 
@@ -270,6 +277,23 @@ const Edit = () => {
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium mb-1">Location</label>
+          <div className="flex gap-2 items-center">
+            <input
+              name="location"
+              value={(form as any).location ?? ""}
+              onChange={handleChange}
+              placeholder="City, State or coordinates"
+              className="flex-1 border rounded p-2"
+            />
+      <DetectLocation/>
+          </div>
+
+          {(form as any).location ? (
+            <div className="text-xs text-gray-500 mt-2">Current: {(form as any).location}</div>
+          ) : null}
+        </div>
 
         <div className="flex items-center gap-3">
           <button
