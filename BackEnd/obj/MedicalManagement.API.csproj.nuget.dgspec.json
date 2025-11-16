@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
+    "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
+    "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectUniqueName": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
         "packagesPath": "C:\\Users\\os\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\obj\\",
+        "outputPath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\os\\AppData\\Roaming\\NuGet\\NuGet.Config"

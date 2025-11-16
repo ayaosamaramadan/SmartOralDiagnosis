@@ -48,9 +48,7 @@ namespace MedicalManagement.API.Models
         [MaxLength(1000)]
         public string? Photo { get; set; }
 
-         public string? Location { get; set; }
-
-        
+   
 
         // Doctor-specific
         public string? Specialization { get; set; }
