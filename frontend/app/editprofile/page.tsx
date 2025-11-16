@@ -14,13 +14,14 @@ import {
 } from "../../store/slices/profileSlice";
 import toast from "react-hot-toast";
 import Loading from "@/auth/loading";
-import Prog from "./progress";
+
+import CompletedOr from "./CompletedOr";
 
 const Edit = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
 
- 
+
 
   const dispatch = useAppDispatch();
   const form = useAppSelector((s: any) => s.profile.form);
@@ -53,7 +54,7 @@ const Edit = () => {
 
   const validate = () => {
     if (!form.firstName.trim() || !form.lastName.trim()) {
-     toast.error("First name and last name are required.");
+      toast.error("First name and last name are required.");
 
       return false;
     }
@@ -109,210 +110,150 @@ const Edit = () => {
   };
 
   return (
-    <div className="w-full max-h-full p-6">
-      <div className="flex items-center justify-between mb-6">
-      <div>
-        <h1 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-t from-primary-700 to-primary-500">Edit Profile</h1>
-        <p className="text-sm text-gray-500">Update your personal information and profile photo</p>
-      </div>
-      </div>
+    <div className="w-3/3 max-h-full p-6">
+      <div className="mx-auto">
 
-      <div className="flex flex-col md:flex-row gap-6 min-h-[60vh] md:min-h-[66vh] overflow-auto">
-      <aside className="md:w-1/3 card md:h-auto">
-        <div className="flex flex-col items-center text-center">
-        <div className="relative">
-          {form.photo || (user as any).photo ? (
-          <img
-            src={form.photo || (user as any).photo}
-            alt="User avatar"
-            className="h-32 w-32 rounded-full object-cover ring-6 ring-primary-100"
-          />
-          ) : (
-          <div className="h-32 w-32 rounded-full bg-gradient-to-tr from-primary-700 to-primary-500 text-white flex items-center justify-center text-3xl font-semibold">
-            {user.firstName?.[0]?.toUpperCase() ?? "U"}
-          </div>
-          )}
-        </div>
 
-        <div className="mt-4">
-          <div className="font-medium text-lg">{user.firstName} {user.lastName}</div>
-          <div className="text-sm text-gray-600">{(user as any).email}</div>
-        </div>
+        <div className="flex flex-col md:flex-row gap-7 min-h-[60vh] md:min-h-[66vh] overflow-auto">
 
-        <div className="mt-5 flex flex-col gap-2 w-full">
-          <button
-          onClick={() => router.push('/profile')}
-          className="btn-primary w-full"
-          >
-          Upload new photo
-          </button>
-        </div>
+          <div className="flex flex-col gap-6 md:w-2/3">
 
-        <div className="w-full mt-6 bg-white dark:bg-gray-800 rounded-md p-4 text-left shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-          <div>
-            <h3 className="text-sm font-semibold">Complete your profile</h3>
-            <p className="text-xs text-gray-500">Fill the sections below to complete your profile</p>
-          </div>
-            {(() => {
-            const completed = [
-              !!(form.firstName.trim() && form.lastName.trim()),
-              !!(form.email.trim() && (form.phoneNumber?.trim() ?? "")),
-              !!(form.photo || (user as any).photo),
-            ].filter(Boolean).length;
-            const percent = Math.round((completed / 3) * 100);
-            const r = 18;
-            const c = 2 * Math.PI * r;
-            const dashOffset = c * (1 - percent / 100);
+            <div className="dark:bg-gray-800 bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
 
-            return (
-           <>
-           <Prog percent={percent} r={r} c={c} dashOffset={dashOffset} />
-           </>
-            );
-            })()}
-          </div>
+              <div className="flex items-center text-left">
+                <div className="relative">
+                  {form.photo || (user as any).photo ? (
+                    <img
+                      src={form.photo || (user as any).photo}
+                      alt="User avatar"
+                      className="h-32 w-32 rounded-full object-cover ring-4 ring-primary-100 shadow-md"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className=" mr-7 h-32 w-32 rounded-full bg-gradient-to-tr from-primary-700 to-primary-500 text-white flex items-center justify-center text-3xl font-semibold shadow-md">
+                      {user.firstName?.[0]?.toUpperCase() ?? "U"}
+                    </div>
+                  )}
+                </div>
 
-          <ul className="flex flex-col gap-3">
-          <li className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold">1</div>
-            <div>
-              <div className="text-sm font-medium">Personal info</div>
-              <div className="text-xs text-gray-500">First & last name</div>
+
+                <div>
+                  <div className="mt-4">
+                    <div className="font-medium text-lg text-gray-900 dark:text-gray-100">{user.firstName} {user.lastName}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">{(user as any).email}</div>
+                  </div>
+
+                  <div className="mt-5 flex-col gap-2 w-full">
+                    <button
+                      onClick={() => router.push('/profile')}
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-medium transition-shadow shadow-sm"
+                    >
+                      Upload new photo
+                    </button>
+                  </div></div>
+              </div>
             </div>
-            </div>
-            { !!(form.firstName.trim() && form.lastName.trim()) ? (
-            <span className="text-xs px-2 py-1 rounded bg-green-100 text-green-700">Complete</span>
-            ) : (
-            <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">Incomplete</span>
-            )}
-          </li>
 
-          <li className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold">2</div>
-            <div>
-              <div className="text-sm font-medium">Contact</div>
-              <div className="text-xs text-gray-500">Email & phone</div>
-            </div>
-            </div>
-            { !!(form.email.trim() && (form.phoneNumber?.trim() ?? "")) ? (
-            <span className="text-xs px-2 py-1 rounded bg-green-100 text-green-700">Complete</span>
-            ) : (
-            <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">Incomplete</span>
-            )}
-          </li>
+            <section className="dark:bg-gray-800 bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 overflow-auto">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {error && (
+                  <div className="text-red-800 bg-red-50 border border-red-200 dark:text-red-200 dark:bg-red-900/20 dark:border-red-700 p-2 rounded">{error}</div>
+                )}
+                {success && (
+                  <div className="text-green-800 bg-green-50 border border-green-200 dark:text-green-200 dark:bg-green-900/15 dark:border-green-700 p-2 rounded">{success}</div>
+                )}
 
-          <li className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold">3</div>
-            <div>
-              <div className="text-sm font-medium">Profile photo</div>
-              <div className="text-xs text-gray-500">Add a profile picture</div>
-            </div>
-            </div>
-            { !!(form.photo || (user as any).photo) ? (
-            <span className="text-xs px-2 py-1 rounded bg-green-100 text-green-700">Complete</span>
-            ) : (
-            <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">Incomplete</span>
-            )}
-          </li>
-          </ul>
-        </div>
-        </div>
-      </aside>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">First name</label>
+                    <input
+                      name="firstName"
+                      value={form.firstName}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                    />
+                  </div>
 
-      <section className="md:flex-1 card md:h-auto overflow-auto">
-        <form onSubmit={handleSubmit} className="space-y-5">
-        {error && (
-          <div className="text-red-700 bg-red-100 p-2 rounded">{error}</div>
-        )}
-        {success && (
-          <div className="text-green-700 bg-green-100 p-2 rounded">{success}</div>
-        )}
+                  <div>
+                    <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Last name</label>
+                    <input
+                      name="lastName"
+                      value={form.lastName}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                    />
+                  </div>
+                </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-          <label className="block text-sm font-medium mb-1">First name</label>
-          <input
-            name="firstName"
-            value={form.firstName}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          />
-          </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Email</label>
+                  <input
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-700 dark:text-gray-400"
+                    type="email"
+                    disabled
+                  />
+                </div>
 
-          <div>
-          <label className="block text-sm font-medium mb-1">Last name</label>
-          <input
-            name="lastName"
-            value={form.lastName}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          />
-          </div>
-        </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Phone number</label>
+                  <input
+                    name="phoneNumber"
+                    value={form.phoneNumber}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                  />
+                </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full border rounded p-2 "
-          type="email"
-          disabled
-          />
-        </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Location</label>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      name="location"
+                      value={(form as any).location ?? ""}
+                      onChange={handleChange}
+                      placeholder="City, State or coordinates"
+                      className="flex-1 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-300 transition"
+                    />
+                    <div className="shrink-0">
+                      <DetectLocation />
+                    </div>
+                  </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Phone number</label>
-          <input
-          name="phoneNumber"
-          value={form.phoneNumber}
-          onChange={handleChange}
-          className="w-full border rounded p-2"
-          />
-        </div>
+                  {(form as any).location ? (
+                    <div className="text-xs text-gray-400 mt-2">Current: {(form as any).location}</div>
+                  ) : null}
+                </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Location</label>
-          <div className="flex gap-2 items-center">
-            <input
-              name="location"
-              value={(form as any).location ?? ""}
-              onChange={handleChange}
-              placeholder="City, State or coordinates"
-              className="flex-1 border rounded p-2"
-            />
-      <DetectLocation/>
+                <div className="flex items-center gap-3">
+                    <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="inline-flex items-center px-4 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-semibold transition disabled:opacity-60"
+                  >
+                    {isSubmitting ? "Saving..." : "Save changes"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => router.back()}
+                    className="inline-flex items-center px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800/40 transition"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </section>
           </div>
 
-          {(form as any).location ? (
-            <div className="text-xs text-gray-500 mt-2">Current: {(form as any).location}</div>
-          ) : null}
+          <div className="flex-1 md:w-2/3 dark:bg-gray-800 bg-white">
+            <div className="w-full h-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 bg-white dark:bg-gray-800">
+              <CompletedOr form={form} />
+            </div>
+          </div>
         </div>
-
-        <div className="flex items-center gap-3">
-          <button
-          type="submit"
-          disabled={isSubmitting}
-          className="btn-primary"
-          >
-          {isSubmitting ? "Saving..." : "Save changes"}
-          </button>
-
-          <button
-          type="button"
-          onClick={() => router.back()}
-          className="btn-secondary"
-          >
-          Cancel
-          </button>
-        </div>
-        </form>
-      </section>
       </div>
     </div>
   );
