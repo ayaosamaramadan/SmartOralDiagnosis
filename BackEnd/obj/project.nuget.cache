@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZmF7sJ/f7pY=",
+  "dgSpecHash": "R7y866DjBn8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+  "projectFilePath": "D:\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\os\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\os\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
