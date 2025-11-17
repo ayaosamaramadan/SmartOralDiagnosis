@@ -20,6 +20,8 @@ namespace MedicalManagement.API.DTOs
 
         public string? PhoneNumber { get; set; }
         public string Role { get; set; } = "Patient"; // Patient, Doctor, Admin
+        [Required]
+        public string? DateOfBirth { get; set; }
     }
 
     public class LoginRequest

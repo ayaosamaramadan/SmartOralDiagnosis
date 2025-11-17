@@ -17,6 +17,7 @@ interface User {
   role: string;
   phoneNumber?: string | null;
   photo?: string | null;
+  dateOfBirth?: string | null;
 }
 
 interface AuthContextType {
@@ -34,6 +35,7 @@ interface RegisterData {
   lastName: string;
   phoneNumber: string;
   role: string;
+  dateOfBirth: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

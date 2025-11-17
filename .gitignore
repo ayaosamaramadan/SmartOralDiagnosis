@@ -3,7 +3,7 @@ node_modules/
 
 /BackEnd/bin/
 /BackEnd/obj/
-/BackEnd/
+
 BackEnd/OralDatabase.db
 BackEnd/OralDatabase.db-shm
 BackEnd/OralDatabase.db-wal
@@ -36,3 +36,11 @@ BackEnd/obj/Debug/net8.0/MedicalManagement.API.pdb
 BackEnd/obj/Debug/net8.0/MedicalManagement.API.sourcelink.json
 BackEnd/obj/Debug/net8.0/ref/MedicalManagement.API.dll
 BackEnd/obj/Debug/net8.0/refint/MedicalManagement.API.dll
+BackEnd/OralDatabase.db
+BackEnd/OralDatabase.db-shm
+BackEnd/OralDatabase.db-wal
+BackEnd/Controllers/AuthController.cs
+BackEnd/DTOs/AuthDtos.cs
+BackEnd/Models/ProfilePhotoDocument.cs
+BackEnd/obj/Debug/net8.0/MedicalManagement.API.AssemblyInfo.cs
+BackEnd/obj/Debug/net8.0/MedicalManagement.API.AssemblyInfoInputs.cache

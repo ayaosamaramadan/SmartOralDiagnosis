@@ -61,6 +61,7 @@ export default function Register() {
     if (!formData.lastName) newErrors.lastName = "Last name is required";
     if (!formData.phoneNumber)
       newErrors.phoneNumber = "Phone number is required";
+    if (!formData.dateOfBirth) newErrors.dateOfBirth = "Birth date is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -83,6 +84,7 @@ export default function Register() {
         lastName: formData.lastName,
         phoneNumber: formData.phoneNumber,
         role: formData.role,
+        dateOfBirth: formData.dateOfBirth,
       });
 
       toast.success("Registration successful");

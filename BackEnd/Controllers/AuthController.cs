@@ -41,6 +41,7 @@ namespace MedicalManagement.API.Controllers
                 FirstName = req.FirstName,
                 LastName = req.LastName,
                 PhoneNumber = req.PhoneNumber,
+                DateOfBirth = req.DateOfBirth,
                 Role = Enum.TryParse<UserRole>(req.Role, true, out var r) ? r : UserRole.Patient,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
