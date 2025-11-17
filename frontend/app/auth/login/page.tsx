@@ -177,7 +177,7 @@ function LoginForm() {
           href="/auth/register"
           className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
             >
-          Don't have an account? Register here
+          Don&apos;t have an account? Register here
             </Link>
           </div>
         
