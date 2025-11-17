@@ -4,10 +4,10 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "../contexts/AuthContext";
 import Navigation from "../components/Navigation";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "next-themes"
-import ReduxProvider from "../components/ReduxProvider";
-
+import ClientProviders from "../components/ClientProviders";
 import Chatbot from "@/components/Chatbot";
+
+
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
@@ -25,19 +25,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} bg-[#f7f7f7] dark:bg-black text-gray-800 dark:text-gray-100 transition-colors duration-200`}>
-           <ThemeProvider attribute="class">
-        <ReduxProvider>
-          <AuthProvider>
-        <div className="min-h-screen mt-4 w-full">
-          <Navigation />
-          <main className="min-h-screen container mx-auto px-4">{children}</main>
-          <Chatbot />
-          <Footer />
-        </div>
-        <Toaster position="bottom-left" />
-          </AuthProvider>
-        </ReduxProvider>
-        </ThemeProvider>
+        {/* Inline script to initialize theme class on <html> before React hydration.
+            This prevents hydration mismatches where the client adds `class`/`style`
+            attributes to the documentElement that weren't present in the server HTML. */}
+        <script dangerouslySetInnerHTML={{ __html: `(() => {
+          try {
+            const theme = localStorage.getItem('theme');
+            if (theme) {
+              document.documentElement.classList.add(theme);
+              // ensure color-scheme is set so browser rendering matches theme
+              document.documentElement.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
+            }
+          } catch (e) {}
+        })();` }} />
+
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );

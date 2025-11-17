@@ -1,0 +1,6 @@
+{
+  "name": "Medical Management Frontend (Dev)",
+  "description": "Dev manifest to satisfy Chrome DevTools lookup in development",
+  "start_url": "/",
+  "scope": "/"
+}

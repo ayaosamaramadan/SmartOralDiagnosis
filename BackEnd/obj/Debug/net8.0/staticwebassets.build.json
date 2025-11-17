@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "im5muEJoyOgKudU33BJPduQsmt6+WlpiUGyyxViHOP0=",
+  "Hash": "UObpN0AibaYN7T+ctGRiEaD6CrgVMy3NdaBW5V0UiQk=",
   "Source": "MedicalManagement.API",
   "BasePath": "_content/MedicalManagement.API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "MedicalManagement.API\\wwwroot",
       "Source": "MedicalManagement.API",
-      "ContentRoot": "D:\\SmartOralDiagnosis\\BackEnd\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\",
       "BasePath": "_content/MedicalManagement.API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\SmartOralDiagnosis\\BackEnd\\wwwroot\\index.html",
+      "Identity": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\index.html",
       "SourceId": "MedicalManagement.API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\SmartOralDiagnosis\\BackEnd\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\",
       "BasePath": "_content/MedicalManagement.API",
       "RelativePath": "index.html",
       "AssetKind": "All",

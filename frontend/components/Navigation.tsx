@@ -25,7 +25,9 @@ export default function Navigation() {
      { href: "/profile", label: "Profile" },
     ];
 
-    const role = user.role;
+    // Accept multiple possible names/values for role and normalize to lowercase
+    const rawRole = (user as any).role ?? (user as any).Role ?? (user as any).userRole ?? "";
+    const role = typeof rawRole === "string" ? rawRole.toLowerCase() : "";
 
     switch (role) {
       case "patient":
