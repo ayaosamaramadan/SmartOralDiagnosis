@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import { patientService, doctorService } from "@/services/api";
+import { patientService, doctorService, uploadService } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { FaRegFilePdf } from "react-icons/fa6";
 
@@ -30,6 +30,8 @@ const Edit = () => {
   const isSubmitting = useAppSelector((s: any) => s.profile.isSubmitting);
   const error = useAppSelector((s: any) => s.profile.error);
   const success = useAppSelector((s: any) => s.profile.success);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
  
 
@@ -98,6 +100,67 @@ const Edit = () => {
       toast.error(err?.message ?? "Failed to save field.");
     } finally {
       dispatch(setProfileIsSubmitting(false));
+    }
+  };
+
+  const handlePhotoButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const persistPhotoUpdate = async (photoUrl: string) => {
+    if (!user) return photoUrl;
+
+    const payload: any = { photo: photoUrl };
+    dispatch(setProfileIsSubmitting(true));
+
+    try {
+      let updated: any = null;
+      const role = String(user.role ?? "").toLowerCase();
+      if (role === "patient") {
+        updated = await patientService.update(user.id, payload);
+      } else {
+        updated = await doctorService.update(user.id, payload);
+      }
+
+      const storedPhoto = updated?.photo ?? photoUrl;
+      const toStore = {
+        ...user,
+        photo: storedPhoto,
+      };
+      localStorage.setItem("user", JSON.stringify(toStore));
+      router.refresh();
+      return storedPhoto;
+    } finally {
+      dispatch(setProfileIsSubmitting(false));
+    }
+  };
+
+  const handlePhotoSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const toastId = toast.loading("Uploading photo...");
+    setIsUploadingPhoto(true);
+    const previousPhoto = form.photo;
+
+    try {
+      const uploadResult = await uploadService.uploadProfilePhoto(file, user?.id);
+      const newPhotoUrl = uploadResult?.photoUrl ?? uploadResult?.filePath;
+      if (!newPhotoUrl) {
+        throw new Error("Upload did not return a photo URL.");
+      }
+
+      dispatch(updateField({ name: "photo", value: newPhotoUrl }));
+      const persisted = await persistPhotoUpdate(newPhotoUrl);
+      if (persisted) {
+        dispatch(updateField({ name: "photo", value: persisted }));
+      }
+      toast.success("Profile photo updated.", { id: toastId });
+    } catch (err: any) {
+      dispatch(updateField({ name: "photo", value: previousPhoto ?? "" }));
+      toast.error(err?.message ?? "Failed to upload photo.", { id: toastId });
+    } finally {
+      setIsUploadingPhoto(false);
+      e.target.value = "";
     }
   };
 
@@ -198,10 +261,20 @@ const Edit = () => {
                   </div>
 
                   <div className="mt-5 flex gap-2 w-full">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      onChange={handlePhotoSelected}
+                      className="hidden"
+                    />
                     <button
-                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition-shadow shadow-sm"
+                      type="button"
+                      onClick={handlePhotoButtonClick}
+                      disabled={isUploadingPhoto}
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition-shadow shadow-sm disabled:opacity-60"
                     >
-                      Upload new photo
+                      {isUploadingPhoto ? "Uploading..." : "Upload new photo"}
                     </button>    
                  { String(user?.role ?? "").toLowerCase() === "doctor" && (
                     <button
@@ -309,7 +382,7 @@ const Edit = () => {
                 <div className="flex items-center gap-3">
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isUploadingPhoto}
                     className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold transition disabled:opacity-60"
                   >
                     {isSubmitting ? "Saving..." : "Save changes"}

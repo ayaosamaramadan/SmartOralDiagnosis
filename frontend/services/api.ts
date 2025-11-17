@@ -3,12 +3,12 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 // Helper function to get auth headers
-const getAuthHeaders = () => {
+const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = localStorage.getItem("token");
   return {
-    "Content-Type": "application/json",
+    ...(contentType ? { "Content-Type": contentType } : {}),
     ...(token && { Authorization: `Bearer ${token}` }),
-  };
+  } as Record<string, string>;
 };
 
 // Helper function to handle API responses
@@ -338,6 +338,25 @@ export const adminService = {
         headers: getAuthHeaders(),
       }
     );
+    return handleResponse(response);
+  },
+};
+
+// Upload Services
+export const uploadService = {
+  uploadProfilePhoto: async (file: File, userId?: string) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    if (userId) {
+      formData.append("userId", userId);
+    }
+
+    const response = await fetch(`${API_BASE_URL}/uploads/profile-photo`, {
+      method: "POST",
+      headers: getAuthHeaders(null),
+      body: formData,
+    });
+
     return handleResponse(response);
   },
 };
