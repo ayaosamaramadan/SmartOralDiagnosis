@@ -26,26 +26,102 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       _form['location'] = location;
     });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Location detected')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Location detected')));
   }
 
   void _onSave() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      // TODO: call backend API to save profile
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile saved (local demo)')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile saved (local demo)')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+
+      // ============================
+      //        🔥 DRAWER 🔥
+      //   (نفس بتاع الهوم بيدج)
+      // ============================
+      drawer: Drawer(
+        child: Container(
+          color: isDark ? Colors.black : Colors.white,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: isDark
+                        ? [Colors.blueGrey.shade900, Colors.black]
+                        : [Colors.blue.shade300, Colors.blue.shade700],
+                  ),
+                ),
+                child: const Text(
+                  "My App",
+                  style: TextStyle(color: Colors.white, fontSize: 26),
+                ),
+              ),
+
+              ListTile(
+                leading: Icon(Icons.home, color: isDark ? Colors.white : Colors.black),
+                title: Text("Home", style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                onTap: () => Navigator.pushNamed(context, '/'),
+              ),
+
+              ListTile(
+                leading: Icon(Icons.medical_services,
+                    color: isDark ? Colors.white : Colors.black),
+                title: Text("Diseases & Conditions",
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                onTap: () => Navigator.pushNamed(context, '/Alldiseasea'),
+              ),
+
+              ListTile(
+                leading: Icon(Icons.info_outline,
+                    color: isDark ? Colors.white : Colors.black),
+                title: Text("About Us",
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                onTap: () {},
+              ),
+
+              const Divider(),
+
+              ListTile(
+                leading: Icon(Icons.mail_outline,
+                    color: isDark ? Colors.white : Colors.black),
+                title: Text("Contact Us",
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                onTap: () {},
+              ),
+
+              ListTile(
+                leading: Icon(Icons.login,
+                    color: isDark ? Colors.white : Colors.black),
+                title: Text("Login",
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                onTap: () => Navigator.pushNamed(context, '/login'),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // ============================
+      //           شاشة Edit Profile
+      // ============================
       appBar: AppBar(
         title: const Text('Edit Profile'),
         actions: [
           IconButton(onPressed: _onSave, icon: const Icon(Icons.save)),
         ],
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Center(
@@ -57,7 +133,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    const Text('Profile',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold)),
                     Row(children: [
                       Langu(onChanged: (c) => debugPrint('lang $c selected')),
                       const SizedBox(width: 8),
@@ -78,43 +156,54 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               Expanded(
                                 child: TextFormField(
                                   initialValue: _form['firstName'],
-                                  decoration: const InputDecoration(labelText: 'First name'),
-                                  onSaved: (v) => _form['firstName'] = v ?? '',
+                                  decoration:
+                                      const InputDecoration(labelText: 'First name'),
+                                  onSaved: (v) =>
+                                      _form['firstName'] = v ?? '',
                                 ),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: TextFormField(
                                   initialValue: _form['lastName'],
-                                  decoration: const InputDecoration(labelText: 'Last name'),
-                                  onSaved: (v) => _form['lastName'] = v ?? '',
+                                  decoration:
+                                      const InputDecoration(labelText: 'Last name'),
+                                  onSaved: (v) =>
+                                      _form['lastName'] = v ?? '',
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 12),
+
                           TextFormField(
                             initialValue: _form['email'],
-                            decoration: const InputDecoration(labelText: 'Email'),
+                            decoration:
+                                const InputDecoration(labelText: 'Email'),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (v) => _form['email'] = v ?? '',
                           ),
                           const SizedBox(height: 12),
+
                           TextFormField(
                             initialValue: _form['password'],
-                            decoration: const InputDecoration(labelText: 'Password'),
+                            decoration:
+                                const InputDecoration(labelText: 'Password'),
                             obscureText: true,
                             onSaved: (v) => _form['password'] = v ?? '',
                           ),
                           const SizedBox(height: 12),
+
                           Row(
                             children: [
                               Expanded(
                                 child: TextFormField(
                                   initialValue: _form['phoneNumber'],
-                                  decoration: const InputDecoration(labelText: 'Phone'),
+                                  decoration:
+                                      const InputDecoration(labelText: 'Phone'),
                                   keyboardType: TextInputType.phone,
-                                  onSaved: (v) => _form['phoneNumber'] = v ?? '',
+                                  onSaved: (v) =>
+                                      _form['phoneNumber'] = v ?? '',
                                 ),
                               ),
                               const SizedBox(width: 12),
@@ -122,9 +211,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ],
                           ),
                           const SizedBox(height: 12),
+
                           TextFormField(
                             initialValue: _form['location'],
-                            decoration: const InputDecoration(labelText: 'Location'),
+                            decoration:
+                                const InputDecoration(labelText: 'Location'),
                             onSaved: (v) => _form['location'] = v ?? '',
                           ),
                         ],
@@ -133,19 +224,56 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                CompletedOr(form: _form),
+
+                ElevatedButton.icon(
+                  onPressed: () => _showCompletionPrompt(),
+                  icon: const Icon(Icons.info_outline),
+                  label: const Text('Profile completeness'),
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14)),
+                ),
                 const SizedBox(height: 16),
+
                 ElevatedButton.icon(
                   onPressed: _onSave,
                   icon: const Icon(Icons.save_outlined),
                   label: const Text('Save Profile'),
-                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14)),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  void _showCompletionPrompt() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.45,
+          minChildSize: 0.25,
+          maxChildSize: 0.95,
+          expand: false,
+          builder: (context, scrollController) => Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: SingleChildScrollView(
+              controller: scrollController,
+              child: CompletedOr(form: _form),
+            ),
+          ),
+        );
+      },
     );
   }
 }

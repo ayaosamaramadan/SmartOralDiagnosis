@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -20,15 +19,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _birthdateController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  
+
   String _selectedType = 'patient';
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
   bool _isLoading = false;
-  // - Android emulator: use http://10.0.2.2:5000 (or the port Kestrel uses)
-  // - iOS simulator / macOS: use http://localhost:5000
-  // - Physical device: use your machine IP (http://192.168.x.y:5000)
-  static const String _backendBaseUrl = 'http://10.0.2.2:5000';
 
+  static const String _backendBaseUrl = 'http://10.0.2.2:5000';
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
@@ -46,6 +42,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final gradientColors = isDark
+        ? [appColors.gradientStart, appColors.gradientMiddle, appColors.gradientEnd]
+        : [Colors.blue.shade200, Colors.blue.shade400, Colors.blue.shade700];
+
+    final inputFillColor = isDark ? Colors.white.withOpacity(0.13) : Colors.white.withOpacity(0.8);
+    final iconColor = isDark ? cs.primary : Colors.blue.shade900;
+    final buttonColor = isDark ? cs.primary : Colors.blue.shade900;
+    final buttonTextColor = Colors.white;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
@@ -53,21 +61,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () =>{
-            Navigator.pop(context),
-            Navigator.pushNamed(context, '/login')
-          }
+          icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.blue.shade900),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/login');
+          },
         ),
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Sign Up',
           style: TextStyle(
-            color: Colors.white,
+            color: isDark ? Colors.white : Colors.blue.shade900,
             fontSize: 26,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
-            shadows: [
+            shadows: const [
               Shadow(
                 color: Colors.black38,
                 offset: Offset(1, 2),
@@ -82,28 +90,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              appColors.gradientStart,
-              appColors.gradientMiddle,
-              appColors.gradientEnd,
-            ],
+            colors: gradientColors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: const [0.0, 0.5, 0.8],
           ),
         ),
         child: SingleChildScrollView(
-          child: Container(
-          
+          child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 90),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 bool isLargeScreen = constraints.maxWidth > 1024;
-                
+
                 if (isLargeScreen) {
                   return Row(
                     children: [
-                  
                       Expanded(
                         flex: 1,
                         child: Center(
@@ -131,15 +132,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      // Right side - Form
-                      Expanded(
-                        flex: 2,
-                        child: _buildForm(),
-                      ),
+                      Expanded(flex: 2, child: _buildForm(inputFillColor, iconColor, buttonColor, buttonTextColor)),
                     ],
                   );
                 } else {
-                  return _buildForm();
+                  return _buildForm(inputFillColor, iconColor, buttonColor, buttonTextColor);
                 }
               },
             ),
@@ -149,16 +146,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(Color inputFillColor, Color iconColor, Color buttonColor, Color buttonTextColor) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Card(
-          color: Colors.white.withAlpha((0.07 * 255).round()),
+          color: inputFillColor.withOpacity(0.5),
           elevation: 12,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 50.0),
             child: Column(
@@ -168,201 +163,137 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Center(
                   child: Text(
                     'Create Account',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
                 const SizedBox(height: 24),
-            
+
                 // Account Type Dropdown
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withAlpha((0.13 * 255).round()),
+                    color: inputFillColor,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(color: Colors.white30),
                   ),
                   child: DropdownButtonFormField<String>(
                     value: _selectedType,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.category, color: Color.fromARGB(255, 175, 199, 250)),
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.category, color: iconColor),
                       labelText: 'Account Type',
-                      labelStyle: TextStyle(color: Colors.white70),
+                      labelStyle: TextStyle(color: iconColor.withOpacity(0.7)),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                     ),
-                    dropdownColor: const Color(0xFF233A6A),
-                    style: const TextStyle(color: Colors.white),
-                    items: _userTypes.map((String type) {
+                    dropdownColor: buttonColor,
+                    style: TextStyle(color: Colors.white),
+                    items: _userTypes.map((type) {
                       return DropdownMenuItem<String>(
                         value: type,
-                        child: Text(
-                          type.toUpperCase(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                        child: Text(type.toUpperCase(), style: const TextStyle(color: Colors.white)),
                       );
                     }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedType = newValue!;
-                      });
-                    },
+                    onChanged: (val) => setState(() => _selectedType = val!),
                   ),
                 ),
                 const SizedBox(height: 18),
 
-                // Name Fields Row
                 Row(
                   children: [
                     Expanded(
-                      child: _buildTextField(_firstNameController, 'First Name', TextInputType.text, false, Icons.person),
+                      child: _buildTextField(_firstNameController, 'First Name', TextInputType.text, false, Icons.person, inputFillColor, iconColor),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: _buildTextField(_lastNameController, 'Last Name', TextInputType.text, false, Icons.person_outline),
+                      child: _buildTextField(_lastNameController, 'Last Name', TextInputType.text, false, Icons.person_outline, inputFillColor, iconColor),
                     ),
                   ],
                 ),
                 const SizedBox(height: 18),
 
-                // Email
-                _buildTextField(_emailController, 'Email', TextInputType.emailAddress, false, Icons.email),
+                _buildTextField(_emailController, 'Email', TextInputType.emailAddress, false, Icons.email, inputFillColor, iconColor),
                 const SizedBox(height: 18),
 
-                // Birth Date and Phone Row
                 Row(
                   children: [
-                    Expanded(
-                      child: _buildDateField(),
-                    ),
+                    Expanded(child: _buildDateField(inputFillColor, iconColor)),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildTextField(_phoneController, 'Phone', TextInputType.phone, false, Icons.phone),
-                    ),
+                    Expanded(child: _buildTextField(_phoneController, 'Phone', TextInputType.phone, false, Icons.phone, inputFillColor, iconColor)),
                   ],
                 ),
                 const SizedBox(height: 18),
 
-                // Password and Confirm Password Row
                 Row(
                   children: [
-                    Expanded(
-                      child: _buildTextField(_passwordController, 'Password', TextInputType.text, true, Icons.lock),
-                    ),
+                    Expanded(child: _buildTextField(_passwordController, 'Password', TextInputType.text, true, Icons.lock, inputFillColor, iconColor)),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildTextField(_confirmPasswordController, 'Confirm Password', TextInputType.text, true, Icons.lock_outline),
-                    ),
+                    Expanded(child: _buildTextField(_confirmPasswordController, 'Confirm Password', TextInputType.text, true, Icons.lock_outline, inputFillColor, iconColor)),
                   ],
                 ),
                 const SizedBox(height: 28),
 
-                // Submit Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 14, 74, 206),
+                      backgroundColor: buttonColor,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
                       elevation: 6,
                     ),
-                    onPressed: _isLoading ? null : () => _register(),
+                    onPressed: _isLoading ? null : _register,
                     child: _isLoading
                         ? const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                ),
-                              ),
+                              SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white))),
                               SizedBox(width: 12),
-                              Text(
-                                'Creating...',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.1,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              Text('Creating...', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 1.1, color: Colors.white)),
                             ],
                           )
-                        : const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.1,
-                            ),
-                          ),
+                        : Text('Sign Up', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 1.1, color: buttonTextColor)),
                   ),
                 ),
                 const SizedBox(height: 18),
 
-                // Sign In Link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Already have an account ? ",
-                      style: TextStyle(color: Colors.white70, fontSize: 15),
-                    ),
+                    Text("Already have an account ? ", style: TextStyle(color: iconColor.withOpacity(0.7), fontSize: 15)),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.pushNamed(context, '/login');
                       },
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Color(0xFFB3C7F9),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
+                      child: Text('Sign In', style: TextStyle(color: buttonColor, fontWeight: FontWeight.bold, fontSize: 15, decoration: TextDecoration.underline)),
                     ),
                   ],
                 ),
-          ],
-        ),
+              ],
+            ),
           ),
         ),
       ),
     );
-
   }
 
-  Widget _buildTextField(TextEditingController controller, String labelText, [TextInputType? keyboardType, bool obscureText = false, IconData? icon]) {
+  Widget _buildTextField(TextEditingController controller, String labelText, TextInputType? keyboardType, bool obscureText, IconData icon, Color fillColor, Color iconColor) {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: iconColor),
       decoration: InputDecoration(
-        prefixIcon: icon != null ? Icon(icon, color: const Color.fromARGB(255, 175, 199, 250)) : null,
+        prefixIcon: Icon(icon, color: iconColor),
         labelText: labelText,
         filled: true,
-        fillColor: Colors.white.withAlpha((0.13 * 255).round()),
-        labelStyle: const TextStyle(color: Colors.white70),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(18),
-        ),
+        fillColor: fillColor,
+        labelStyle: TextStyle(color: iconColor.withOpacity(0.7)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
       ),
     );
   }
 
-  Widget _buildDateField() {
+  Widget _buildDateField(Color fillColor, Color iconColor) {
     return TextField(
       controller: _birthdateController,
       readOnly: true,
@@ -373,12 +304,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
           builder: (context, child) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return Theme(
               data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.dark(
-                  primary: Color.fromARGB(255, 175, 199, 250),
-                  surface: Color(0xFF233A6A),
-                ),
+                colorScheme: isDark
+                    ? const ColorScheme.dark(primary: Color.fromARGB(255, 175, 199, 250), surface: Color(0xFF233A6A))
+                    : ColorScheme.light(primary: Colors.blue.shade900, surface: Colors.blue.shade200),
               ),
               child: child!,
             );
@@ -390,22 +321,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
           });
         }
       },
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: iconColor),
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.calendar_today, color: Color.fromARGB(255, 175, 199, 250)),
+        prefixIcon: Icon(Icons.calendar_today, color: iconColor),
         labelText: 'Birthdate',
         filled: true,
-        fillColor: Colors.white.withAlpha((0.13 * 255).round()),
-        labelStyle: const TextStyle(color: Colors.white70),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(18),
-        ),
+        fillColor: fillColor,
+        labelStyle: TextStyle(color: iconColor.withOpacity(0.7)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
       ),
     );
   }
 
   Future<void> _register() async {
-    // Basic client-side validation
     final firstName = _firstNameController.text.trim();
     final lastName = _lastNameController.text.trim();
     final email = _emailController.text.trim();
@@ -417,16 +345,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill required fields')));
       return;
     }
-
     if (password != confirm) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
-
+    setState(() => _isLoading = true);
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
 
@@ -438,25 +362,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'firstName': firstName,
         'lastName': lastName,
         'phoneNumber': phone,
-        'role': _selectedType[0].toUpperCase() + _selectedType.substring(1) // 'patient' -> 'Patient'
+        'role': _selectedType[0].toUpperCase() + _selectedType.substring(1),
       };
 
-      final res = await http.post(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(payload),
-      );
+      final res = await http.post(uri, headers: {'Content-Type': 'application/json'}, body: jsonEncode(payload));
 
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body) as Map<String, dynamic>;
         final token = data['token'] as String?;
-        if (token != null && token.isNotEmpty) {
-          await _secureStorage.write(key: 'jwt', value: token);
-        }
+        if (token != null && token.isNotEmpty) await _secureStorage.write(key: 'jwt', value: token);
 
         if (!mounted) return;
         messenger.showSnackBar(const SnackBar(content: Text('Account created successfully')));
-        // navigate to login or home
         navigator.pushReplacementNamed('/login');
       } else {
         String message = 'Registration failed';
@@ -464,18 +381,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           final body = jsonDecode(res.body);
           if (body is Map && body['message'] != null) message = body['message'].toString();
         } catch (_) {}
-
         if (mounted) messenger.showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (e) {
       if (mounted) messenger.showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 }
-        

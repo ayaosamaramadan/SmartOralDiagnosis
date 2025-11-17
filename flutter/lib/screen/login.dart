@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -15,9 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   static const String apiBase = 'http://10.0.2.2:5000';
-
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
@@ -30,6 +27,22 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // اختيار gradient و text colors بناءً على الثيم
+    final gradientColors = isDark
+        ? [appColors.gradientStart, appColors.gradientMiddle, appColors.gradientEnd]
+        : [Colors.blue.shade200, Colors.blue.shade400, Colors.blue.shade700];
+
+    final inputFillColor = isDark
+        ? Colors.white.withOpacity(0.13)
+        : Colors.white.withOpacity(0.8);
+
+    final iconColor = isDark ? cs.primary : Colors.blue.shade900;
+    final buttonColor = isDark ? cs.primary : Colors.blue.shade900;
+    final buttonTextColor = Colors.white;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
@@ -37,21 +50,21 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.blue.shade900),
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Sign In',
           style: TextStyle(
-            color: Colors.white,
+            color: isDark ? Colors.white : Colors.blue.shade900,
             fontSize: 26,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
             shadows: [
               Shadow(
                 color: Colors.black38,
-                offset: Offset(1, 2),
+                offset: const Offset(1, 2),
                 blurRadius: 4,
               ),
             ],
@@ -59,30 +72,25 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  appColors.gradientStart,
-                  appColors.gradientMiddle,
-                  appColors.gradientEnd,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: const [0.0, 0.5, 0.8],
-              ),
-            ),
-            child: Center(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Card(
-                color: Colors.white.withAlpha((0.07 * 255).round()),
+                color: isDark
+                    ? Colors.white.withAlpha((0.07 * 255).round())
+                    : Colors.white.withAlpha((0.9 * 255).round()),
                 elevation: 12,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
                   child: Column(
@@ -98,55 +106,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 28),
-                      TextField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.email, color: Color.fromARGB(255, 175, 199, 250)),
-                          labelText: 'Email',
-                          filled: true,
-                          fillColor: Colors.white.withAlpha((0.13 * 255).round()),
-                          labelStyle: const TextStyle(color: Colors.white70),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                        ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                      _buildTextField(_emailController, 'Email', Icons.email, inputFillColor, iconColor),
                       const SizedBox(height: 18),
-                      TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.lock, color: Color.fromARGB(255, 175, 199, 250)),
-                          labelText: 'Password',
-                          filled: true,
-                          fillColor: Colors.white.withAlpha((0.13 * 255).round()),
-                          labelStyle: const TextStyle(color: Colors.white70),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                        ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                      _buildTextField(_passwordController, 'Password', Icons.lock, inputFillColor, iconColor,
+                          obscureText: true),
                       const SizedBox(height: 28),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF233A6A),
+                            backgroundColor: buttonColor,
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22),
-                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
                             elevation: 6,
                           ),
-                          onPressed: () async {
-                            await _login();
-                          },
-                          child: const Text(
+                          onPressed: _login,
+                          child: Text(
                             'Sign In',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: buttonTextColor,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.1,
@@ -158,19 +136,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             "Don't have an account ? ",
-                            style: TextStyle(color: Colors.white70, fontSize: 15),
+                            style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 15),
                           ),
                           TextButton(
                             onPressed: () {
-                                Navigator.pop(context);
+                              Navigator.pop(context);
                               Navigator.pushNamed(context, '/signup');
                             },
-                            child: const Text(
+                            child: Text(
                               'Sign Up',
                               style: TextStyle(
-                                color: Color(0xFFB3C7F9),
+                                color: isDark ? Colors.lightBlue.shade200 : Colors.blue.shade900,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
                                 decoration: TextDecoration.underline,
@@ -190,16 +168,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _buildTextField(TextEditingController controller, String label, IconData icon, Color fillColor,
+      Color iconColor, {bool obscureText = false}) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: iconColor),
+        labelText: label,
+        filled: true,
+        fillColor: fillColor,
+        labelStyle: TextStyle(color: iconColor.withOpacity(0.7)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+      ),
+      style: TextStyle(color: iconColor),
+    );
+  }
+
   Future<void> _login() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
-
     if (email.isEmpty || password.isEmpty) {
       _showMessage('Please enter your email and password.');
       return;
     }
 
-  final uri = Uri.parse('$apiBase/api/Auth/login');
+    final uri = Uri.parse('$apiBase/api/Auth/login');
 
     try {
       if (mounted) {
@@ -221,10 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (resp.statusCode == 200) {
         final body = jsonDecode(resp.body);
         final token = body['token'];
-        if (token != null) {
-          await _secureStorage.write(key: 'jwt', value: token.toString());
-        }
-
+        if (token != null) await _secureStorage.write(key: 'jwt', value: token.toString());
         if (!mounted) return;
         _showMessage('Logged in successfully', success: true);
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
