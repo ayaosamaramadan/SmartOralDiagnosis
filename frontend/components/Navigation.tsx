@@ -13,10 +13,6 @@ export default function Navigation() {
   
   const router = useRouter();
 
-  console.log('User in Navigation:', user);
-
-
-
   const getNavItems = () => {
     if (!user) return [];
 
@@ -25,8 +21,7 @@ export default function Navigation() {
      { href: "/profile", label: "Profile" },
     ];
 
-    // Accept multiple possible names/values for role and normalize to lowercase
-    const rawRole = (user as any).role ?? (user as any).Role ?? (user as any).userRole ?? "";
+  const rawRole = (user as any).role ?? (user as any).Role ?? (user as any).userRole ?? "";
     const role = typeof rawRole === "string" ? rawRole.toLowerCase() : "";
 
     switch (role) {

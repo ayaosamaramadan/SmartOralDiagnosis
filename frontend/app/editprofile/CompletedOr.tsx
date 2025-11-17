@@ -11,7 +11,7 @@ const CompletedOr = ({ form }: { form: any }) => {
 
     return (<>  <aside>
         <div className="w-full mt-6 rounded-md p-4 text-left shadow-sm">
-            <div className=" items-center justify-between mb-7">
+        <div className=" items-center justify-between mb-7">
                 <div className="mb-7">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Complete your profile</h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400">Fill the sections below to complete your profile</p>
@@ -47,7 +47,7 @@ const CompletedOr = ({ form }: { form: any }) => {
                     { num: "3", title: "Email", desc: "Primary contact email", check: () => !!(form.email?.trim()) },
                     { num: "4", title: "Location", desc: "City, state or coordinates", check: () => !!((form as any).location?.toString().trim()) },
                     { num: "5", title: "Phone", desc: "Mobile or contact number", check: () => !!(form.phoneNumber?.trim()) },
-                    String(user?.role ?? "").toLowerCase() !== "doctor" ? { num: "6", title: "Medical License", desc: "Your medical license number", check: () => !!(form.medicalLicense?.trim()) } : undefined,];
+                    String(user?.role ?? "").toLowerCase() == "doctor" ? { num: "6", title: "Medical License", desc: "Your medical license number", check: () => !!(form.medicalLicense?.trim()) } : undefined,];
                   return items.filter((i): i is Item => Boolean(i)).map((item) => {
                     const ok = item.check();
                     return (

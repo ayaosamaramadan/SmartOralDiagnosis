@@ -51,8 +51,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // normalize stored user role to lowercase to make role checks consistent
         const parsed = JSON.parse(userData);
         if (parsed && typeof parsed === "object") {
-          if (parsed.role && typeof parsed.role === "string") parsed.role = parsed.role.toLowerCase();
-          else if (parsed.Role && typeof parsed.Role === "string") parsed.role = parsed.Role.toLowerCase();
+          // convert numeric enum values or string values to canonical lowercase strings
+          const mapRoleValue = (val: any) => {
+            if (val == null) return undefined;
+            if (typeof val === "string") return val.toLowerCase();
+            if (typeof val === "number") {
+              // backend UserRole enum: 0 = Patient, 1 = Doctor, 2 = Admin
+              switch (val) {
+                case 0:
+                  return "patient";
+                case 1:
+                  return "doctor";
+                case 2:
+                  return "admin";
+                default:
+                  return undefined;
+              }
+            }
+            return undefined;
+          };
+
+          const normalized = mapRoleValue(parsed.role ?? parsed.Role ?? parsed.userRole);
+          if (normalized) parsed.role = normalized;
+          // remove alternative keys to keep a single canonical `role` field
+          if (parsed.Role) delete parsed.Role;
+          if (parsed.userRole) delete parsed.userRole;
         }
         setUser(parsed);
       } catch (error) {
@@ -76,7 +99,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const u: any = {};
           if (payload.sub) u.id = payload.sub;
           if (payload.email) u.email = payload.email;
-          if (payload.role) u.role = typeof payload.role === 'string' ? payload.role.toLowerCase() : payload.role;
+          if (payload.role) {
+            // payload.role may be string or numeric enum
+            if (typeof payload.role === 'string') u.role = payload.role.toLowerCase();
+            else if (typeof payload.role === 'number') {
+              u.role = payload.role === 0 ? 'patient' : payload.role === 1 ? 'doctor' : payload.role === 2 ? 'admin' : undefined;
+            }
+          }
           // store minimal user locally so UI can render
           localStorage.setItem('user', JSON.stringify(u));
           setUser(u as User);
@@ -95,8 +124,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // normalize role to lowercase before storing
         const u = response.user;
         if (u) {
-          if (u.role && typeof u.role === "string") u.role = u.role.toLowerCase();
-          else if (u.Role && typeof u.Role === "string") { u.role = u.Role.toLowerCase(); delete u.Role; }
+          // convert numeric enum to string role if necessary
+          if (typeof u.role === 'number') {
+            u.role = u.role === 0 ? 'patient' : u.role === 1 ? 'doctor' : u.role === 2 ? 'admin' : u.role;
+          } else if (u.Role && typeof u.Role === 'number') {
+            u.role = u.Role === 0 ? 'patient' : u.Role === 1 ? 'doctor' : u.Role === 2 ? 'admin' : u.Role;
+            delete u.Role;
+          } else if (u.role && typeof u.role === "string") {
+            u.role = u.role.toLowerCase();
+          } else if (u.Role && typeof u.Role === "string") {
+            u.role = u.Role.toLowerCase(); delete u.Role;
+          }
+          // ensure only canonical `role` key exists
+          if (u.userRole) { u.role = (String(u.userRole) || u.role).toLowerCase(); delete u.userRole; }
         }
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(u));
@@ -117,8 +157,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (response.token && response.user) {
         const u = response.user;
         if (u) {
-          if (u.role && typeof u.role === "string") u.role = u.role.toLowerCase();
-          else if (u.Role && typeof u.Role === "string") { u.role = u.Role.toLowerCase(); delete u.Role; }
+          if (typeof u.role === 'number') {
+            u.role = u.role === 0 ? 'patient' : u.role === 1 ? 'doctor' : u.role === 2 ? 'admin' : u.role;
+          } else if (u.Role && typeof u.Role === 'number') {
+            u.role = u.Role === 0 ? 'patient' : u.Role === 1 ? 'doctor' : u.Role === 2 ? 'admin' : u.Role;
+            delete u.Role;
+          } else if (u.role && typeof u.role === "string") {
+            u.role = u.role.toLowerCase();
+          } else if (u.Role && typeof u.Role === "string") {
+            u.role = u.Role.toLowerCase(); delete u.Role;
+          }
+          if (u.userRole) { u.role = (String(u.userRole) || u.role).toLowerCase(); delete u.userRole; }
         }
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(u));
