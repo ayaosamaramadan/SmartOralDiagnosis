@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { useAppDispatch } from "../../store/hooks";
 import { MdLocationSearching } from "react-icons/md";
 import { updateField, setIsSubmitting } from "../../store/slices/profileSlice";
+import { patientService, doctorService } from "@/services/api";
+import { useAuth } from "../../contexts/AuthContext";
 
 const detectLocationString = (options?: PositionOptions): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -47,6 +49,7 @@ const detectLocationString = (options?: PositionOptions): Promise<string> => {
 
 export default function DetectLocation() {
   const dispatch = useAppDispatch();
+  const { user } = useAuth();
 
   const handleDetect = async () => {
   
@@ -59,6 +62,30 @@ export default function DetectLocation() {
       dispatch(setIsSubmitting(true));
       const locationStr = await detectLocationString({ timeout: 10000 });
       dispatch(updateField({ name: "location", value: locationStr }));
+
+      // automatically persist detected location to backend if user is signed in
+      try {
+        if (user && user.id) {
+          const payload: any = { location: locationStr?.trim() || null };
+          let updated: any = null;
+          if (user.role && String(user.role).toLowerCase() === "patient") {
+            updated = await patientService.update(user.id, payload);
+          } else {
+            updated = await doctorService.update(user.id, payload);
+          }
+          if (updated) {
+            const toStore = {
+              ...user,
+              location: updated.location ?? payload.location,
+            };
+            localStorage.setItem("user", JSON.stringify(toStore));
+            dispatch(updateField({ name: "location", value: (toStore as any).location }));
+          }
+        }
+      } catch (err) {
+        // don't block UX if saving fails; still show detected message
+        console.warn("Failed saving detected location:", err);
+      }
 
       toast.success("Location detected.");
     } catch (err) {

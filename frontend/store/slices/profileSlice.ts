@@ -7,6 +7,7 @@ interface ProfileForm {
   phoneNumber: string;
   photo: string;
   location?: string;
+  dateOfBirth?: string;
 }
 
 interface ProfileState {
@@ -23,6 +24,7 @@ const initialState: ProfileState = {
     phoneNumber: "",
     photo: "",
     location: "",
+    dateOfBirth: "",
   },
   isSubmitting: false,
 

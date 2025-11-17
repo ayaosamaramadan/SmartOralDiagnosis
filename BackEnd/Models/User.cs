@@ -48,6 +48,9 @@ namespace MedicalManagement.API.Models
         [MaxLength(1000)]
         public string? Photo { get; set; }
 
+        // User location (city, coordinates, etc.)
+        public string? Location { get; set; }
+
    
 
         // Doctor-specific

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using MedicalManagement.API.Data;
 using MedicalManagement.API.Models;
+using MedicalManagement.API.DTOs;
 
 namespace MedicalManagement.API.Controllers
 {
@@ -49,16 +50,21 @@ namespace MedicalManagement.API.Controllers
 
         // PUT: api/doctors/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, User dto)
+        public async Task<IActionResult> Update(string id, UpdateUserDto dto)
         {
-            if (id != dto.Id) return BadRequest();
-            var exists = await _db.Users.AnyAsync(d => d.Id == id && d.Role == UserRole.Doctor);
-            if (!exists) return NotFound();
-            dto.Role = UserRole.Doctor; // ensure role
-            dto.UpdatedAt = DateTime.UtcNow;
-            _db.Entry(dto).State = EntityState.Modified;
+            var doctor = await _db.Users.FirstOrDefaultAsync(u => u.Id == id && u.Role == UserRole.Doctor);
+            if (doctor == null) return NotFound();
+
+            if (dto.FirstName != null) doctor.FirstName = dto.FirstName;
+            if (dto.LastName != null) doctor.LastName = dto.LastName;
+            if (dto.PhoneNumber != null) doctor.PhoneNumber = dto.PhoneNumber;
+            if (dto.Photo != null) doctor.Photo = dto.Photo;
+            if (dto.Location != null) doctor.Location = dto.Location;
+            if (dto.DateOfBirth != null) doctor.DateOfBirth = dto.DateOfBirth;
+
+            doctor.UpdatedAt = DateTime.UtcNow;
             await _db.SaveChangesAsync();
-            return NoContent();
+            return Ok(doctor);
         }
 
         // DELETE: api/doctors/{id}

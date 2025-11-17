@@ -64,7 +64,8 @@ namespace MedicalManagement.API.Controllers
                     { "email", user.Email },
                     { "pass", user.PasswordHash },
                     { "phone", user.PhoneNumber ?? string.Empty },
-                    { "photo", user.Photo ?? string.Empty }
+                    { "photo", user.Photo ?? string.Empty },
+                    {"location", user.Location ?? string.Empty }
                 };
                 await coll.InsertOneAsync(doc);
                 _logger?.LogInformation("Inserted user {Email} into MongoDB 'users' collection.", user.Email);

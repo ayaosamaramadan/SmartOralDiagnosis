@@ -42,7 +42,8 @@ const Edit = () => {
           email: (user as any).email ?? "",
           phoneNumber: (user as any).phoneNumber ?? "",
           photo: (user as any).photo ?? "",
-          location: (user as any).location ?? "",
+            location: (user as any).location ?? "",
+            dateOfBirth: (user as any).dateOfBirth ?? (user as any).DateOfBirth ?? (user as any).birthday ?? "",
         })
       );
     }
@@ -54,6 +55,50 @@ const Edit = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     dispatch(updateField({ name: name as any, value }));
+  };
+
+  const handleFieldBlur = async (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.currentTarget as HTMLInputElement;
+    if (!user) return;
+    // simple client-side validation for email
+    if (name === "email") {
+      const emailRe = /\S+@\S+\.\S+/;
+      if (value && !emailRe.test(value)) {
+        toast.error("Please enter a valid email address.");
+        return;
+      }
+    }
+    try {
+      // avoid unnecessary requests
+      if ((user as any)[name] === value) return;
+      dispatch(setProfileIsSubmitting(true));
+
+      const payload: any = { [name]: value?.trim() || null };
+      let updated: any = null;
+      if (user.role && String(user.role).toLowerCase() === "patient") {
+        updated = await patientService.update(user.id, payload);
+      } else {
+        updated = await doctorService.update(user.id, payload);
+      }
+
+      if (updated) {
+        const toStore = {
+          ...user,
+          [name]: updated[name] ?? payload[name],
+        };
+        localStorage.setItem("user", JSON.stringify(toStore));
+        // keep redux form in sync with saved value
+        dispatch(updateField({ name: name as any, value: (toStore as any)[name] }));
+        toast.success("Saved");
+        router.refresh();
+      } else {
+        toast.success("Saved");
+      }
+    } catch (err: any) {
+      toast.error(err?.message ?? "Failed to save field.");
+    } finally {
+      dispatch(setProfileIsSubmitting(false));
+    }
   };
 
   const validate = () => {
@@ -81,7 +126,8 @@ const Edit = () => {
         firstName: form.firstName.trim(),
         lastName: form.lastName.trim(),
         phoneNumber: form.phoneNumber?.trim() || null,
-        photo: form.photo?.trim() || null,
+          photo: form.photo?.trim() || null,
+          dateOfBirth: form.dateOfBirth?.trim() || null,
       };
 
       let updated: any = null;
@@ -186,6 +232,7 @@ const Edit = () => {
                       name="firstName"
                       value={form.firstName}
                       onChange={handleChange}
+                      onBlur={handleFieldBlur}
                       className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                     />
                   </div>
@@ -196,6 +243,7 @@ const Edit = () => {
                       name="lastName"
                       value={form.lastName}
                       onChange={handleChange}
+                      onBlur={handleFieldBlur}
                       className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                     />
                   </div>
@@ -204,21 +252,35 @@ const Edit = () => {
                 <div>
                   <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Email</label>
                   <input
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-700 dark:text-gray-400"
-                    type="email"
-                    disabled
-                  />
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      onBlur={handleFieldBlur}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-700 dark:text-gray-400"
+                      type="email"
+                    />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Phone number</label>
+                    <input
+                      name="phoneNumber"
+                      value={form.phoneNumber}
+                      onChange={handleChange}
+                      onBlur={handleFieldBlur}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
+                    />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-200">Birth date</label>
                   <input
-                    name="phoneNumber"
-                    value={form.phoneNumber}
+                    name="dateOfBirth"
+                    type="date"
+                    value={(form as any).dateOfBirth ?? ""}
                     onChange={handleChange}
+                    onBlur={handleFieldBlur}
+                    max={new Date().toISOString().split("T")[0]}
                     className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                   />
                 </div>
@@ -230,6 +292,7 @@ const Edit = () => {
                       name="location"
                       value={(form as any).location ?? ""}
                       onChange={handleChange}
+                      onBlur={handleFieldBlur}
                       placeholder="City, State or coordinates"
                       className="flex-1 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
                     />

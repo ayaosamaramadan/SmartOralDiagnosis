@@ -8,8 +8,6 @@ using MedicalManagement.API.Services;
 using MedicalManagement.API.Middleware;
 using Microsoft.OpenApi.Models;
 
-// Load .env if present so sensitive settings (like Mongo connection strings) can be provided from a .env file.
-// The loader looks for a `.env` file in the BackEnd folder and then repository root.
 void LoadDotEnv()
 {
     try
@@ -49,15 +47,14 @@ void LoadDotEnv()
     }
     catch
     {
-        // Fail silently; missing .env is not fatal.
-    }
+          }
 }
 
 LoadDotEnv();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -83,7 +80,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// CORS (allow frontend during development)
+
 var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000";
 builder.Services.AddCors(options =>
 {
@@ -96,20 +93,18 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Database
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=OralDatabase.db";
-// Choose provider: if the connection string points to a .db file use SQLite, otherwise use SQL Server
 if (connectionString.IndexOf(".db", StringComparison.OrdinalIgnoreCase) >= 0)
 {
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
 }
 else
 {
-    // SQL Server (for connection strings like: Server=...;Initial Catalog=...;...)
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 }
 
-// JWT Authentication
+
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var key = jwtSection.GetValue<string>("Key") ?? "dev-key";
 var issuer = jwtSection.GetValue<string>("Issuer");
@@ -133,15 +128,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// App services
+
 builder.Services.AddScoped<JwtService>();
-// Register MongoDB service for DI so controllers can use it
+
 builder.Services.AddSingleton<MongoDbService>();
-// Register Mongo service for DI so controllers can write/read from MongoDB
+
 
 var app = builder.Build();
 
-// --- ADD: check MongoDB connectivity on startup ---
+
 using (var scope = app.Services.CreateScope())
 {
     var mongo = scope.ServiceProvider.GetService<MongoDbService>();
@@ -162,23 +157,19 @@ using (var scope = app.Services.CreateScope())
         app.Logger.LogWarning("MongoDbService is not registered. Skipping MongoDB connectivity check.");
     }
 }
-// --- end add ---
 
-// Configure
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Global exception handler
+
 app.UseGlobalExceptionHandler();
 
-// Only enable HTTPS redirection when an HTTPS endpoint is configured.
-// This avoids the runtime warning: "Failed to determine the https port for redirect." during development.
+
 var httpsConfigured = false;
 
-// Check common places where an HTTPS URL/port can be set
 var httpsEnv = Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT") ??
                Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
 if (!string.IsNullOrWhiteSpace(httpsEnv))
@@ -186,7 +177,7 @@ if (!string.IsNullOrWhiteSpace(httpsEnv))
     httpsConfigured = httpsEnv.Contains("https://") || httpsEnv.Any(char.IsDigit);
 }
 
-// Check Kestrel endpoint config (if present)
+
 var kestrelHttps = builder.Configuration["Kestrel:Endpoints:Https:Url"]; 
 if (!string.IsNullOrWhiteSpace(kestrelHttps)) httpsConfigured = true;
 
@@ -199,9 +190,7 @@ else
     app.Logger.LogInformation("Skipping HTTPS redirection: no HTTPS endpoint detected. To enable, set 'ASPNETCORE_HTTPS_PORT' or configure Kestrel endpoints in appsettings.json or launchSettings.json.");
 }
 
-// Serve static files (for uploads)
-// Only call UseStaticFiles if the web root folder actually exists to avoid noisy warnings
-// when the project doesn't include a `wwwroot` folder.
+
 if (Directory.Exists(app.Environment.WebRootPath))
 {
     app.UseStaticFiles();
@@ -217,16 +206,49 @@ app.UseAuthorization();
 app.MapControllers();
 app.UseCors("AllowFrontend");
 
-// Seed data (development)
-// Ensure database is created (no migrations required in dev) and seed sample data
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
+
+    // Development convenience: ensure `Location` column exists on Users table for SQLite
+    // This helps when adding properties to the model without running EF migrations.
+    try
+    {
+        var conn = db.Database.GetDbConnection();
+        conn.Open();
+        using (var cmd = conn.CreateCommand())
+        {
+            cmd.CommandText = "PRAGMA table_info('Users');";
+            using var reader = cmd.ExecuteReader();
+            var hasLocation = false;
+            while (reader.Read())
+            {
+                // second column is name
+                var name = reader.IsDBNull(1) ? null : reader.GetString(1);
+                if (string.Equals(name, "Location", StringComparison.OrdinalIgnoreCase))
+                {
+                    hasLocation = true;
+                    break;
+                }
+            }
+            if (!hasLocation)
+            {
+                using var addCmd = conn.CreateCommand();
+                addCmd.CommandText = "ALTER TABLE Users ADD COLUMN Location TEXT;";
+                addCmd.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // Non-fatal: log and continue. In production, proper migrations should be used.
+        app.Logger.LogWarning(ex, "Failed to ensure Location column on Users table");
+    }
 }
 await SeedData.EnsureSeedDataAsync(app.Services);
 
-// Check MongoDB connectivity and log the result so `dotnet run` output shows status
 try
 {
     using (var scope = app.Services.CreateScope())
