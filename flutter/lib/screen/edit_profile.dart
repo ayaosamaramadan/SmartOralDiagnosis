@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../components/edit_profile/progress_widget.dart';
 import '../components/edit_profile/completed_or.dart';
 import '../components/edit_profile/detect_location.dart';
@@ -21,20 +23,63 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     'location': '',
     'phoneNumber': '',
   };
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+  // controllers to allow updating initial values after async load
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   void _onDetectLocation(String location) {
     setState(() {
       _form['location'] = location;
+      _locationController.text = location; // populate the Location field with detected city
     });
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Location detected')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Location detected')),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    try {
+      final raw = await _storage.read(key: 'user');
+      if (raw != null && raw.isNotEmpty) {
+        final Map<String, dynamic> user = Map<String, dynamic>.from(
+          jsonDecode(raw),
+        );
+        if (!mounted) return;
+        setState(() {
+          _form['firstName'] = user['firstName'] ?? '';
+          _form['lastName'] = user['lastName'] ?? '';
+          _form['email'] = user['email'] ?? '';
+          _form['phoneNumber'] = user['phoneNumber'] ?? '';
+          _form['location'] = user['location'] ?? '';
+
+          _firstNameController.text = _form['firstName'];
+          _lastNameController.text = _form['lastName'];
+          _emailController.text = _form['email'];
+          _phoneController.text = _form['phoneNumber'];
+          _locationController.text = _form['location'];
+        });
+      }
+    } catch (_) {}
   }
 
   void _onSave() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile saved (local demo)')));
+        const SnackBar(content: Text('Profile saved (local demo)')),
+      );
     }
   }
 
@@ -43,11 +88,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-
-      // ============================
-      //        🔥 DRAWER 🔥
-      //   (نفس بتاع الهوم بيدج)
-      // ============================
       drawer: Drawer(
         child: Container(
           color: isDark ? Colors.black : Colors.white,
@@ -69,42 +109,64 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
 
               ListTile(
-                leading: Icon(Icons.home, color: isDark ? Colors.white : Colors.black),
-                title: Text("Home", style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                leading: Icon(
+                  Icons.home,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                title: Text(
+                  "Home",
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                ),
                 onTap: () => Navigator.pushNamed(context, '/'),
               ),
 
               ListTile(
-                leading: Icon(Icons.medical_services,
-                    color: isDark ? Colors.white : Colors.black),
-                title: Text("Diseases & Conditions",
-                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                leading: Icon(
+                  Icons.medical_services,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                title: Text(
+                  "Diseases & Conditions",
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                ),
                 onTap: () => Navigator.pushNamed(context, '/Alldiseasea'),
               ),
 
               ListTile(
-                leading: Icon(Icons.info_outline,
-                    color: isDark ? Colors.white : Colors.black),
-                title: Text("About Us",
-                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                leading: Icon(
+                  Icons.info_outline,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                title: Text(
+                  "About Us",
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                ),
                 onTap: () {},
               ),
 
               const Divider(),
 
               ListTile(
-                leading: Icon(Icons.mail_outline,
-                    color: isDark ? Colors.white : Colors.black),
-                title: Text("Contact Us",
-                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                leading: Icon(
+                  Icons.mail_outline,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                title: Text(
+                  "Contact Us",
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                ),
                 onTap: () {},
               ),
 
               ListTile(
-                leading: Icon(Icons.login,
-                    color: isDark ? Colors.white : Colors.black),
-                title: Text("Login",
-                    style: TextStyle(color: isDark ? Colors.white : Colors.black)),
+                leading: Icon(
+                  Icons.login,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                title: Text(
+                  "Login",
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                ),
                 onTap: () => Navigator.pushNamed(context, '/login'),
               ),
             ],
@@ -117,9 +179,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       // ============================
       appBar: AppBar(
         title: const Text('Edit Profile'),
-        actions: [
-          IconButton(onPressed: _onSave, icon: const Icon(Icons.save)),
-        ],
+        actions: [IconButton(onPressed: _onSave, icon: const Icon(Icons.save))],
       ),
 
       body: SingleChildScrollView(
@@ -133,13 +193,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Profile',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold)),
-                    Row(children: [
-                      Langu(onChanged: (c) => debugPrint('lang $c selected')),
-                      const SizedBox(width: 8),
-                    ])
+                    const Text(
+                      'Profile',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Langu(onChanged: (c) => debugPrint('lang $c selected')),
+                        const SizedBox(width: 8),
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -155,21 +221,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               Expanded(
                                 child: TextFormField(
-                                  initialValue: _form['firstName'],
-                                  decoration:
-                                      const InputDecoration(labelText: 'First name'),
-                                  onSaved: (v) =>
-                                      _form['firstName'] = v ?? '',
+                                  controller: _firstNameController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'First name',
+                                  ),
+                                  onSaved: (v) => _form['firstName'] =
+                                      _firstNameController.text,
                                 ),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: TextFormField(
-                                  initialValue: _form['lastName'],
-                                  decoration:
-                                      const InputDecoration(labelText: 'Last name'),
-                                  onSaved: (v) =>
-                                      _form['lastName'] = v ?? '',
+                                  controller: _lastNameController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Last name',
+                                  ),
+                                  onSaved: (v) => _form['lastName'] =
+                                      _lastNameController.text,
                                 ),
                               ),
                             ],
@@ -177,20 +245,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           const SizedBox(height: 12),
 
                           TextFormField(
-                            initialValue: _form['email'],
-                            decoration:
-                                const InputDecoration(labelText: 'Email'),
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                            ),
                             keyboardType: TextInputType.emailAddress,
-                            onSaved: (v) => _form['email'] = v ?? '',
+                            onSaved: (v) =>
+                                _form['email'] = _emailController.text,
                           ),
                           const SizedBox(height: 12),
 
                           TextFormField(
-                            initialValue: _form['password'],
-                            decoration:
-                                const InputDecoration(labelText: 'Password'),
+                            controller: _passwordController,
+                            initialValue: null,
+                            decoration: const InputDecoration(
+                              labelText: 'Password',
+                            ),
                             obscureText: true,
-                            onSaved: (v) => _form['password'] = v ?? '',
+                            onSaved: (v) =>
+                                _form['password'] = _passwordController.text,
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _phoneController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Phone',
+                                  ),
+                                  keyboardType: TextInputType.phone,
+                                  onSaved: (v) => _form['phoneNumber'] =
+                                      _phoneController.text,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 12),
 
@@ -198,25 +287,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               Expanded(
                                 child: TextFormField(
-                                  initialValue: _form['phoneNumber'],
-                                  decoration:
-                                      const InputDecoration(labelText: 'Phone'),
-                                  keyboardType: TextInputType.phone,
-                                  onSaved: (v) =>
-                                      _form['phoneNumber'] = v ?? '',
+                                  controller: _locationController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Location',
+                                  ),
+                                  onSaved: (v) => _form['location'] =
+                                      _locationController.text,
                                 ),
                               ),
                               const SizedBox(width: 12),
                               DetectLocation(onDetected: _onDetectLocation),
                             ],
-                          ),
-                          const SizedBox(height: 12),
-
-                          TextFormField(
-                            initialValue: _form['location'],
-                            decoration:
-                                const InputDecoration(labelText: 'Location'),
-                            onSaved: (v) => _form['location'] = v ?? '',
                           ),
                         ],
                       ),
@@ -230,7 +311,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   icon: const Icon(Icons.info_outline),
                   label: const Text('Profile completeness'),
                   style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
                 ),
                 const SizedBox(height: 16),
 
@@ -239,7 +321,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   icon: const Icon(Icons.save_outlined),
                   label: const Text('Save Profile'),
                   style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
                 ),
               ],
             ),
@@ -263,8 +346,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           builder: (context, scrollController) => Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
             ),
             padding: const EdgeInsets.all(12),
             child: SingleChildScrollView(
@@ -275,5 +359,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _phoneController.dispose();
+    _locationController.dispose();
+    super.dispose();
   }
 }
