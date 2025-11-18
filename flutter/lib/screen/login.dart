@@ -216,6 +216,13 @@ class _LoginScreenState extends State<LoginScreen> {
         final body = jsonDecode(resp.body);
         final token = body['token'];
         if (token != null) await _secureStorage.write(key: 'jwt', value: token.toString());
+        // Store the returned user object so other screens (home/profile) can read it
+        try {
+          final user = body['user'];
+          if (user != null) {
+            await _secureStorage.write(key: 'user', value: jsonEncode(user));
+          }
+        } catch (_) {}
         if (!mounted) return;
         _showMessage('Logged in successfully', success: true);
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);

@@ -1,10 +1,45 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../components/theme_toggle.dart';
 import '../theme/app_theme.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  String? _profilePhotoUrl;
+  String? _userName;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserFromStorage();
+  }
+
+  Future<void> _loadUserFromStorage() async {
+    try {
+      final raw = await _storage.read(key: 'user');
+      if (raw != null && raw.isNotEmpty) {
+        final Map<String, dynamic> user = Map<String, dynamic>.from(jsonDecode(raw));
+        setState(() {
+          // The backend may store Photo as full URL or relative path
+          _profilePhotoUrl = user['photo'] as String?;
+          final first = user['firstName'] as String? ?? '';
+          final last = user['lastName'] as String? ?? '';
+          _userName = (first + ' ' + last).trim();
+        });
+      }
+    } catch (e) {
+      // ignore parsing errors
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +112,43 @@ class HomeScreen extends StatelessWidget {
               color: cs.primary,
             ),
           ),
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu, color: cs.onSurface, size: 32),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/editProfile');
+                },
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundImage: _profilePhotoUrl != null && _profilePhotoUrl!.isNotEmpty
+                      ? NetworkImage(_profilePhotoUrl!) as ImageProvider
+                      : null,
+                  backgroundColor: cs.primary.withOpacity(0.1),
+                  child: _profilePhotoUrl == null || _profilePhotoUrl!.isEmpty
+                      ? Icon(Icons.person, color: cs.primary, size: 18)
+                      : null,
+                ),
+              ),
+              const SizedBox(width: 8),
+              IconButton(
+                icon: Icon(Icons.logout, color: cs.onSurface, size: 26),
+                tooltip: 'Logout',
+                onPressed: () async {
+                  await _storage.delete(key: 'jwt');
+                  await _storage.delete(key: 'user');
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                },
+              ),
+              Builder(
+                builder: (context) => IconButton(
+                  icon: Icon(Icons.menu, color: cs.onSurface, size: 32),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -106,19 +171,43 @@ Drawer _buildSideMenu(BuildContext context, ColorScheme cs) {
                   : [cs.primary.withOpacity(0.8), cs.primary],
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "OralScan",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: cs.onPrimary,
+              CircleAvatar(
+                radius: 30,
+                backgroundColor: cs.onPrimary.withOpacity(0.2),
+                backgroundImage: _profilePhotoUrl != null && _profilePhotoUrl!.isNotEmpty
+                    ? NetworkImage(_profilePhotoUrl!) as ImageProvider
+                    : null,
+                child: _profilePhotoUrl == null || _profilePhotoUrl!.isEmpty
+                    ? Text(
+                        _userName != null && _userName!.isNotEmpty
+                            ? _userName!.split(' ').map((s) => s.isNotEmpty ? s[0] : '').take(2).join()
+                            : 'OS',
+                        style: TextStyle(color: cs.onPrimary, fontWeight: FontWeight.bold),
+                      )
+                    : null,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _userName != null && _userName!.isNotEmpty ? _userName! : 'OralScan',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: cs.onPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const ThemeToggle(),
+                  ],
                 ),
               ),
-              const SizedBox(height: 12),
-              const ThemeToggle(),
             ],
           ),
         ),
@@ -140,6 +229,15 @@ Drawer _buildSideMenu(BuildContext context, ColorScheme cs) {
           title: Text("Contact Us", style: TextStyle(color: cs.onSurface)),
           onTap: () {
             Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.logout, color: cs.primary),
+          title: Text("Logout", style: TextStyle(color: cs.onSurface)),
+          onTap: () async {
+            Navigator.pop(context);
+            await _storage.delete(key: 'jwt');
+            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
           },
         ),
         ListTile(
