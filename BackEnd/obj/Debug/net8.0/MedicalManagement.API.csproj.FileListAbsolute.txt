@@ -845,3 +845,10 @@ D:\SmartOralDiagnosis\backend\obj\Debug\net8.0\refint\MedicalManagement.API.dll
 D:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.pdb
 D:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.genruntimeconfig.cache
 D:\SmartOralDiagnosis\backend\obj\Debug\net8.0\ref\MedicalManagement.API.dll
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\DnsClient.dll
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\SharpCompress.dll
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\Snappier.dll
+C:\Dell\SmartOralDiagnosis\backend\bin\Debug\net8.0\ZstdSharp.dll

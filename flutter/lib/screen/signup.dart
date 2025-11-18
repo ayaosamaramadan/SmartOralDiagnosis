@@ -340,6 +340,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final password = _passwordController.text;
     final confirm = _confirmPasswordController.text;
     final phone = _phoneController.text.trim();
+    final birthdateText = _birthdateController.text.trim();
 
     if (firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill required fields')));
@@ -350,12 +351,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
+    if (birthdateText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select your birthdate')));
+      return;
+    }
+
     setState(() => _isLoading = true);
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
 
     try {
       final uri = Uri.parse('$_backendBaseUrl/api/auth/register');
+      // Convert birthdate (dd/MM/yyyy) -> ISO yyyy-MM-dd expected by backend
+      String dobIso;
+      try {
+        final parts = birthdateText.split('/');
+        final day = int.parse(parts[0]);
+        final month = int.parse(parts[1]);
+        final year = int.parse(parts[2]);
+        final dob = DateTime(year, month, day);
+        dobIso = "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}";
+      } catch (e) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid birthdate format')));
+        return;
+      }
+
       final payload = {
         'email': email,
         'password': password,
@@ -363,6 +383,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'lastName': lastName,
         'phoneNumber': phone,
         'role': _selectedType[0].toUpperCase() + _selectedType.substring(1),
+        'dateOfBirth': dobIso,
       };
 
       final res = await http.post(uri, headers: {'Content-Type': 'application/json'}, body: jsonEncode(payload));

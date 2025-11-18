@@ -71,20 +71,23 @@ namespace MedicalManagement.API.Controllers
             await file.CopyToAsync(memoryStream);
             var photoBytes = memoryStream.ToArray();
 
-            var document = new ProfilePhotoDocument
+            // create a BSON document to store in MongoDB (store binary as base64 string to avoid relying on a typed model)
+            var id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+            var bson = new MongoDB.Bson.BsonDocument
             {
-                UserId = userId,
-                FileName = Path.GetFileName(file.FileName),
-                ContentType = file.ContentType,
-                Length = photoBytes.LongLength,
-                Data = photoBytes,
-                UploadedAt = DateTime.UtcNow
+                { "_id", id },
+                { "userId", userId ?? string.Empty },
+                { "fileName", Path.GetFileName(file.FileName) },
+                { "contentType", file.ContentType ?? "application/octet-stream" },
+                { "length", photoBytes.LongLength },
+                { "data", Convert.ToBase64String(photoBytes) },
+                { "uploadedAt", DateTime.UtcNow }
             };
 
             try
             {
-                var collection = _mongo.GetCollection<ProfilePhotoDocument>("profile_photos");
-                await collection.InsertOneAsync(document);
+                var collection = _mongo.GetCollection<MongoDB.Bson.BsonDocument>("profile_photos");
+                await collection.InsertOneAsync(bson);
             }
             catch (InvalidOperationException ex)
             {
@@ -98,20 +101,21 @@ namespace MedicalManagement.API.Controllers
             }
 
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var photoUrl = $"{baseUrl}/api/uploads/profile-photo/{document.Id}";
-            return Ok(new { photoId = document.Id, photoUrl });
+            var photoUrl = $"{baseUrl}/api/uploads/profile-photo/{id}";
+            return Ok(new { photoId = id, photoUrl });
         }
 
         [HttpGet("profile-photo/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetProfilePhoto(string id)
         {
-            ProfilePhotoDocument? document;
+            MongoDB.Bson.BsonDocument? document;
 
             try
             {
-                var collection = _mongo.GetCollection<ProfilePhotoDocument>("profile_photos");
-                document = await collection.Find(d => d.Id == id).FirstOrDefaultAsync();
+                var collection = _mongo.GetCollection<MongoDB.Bson.BsonDocument>("profile_photos");
+                var filter = Builders<MongoDB.Bson.BsonDocument>.Filter.Eq("_id", id);
+                document = await collection.Find(filter).FirstOrDefaultAsync();
             }
             catch (InvalidOperationException ex)
             {
@@ -124,7 +128,21 @@ namespace MedicalManagement.API.Controllers
                 return NotFound();
             }
 
-            return File(document.Data, document.ContentType ?? "application/octet-stream", document.FileName);
+            try
+            {
+                var base64 = document.Contains("data") ? document.GetValue("data").AsString : null;
+                var contentType = document.Contains("contentType") ? document.GetValue("contentType").AsString : "application/octet-stream";
+                var fileName = document.Contains("fileName") ? document.GetValue("fileName").AsString : "file";
+
+                if (string.IsNullOrEmpty(base64)) return NotFound();
+                var bytes = Convert.FromBase64String(base64);
+                return File(bytes, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to read profile photo document from MongoDB.");
+                return StatusCode(500, "Failed to read profile photo.");
+            }
         }
     }
 }
