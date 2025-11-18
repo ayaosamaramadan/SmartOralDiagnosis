@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import Link from "next/link";
 import Image from "next/image";
 import HomePic from "../assets/home.jpg";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import { CgArrowLongRight } from "react-icons/cg";
 import { IoMdCall } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import LoadingScreen from "../components/LoadingScreen";
+import Form from "@/components/Contact";
 
 export default function Home() {
   const router = useRouter();
@@ -162,7 +162,7 @@ export default function Home() {
                 
                   }
                     type="button"
-                    className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold shadow-lg hover:scale-[1.03] active:scale-95 transition-transform duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300 dark:focus-visible:ring-indigo-700"
+                    className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold shadow-lg hover:scale-[1.03] active:scale-95 transition-transform duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 dark:focus-visible:ring-indigo-700"
                   >
                     <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white/20 text-white">
                       <FaLocationDot className="text-lg" />
@@ -176,22 +176,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-6 md:px-10 py-10 md:py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">Write a Review</h2>
-          <form className="max-w-2xl mx-auto space-y-4">
-        <div className="flex gap-4">
-          <input type="text" placeholder="First Name" className="w-1/2 p-3 rounded border border-gray-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 text-gray-900 placeholder-gray-500" />
-          <input type="text" placeholder="Last Name" className="w-1/2 p-3 rounded border border-gray-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 text-gray-900 placeholder-gray-500" />
-        </div>
-        <div className="flex gap-4">
-          <input type="email" placeholder="Email" className="w-1/2 p-3 rounded border border-gray-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 text-gray-900 placeholder-gray-500" />
-          <input type="text" placeholder="Phone Number" className="w-1/2 p-3 rounded border border-gray-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 text-gray-900 placeholder-gray-500" />
-        </div>
-        <input type="text" placeholder="Subject" className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 text-gray-900 placeholder-gray-500" />
-        <textarea placeholder="Tell us something..." rows={4} className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 text-gray-900 placeholder-gray-500"></textarea>
-        <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg w-full text-white transition-colors duration-150">Send</button>
-          </form>
-        </section>
+   <Form/>
+
+   
       </div>
     </>
   );

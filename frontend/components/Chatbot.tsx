@@ -101,7 +101,6 @@ const Chatbot = () => {
                                 <input
                                     name="message"
                                     aria-label="Message"
-                                    autoFocus
                                     className="flex-1 rounded-md bg-transparent text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-150 px-2 py-1"
                                     placeholder="Write your message here..."
                                 />
