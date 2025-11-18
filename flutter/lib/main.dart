@@ -65,7 +65,6 @@ class MyApp extends StatelessWidget {
              '/Alldisease': (context) => const AlldiseaseScreen(),
             '/map': (context) => const ClinicMap(), 
              '/editProfile': (context) => const EditProfileScreen(),
-
             '/diseaseDetail': (context) {
               final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
               return DiseaseDetailScreen(item: args);
