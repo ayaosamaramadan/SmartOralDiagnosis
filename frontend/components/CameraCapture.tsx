@@ -1,52 +1,80 @@
 "use client";
-import React, { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
+import { Camera } from "lucide-react";
 
+interface CameraCaptureProps {
+  onImageCapture: (imageData: string) => void;
+}
 
+export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
+  const webcamRef = useRef<Webcam | null>(null);
+  const [active, setActive] = useState(false);
 
-const videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "user"
-};
+  const start = () => setActive(true);
 
-export default function CameraCapture() {
- const webcamRef = useRef<any>(null);
-  const [screenshot, setScreenshot] = useState<string | null>(null);
-
-  const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current?.getScreenshot?.();
-    if (imageSrc) {
-      setScreenshot(imageSrc);
-      console.log('Captured image length:', imageSrc.length);
-    } else {
-      console.warn('Unable to capture image — webcamRef not ready or permission denied');
+ const stop = () => {
+    try {
+      const inst: any = webcamRef.current;
+      const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
+      if (stream && typeof stream.getTracks === "function") {
+        stream.getTracks().forEach(t => t.stop());
+      }
+    } catch (err) {
+    
     }
-  }, [webcamRef]);
+    setActive(false);
+  };
+
+  const capture = () => {
+    try {
+      const inst: any = webcamRef.current;
+      const imageSrc = inst?.getScreenshot?.();
+      if (imageSrc) onImageCapture(imageSrc);
+    } catch (err) {
+      console.error("capture error", err);
+    }
+    stop();
+  };
+
+  useEffect(() => {
+    return () => {
+      try {
+        const inst: any = webcamRef.current;
+        const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
+        if (stream && typeof stream.getTracks === "function") stream.getTracks().forEach(t => t.stop());
+      } catch { 
+        
+      }
+    };
+  }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-      <Webcam
-        audio={false}
-        height={360}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        width={640}
-        videoConstraints={videoConstraints}
-        forceScreenshotSourceSize={true}
-      />
-
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button onClick={capture} style={{ padding: '8px 12px' }}>Capture photo</button>
-        <button onClick={() => setScreenshot(null)} style={{ padding: '8px 12px' }}>Clear</button>
-      </div>
-
-      {screenshot && (
-        <div style={{ textAlign: 'center' }}>
-          <p>Preview</p>
-          <img src={screenshot} alt="captured" style={{ maxWidth: 320, borderRadius: 8 }} />
+    <div>
+      {active ? (
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 text-center">
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={{ facingMode: "environment" }}
+            className="max-w-full h-auto rounded-lg"
+          />
+          <div className="mt-4 space-x-4">
+            <button onClick={capture} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Capture Photo</button>
+            <button onClick={stop} className="px-6 py-2 bg-gray-200 dark:bg-gray-600 rounded-lg">Stop</button>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 p-8 text-center hover:border-blue-400 transition-colors">
+          <Camera className="mx-auto h-12 w-12 text-gray-500 dark:text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Take Photo</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">Use your camera to capture an image</p>
+          <button onClick={start} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start Camera</button>
         </div>
       )}
     </div>
   );
 }
+    
+    

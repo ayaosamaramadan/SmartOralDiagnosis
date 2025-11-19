@@ -163,6 +163,7 @@ const Form = () => {
               Name
             </label>
             <input
+            
               id="name"
               type="text"
               placeholder="Name"
@@ -185,6 +186,7 @@ const Form = () => {
               Email
             </label>
             <input
+            
               id="email"
               type="email"
               placeholder="Email"
