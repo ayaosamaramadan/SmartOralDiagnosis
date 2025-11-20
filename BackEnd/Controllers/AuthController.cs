@@ -28,6 +28,7 @@ namespace MedicalManagement.API.Controllers
         }
 
         [HttpPost("register")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] MedicalManagement.API.DTOs.RegisterRequest req)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -82,6 +83,7 @@ namespace MedicalManagement.API.Controllers
         }
 
         [HttpPost("login")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] MedicalManagement.API.DTOs.LoginRequest req)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

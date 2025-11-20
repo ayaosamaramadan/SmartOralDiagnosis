@@ -7,6 +7,7 @@ using MedicalManagement.API.Data;
 using MedicalManagement.API.Services;
 using MedicalManagement.API.Middleware;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 void LoadDotEnv()
 {
@@ -118,14 +119,35 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateIssuer = !string.IsNullOrEmpty(issuer),
+        ValidateAudience = !string.IsNullOrEmpty(audience),
         ValidateIssuerSigningKey = true,
         ValidIssuer = issuer,
         ValidAudience = audience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
-        RoleClaimType = "role"
+        RoleClaimType = "role",
+        ValidateLifetime = true
     };
+});
+
+// Require authentication globally by default. Controllers/actions marked with
+// [AllowAnonymous] will opt out (e.g. register/login).
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+
+    // Helpful role-based policies for controllers/actions to use.
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("DoctorOrAdmin", policy => policy.RequireRole("Doctor", "Admin"));
+});
+
+// Register an HttpClient for contacting the external AI inference service.
+var aiBaseUrl = builder.Configuration.GetValue<string>("AIService:BaseUrl") ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL");
+builder.Services.AddHttpClient("AIService", client =>
+{
+    if (!string.IsNullOrEmpty(aiBaseUrl)) client.BaseAddress = new Uri(aiBaseUrl);
 });
 
 
