@@ -1,5 +1,6 @@
 "use client";
 import { useState, Suspense } from "react";
+import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -19,6 +20,27 @@ function LoginForm() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const loginSchema = z.object({
+    email: z.string().email("Email is invalid"),
+    password: z.string().min(1, "Password is required"),
+  });
+
+  const validateWithZod = () => {
+    const parsed = loginSchema.safeParse(formData);
+    if (parsed.success) {
+      setErrors({});
+      return true;
+    }
+    const zodErrors: { [key: string]: string } = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path?.[0] as string | undefined;
+      if (key) zodErrors[key] = issue.message;
+    }
+    setErrors(zodErrors);
+    return false;
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -29,6 +51,7 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateWithZod()) return;
     setIsLoading(true);
 
     try {
@@ -102,8 +125,9 @@ function LoginForm() {
             required
             value={formData.email}
             onChange={handleInputChange}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md placeholder-gray-400 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'}`}
           />
+            {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
             </div>
           </div>
 
@@ -123,8 +147,9 @@ function LoginForm() {
             required
             value={formData.password}
             onChange={handleInputChange}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md placeholder-gray-400 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.password ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'}`}
           />
+            {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
             </div>
           </div>
 

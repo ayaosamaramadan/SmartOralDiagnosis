@@ -1,7 +1,7 @@
-
 "use client";
 
 import { useState } from "react";
+import { z } from "zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,6 +25,22 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  const registerSchema = z
+    .object({
+      role: z.enum(["patient", "doctor", "admin"]),
+      firstName: z.string().min(1, "First name is required"),
+      lastName: z.string().min(1, "Last name is required"),
+      email: z.string().email("Email is invalid"),
+      dateOfBirth: z.string().min(1, "Birth date is required"),
+      phoneNumber: z.string().min(1, "Phone number is required").regex(/^[0-9+\\-\\s()]{7,}$/, "Phone number is invalid"),
+      password: z.string().min(6, "Password must be at least 6 characters"),
+      confirmPassword: z.string().min(1, "Please confirm your password"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -41,30 +57,22 @@ export default function Register() {
     }
   };
 
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
+  const validateWithZod = () => {
+    const parsed = registerSchema.safeParse(formData);
+    if (parsed.success) {
+      setErrors({});
+      return true;
+    }
 
-    if (!formData.email) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = "Email is invalid";
-
-    if (!formData.password) newErrors.password = "Password is required";
-    else if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-
-    if (!formData.confirmPassword)
-      newErrors.confirmPassword = "Please confirm your password";
-    else if (formData.password !== formData.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
-
-    if (!formData.firstName) newErrors.firstName = "First name is required";
-    if (!formData.lastName) newErrors.lastName = "Last name is required";
-    if (!formData.phoneNumber)
-      newErrors.phoneNumber = "Phone number is required";
-    if (!formData.dateOfBirth) newErrors.dateOfBirth = "Birth date is required";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const zodErrors: { [key: string]: string } = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path?.[0] as string | undefined;
+      if (key) {
+        zodErrors[key] = issue.message;
+      }
+    }
+    setErrors(zodErrors);
+    return false;
   };
 
   const { register } = useAuth();
@@ -72,7 +80,7 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!validateWithZod()) return;
 
     setIsLoading(true);
 
