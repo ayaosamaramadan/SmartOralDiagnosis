@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { Orals } from "../../../data/Data";
+import { Oralsdata } from "../../../data/Data";
 import Image from "next/image";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
@@ -9,14 +9,14 @@ import { BsFillCalendarDateFill } from "react-icons/bs";
 
 export default function DiseasePage() {
   const { id } = useParams();
-  const oral = Orals.find((o) => o.id === Number(Array.isArray(id) ? id[0] : id));
+  const oral = Oralsdata.find((o) => o.id === Number(Array.isArray(id) ? id[0] : id));
 
   if (!oral) {
     return (
       <div className="leading-tight space-y-3 max-w-6xl mx-auto rounded-xl shadow-lg p-8 mt-8">
         <h1 className="text-2xl font-bold text-red-600">Disease not found</h1>
         <p className="text-gray-300 mt-4">Requested ID: {id}</p>
-        <p className="text-gray-300">Available IDs: {Orals.map(o => o.id).join(', ')}</p>
+        <p className="text-gray-300">Available IDs: {Oralsdata.map(o => o.id).join(', ')}</p>
       </div>
     );
   }

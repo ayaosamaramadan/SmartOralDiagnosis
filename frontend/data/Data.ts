@@ -1,4 +1,14 @@
-export const Orals = [
+export const ShortTitleMap = {
+  CaS: "CaS",
+  CoS: "Commissural Stomatitis",
+  GUM: "Gingival Condition",
+  MC: "Mucocele",
+  OC: "Oral Cancer",
+  OLP: "Oral Lichen Planus",
+  OT: "Other",
+};
+
+export const Oralsdata = [
   {
     id: 1,
     title: "Canker Sores",
@@ -258,7 +268,7 @@ export const Orals = [
   {
     id: 3,
     title: "Gingivostomatitis",
-    shortTitle: "Gum",
+    shortTitle: "GUM",
     description: "Description for Gingivostomatitis",
     img: ["/assets/GUM/GUM.jpg"],
     overview:
@@ -384,7 +394,7 @@ export const Orals = [
 
   {
     id: 5,
-    title: "Oral Thrush",
+    title: "Other",
     shortTitle: "OT",
     description: "Description for Oral Thrush",
     img: ["/assets/OT/OT.jpg"],

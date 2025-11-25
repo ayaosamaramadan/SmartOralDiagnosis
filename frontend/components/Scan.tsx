@@ -6,10 +6,114 @@ import { CheckCircle, AlertCircle, RotateCcw } from "lucide-react";
 import UploadImage from "./UploadImage";
 import CameraCapture from "./CameraCapture";
 import { aiService } from "../services/api";
+import { Oralsdata } from "data/Data";
+
+type OralDisease = (typeof Oralsdata)[number];
+
+const diagnosisRecommendations: Record<string, string[]> = {
+    CaS: [
+        "Rinse with warm salt water twice daily to soothe ulcers.",
+        "Avoid spicy or acidic foods until the sore heals.",
+    ],
+    CoS: [
+        "Start an antiviral ointment at the first tingling sensation.",
+        "Do not share personal items like lip balm during an outbreak.",
+    ],
+    GUM: [
+        "Focus on gentle brushing and flossing to control plaque.",
+        "Schedule a dental visit if sores persist more than 10 days.",
+    ],
+    OLP: [
+        "Use alcohol-free mouthwash to limit irritation.",
+        "Track trigger foods (spicy, acidic) and avoid them during flares.",
+    ],
+    OT: [
+        "Clean removable appliances daily to reduce yeast buildup.",
+        "Ask your doctor about antifungal rinse if white patches spread.",
+    ],
+    MC: [
+        "Book an urgent oral surgeon consult for biopsy and staging.",
+        "Stop tobacco and alcohol immediately to slow progression.",
+    ],
+    OC: [
+        "Seek oncologist evaluation for imaging and treatment planning.",
+        "Maintain a soft diet and hydrate; pain control is essential.",
+    ],
+};
+
+const defaultRecommendations = [
+    "Schedule a dental checkup to confirm the diagnosis.",
+    "Document symptoms with clear photos for your dentist.",
+    "Maintain excellent oral hygiene and hydrate often.",
+];
+
+const diagnosisRecommendationEntries = Object.entries(diagnosisRecommendations);
+
+const normalizeKey = (value?: string) =>
+    (value ?? "")
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+
+const findDiseaseByCode = (code?: string): OralDisease | undefined => {
+    if (!code) return undefined;
+    const normalized = code.trim().toLowerCase();
+    return Oralsdata.find((disease) => disease.shortTitle.toLowerCase() === normalized);
+};
+
+const findDiseaseByName = (name?: string): OralDisease | undefined => {
+    if (!name) return undefined;
+    const normalized = normalizeKey(name);
+    return Oralsdata.find((disease) => normalizeKey(disease.title) === normalized);
+};
+
+const matchDiseaseCandidates = (candidates: Iterable<string>, fallbackLabel?: string) => {
+    const candidateList = Array.from(
+        new Set(
+            Array.from(candidates)
+                .map((value) => value?.toString().trim())
+                .filter((value): value is string => Boolean(value))
+        )
+    );
+
+    if (fallbackLabel) candidateList.push(fallbackLabel);
+
+    for (const candidate of candidateList) {
+        const match = findDiseaseByCode(candidate);
+        if (match) return { matchedDisease: match, diagnosisCode: match.shortTitle };
+    }
+
+    for (const candidate of candidateList) {
+        const match = findDiseaseByName(candidate);
+        if (match) return { matchedDisease: match, diagnosisCode: match.shortTitle };
+    }
+
+    const fallbackCode = candidateList.find((value) => /^[a-z]{2,3}$/i.test(value ?? ""));
+    return { matchedDisease: undefined, diagnosisCode: fallbackCode?.toUpperCase() };
+};
+
+const normalizeRecommendations = (items: any[]): string[] =>
+    items
+        .flatMap((item) => {
+            if (typeof item === "string") return [item];
+            if (Array.isArray(item?.dots)) return item.dots;
+            const collected: string[] = [];
+            if (typeof item?.type === "string") collected.push(item.type);
+            if (typeof item?.title === "string") collected.push(item.title);
+            if (typeof item?.desc === "string") collected.push(item.desc);
+            if (typeof item?.text === "string") collected.push(item.text);
+            return collected.length ? collected : [JSON.stringify(item)];
+        })
+        .filter((item) => Boolean(item && item.trim?.()))
+        .map((item) => item.trim());
+
 
 interface AnalysisResult {
     confidence: number;
     diagnosis: string;
+    diagnosisCode?: string;
+    matchedDisease?: OralDisease;
     severity: "low" | "medium" | "high";
     recommendations: string[];
     areas: Array<{
@@ -35,6 +139,38 @@ export default function ScanComponent() {
             return "low";
         };
 
+        const candidateStrings = new Set<string>();
+        const pushCandidate = (value?: string) => {
+            if (typeof value === "string" && value.trim().length > 0) {
+                candidateStrings.add(value.trim());
+            }
+        };
+
+        pushCandidate(resp?.code);
+        pushCandidate(resp?.diagnosisCode);
+        pushCandidate(resp?.shortTitle);
+
+        let resolvedDiagnosis = "";
+        if (typeof resp?.diagnosis === "string") {
+            resolvedDiagnosis = resp.diagnosis;
+            pushCandidate(resp.diagnosis);
+        } else if (resp?.diagnosis && typeof resp.diagnosis === "object") {
+            if (typeof resp.diagnosis.code === "string") pushCandidate(resp.diagnosis.code);
+            if (typeof resp.diagnosis.shortTitle === "string") pushCandidate(resp.diagnosis.shortTitle);
+            const objectLabel = resp.diagnosis.label ?? resp.diagnosis.name ?? resp.diagnosis.title;
+            if (typeof objectLabel === "string") {
+                resolvedDiagnosis = objectLabel;
+                pushCandidate(objectLabel);
+            } else {
+                resolvedDiagnosis = JSON.stringify(resp.diagnosis);
+            }
+        } else if (typeof resp?.label === "string") {
+            resolvedDiagnosis = resp.label;
+            pushCandidate(resp.label);
+        } else {
+            resolvedDiagnosis = JSON.stringify(resp ?? {});
+        }
+
         // AI service may return confidence either as fraction (0.0-1.0) or percent (0-100).
         const rawConfidence = typeof resp?.confidence === "number"
             ? resp.confidence
@@ -43,22 +179,32 @@ export default function ScanComponent() {
             : 0;
 
         // Normalize to percent (0-100) — if value looks like fraction, scale it.
-        const confidence = rawConfidence <= 1 ? Math.round(rawConfidence * 100) : Math.round(rawConfidence);
+        const normalizedConfidence = rawConfidence <= 1 ? Math.round(rawConfidence * 100) : Math.round(rawConfidence);
+        const confidence = Math.min(100, Math.max(0, normalizedConfidence));
+
+        const normRecommendations = Array.isArray(resp?.recommendations)
+            ? normalizeRecommendations(resp.recommendations)
+            : Array.isArray(resp?.suggestions)
+            ? normalizeRecommendations(resp.suggestions)
+            : [];
+
+        const normAreas = Array.isArray(resp?.areas)
+            ? resp.areas
+            : Array.isArray(resp?.bboxes)
+            ? resp.bboxes
+            : [];
+
+        const { matchedDisease, diagnosisCode } = matchDiseaseCandidates(candidateStrings, resolvedDiagnosis);
+        const readableDiagnosis = matchedDisease?.title ?? resolvedDiagnosis;
 
         return {
             confidence,
-            diagnosis: resp?.diagnosis ?? resp?.label ?? JSON.stringify(resp ?? {}),
+            diagnosis: readableDiagnosis,
+            diagnosisCode,
+            matchedDisease,
             severity: coerceSeverity(resp?.severity ?? resp?.risk),
-            recommendations: Array.isArray(resp?.recommendations)
-                ? resp.recommendations
-                : Array.isArray(resp?.suggestions)
-                ? resp.suggestions
-                : [],
-            areas: Array.isArray(resp?.areas)
-                ? resp.areas
-                : Array.isArray(resp?.bboxes)
-                ? resp.bboxes
-                : []
+            recommendations: normRecommendations,
+            areas: normAreas
         };
     }, []);
 
@@ -218,6 +364,21 @@ export default function ScanComponent() {
                                                                 {analysisResult.confidence}% confidence
                                                             </span>
                                                         </div>
+                                                        <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                                            {analysisResult.matchedDisease ? (
+                                                                <>
+                                                                    Matches dataset entry
+                                                                    <span className="font-semibold"> {analysisResult.matchedDisease.title}</span>
+                                                                    {analysisResult.matchedDisease.shortTitle && (
+                                                                        <span> ({analysisResult.matchedDisease.shortTitle})</span>
+                                                                    )}
+                                                                </>
+                                                            ) : analysisResult.diagnosisCode ? (
+                                                                <>No dataset entry found for code {analysisResult.diagnosisCode}.</>
+                                                            ) : (
+                                                                <>Diagnosis code not provided by AI.</>
+                                                            )}
+                                                        </div>
                                                     </div>
 
                                                     <div className="bg-blue-50 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
@@ -225,13 +386,63 @@ export default function ScanComponent() {
                                                             <AlertCircle className="h-4 w-4 mr-2 text-blue-500 dark:text-blue-400" />
                                                             Recommendations
                                                         </h3>
-                                                        <ul className="space-y-1">
-                                                            {analysisResult.recommendations.map((rec, index) => (
-                                                                <li key={index} className="text-sm text-gray-700 dark:text-gray-300">
-                                                                    • {rec}
-                                                                </li>
-                                                            ))}
-                                                        </ul>
+                                                        {(() => {
+                                                            const datasetListRaw = Array.isArray(analysisResult.matchedDisease?.symptoms?.list)
+                                                                ? analysisResult.matchedDisease?.symptoms?.list
+                                                                : [];
+                                                            const datasetList = normalizeRecommendations(datasetListRaw);
+                                                            const resolvedCode = (analysisResult.matchedDisease?.shortTitle ?? analysisResult.diagnosisCode ?? "").toUpperCase();
+                                                            const codeSpecific = resolvedCode
+                                                                ? diagnosisRecommendations[resolvedCode] ?? []
+                                                                : [];
+                                                            const quickTipsLabel = analysisResult.matchedDisease
+                                                                ? `${analysisResult.matchedDisease.title} Quick Tips`
+                                                                : resolvedCode
+                                                                ? `${resolvedCode} Quick Tips`
+                                                                : "Diagnosis Quick Tips";
+                                                            const sections = [
+                                                                {
+                                                                    title: "AI Suggestions",
+                                                                    items: analysisResult.recommendations,
+                                                                },
+                                                                codeSpecific.length
+                                                                    ? {
+                                                                          title: quickTipsLabel,
+                                                                          items: codeSpecific,
+                                                                      }
+                                                                    : null,
+                                                                datasetList.length
+                                                                    ? {
+                                                                          title: "Clinical Notes",
+                                                                          items: datasetList,
+                                                                      }
+                                                                    : null,
+                                                            ].filter((section): section is { title: string; items: string[] } => Boolean(section && section.items.length));
+
+                                                            const sectionComponents = sections.map((section) => (
+                                                                <div key={section.title} className="mb-4 last:mb-0">
+                                                                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-300">{section.title}</p>
+                                                                    <ul className="mt-2 space-y-1 list-disc list-inside text-gray-700 dark:text-gray-300">
+                                                                        {section.items.map((rec) => (
+                                                                            <li key={`${section.title}-${rec}`}>{rec}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            ));
+
+                                                            if (sectionComponents.length) return sectionComponents;
+
+                                                            return (
+                                                                <div>
+                                                                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-300">General Care Tips</p>
+                                                                    <ul className="mt-2 space-y-1 list-disc list-inside text-gray-700 dark:text-gray-300">
+                                                                        {defaultRecommendations.map((tip) => (
+                                                                            <li key={`default-${tip}`}>{tip}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            );
+                                                        })()}
                                                     </div>
                                                     <button
                                                         onClick={resetScan}
@@ -246,6 +457,7 @@ export default function ScanComponent() {
                                 </div>
                             )}
                         </div>
+
                     </div>
                 </div>
             </div>
