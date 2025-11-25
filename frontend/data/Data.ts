@@ -592,6 +592,42 @@ export const Oralsdata = [
   },
 ];
 
+export const diagnosisRecommendations: Record<string, string[]> = {
+    CaS: [
+        "Rinse with warm salt water twice daily to soothe ulcers.",
+        "Avoid spicy or acidic foods until the sore heals.",
+    ],
+    CoS: [
+        "Start an antiviral ointment at the first tingling sensation.",
+        "Do not share personal items like lip balm during an outbreak.",
+    ],
+    GUM: [
+        "Focus on gentle brushing and flossing to control plaque.",
+        "Schedule a dental visit if sores persist more than 10 days.",
+    ],
+    OLP: [
+        "Use alcohol-free mouthwash to limit irritation.",
+        "Track trigger foods (spicy, acidic) and avoid them during flares.",
+    ],
+    OT: [
+        "Clean removable appliances daily to reduce yeast buildup.",
+        "Ask your doctor about antifungal rinse if white patches spread.",
+    ],
+    MC: [
+        "Book an urgent oral surgeon consult for biopsy and staging.",
+        "Stop tobacco and alcohol immediately to slow progression.",
+    ],
+    OC: [
+        "Seek oncologist evaluation for imaging and treatment planning.",
+        "Maintain a soft diet and hydrate; pain control is essential.",
+    ],
+};
+
+export const defaultRecommendations = [
+    "Schedule a dental checkup to confirm the diagnosis.",
+    "Document symptoms with clear photos for your dentist.",
+    "Maintain excellent oral hygiene and hydrate often.",
+];
 
 export const ClinicsPlaces = [
     { id: 'c1', name: 'Al Noor Oral Clinic', lat: 30.046, lng: 31.233, address: 'Downtown' },

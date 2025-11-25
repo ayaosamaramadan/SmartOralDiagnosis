@@ -63,3 +63,5 @@ AI/inference/oral_disease_classifier_final_final_final.h5
 BackEnd/bin/Debug/net8.0/MedicalManagement.API.staticwebassets.runtime.json
 BackEnd/obj/MedicalManagement.API.csproj.nuget.g.props
 AI/inference/model.h5
+BackEnd/obj/Debug/net8.0/MedicalManagement.API.AssemblyInfo.cs
+BackEnd/obj/Debug/net8.0/MedicalManagement.API.AssemblyInfoInputs.cache

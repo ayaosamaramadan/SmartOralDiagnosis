@@ -3,7 +3,7 @@
 import { useRef, useCallback, useState } from "react";
 import { Upload } from "lucide-react";
 import toast from "react-hot-toast";
-import { aiService } from "../services/api";
+import { aiService } from "../../services/api";
 
 interface UploadImageProps {
   onImageCapture: (imageData: string) => void;

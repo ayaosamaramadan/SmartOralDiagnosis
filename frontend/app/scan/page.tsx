@@ -1,4 +1,4 @@
-import ScanComponent from "../../components/Scan";
+import ScanComponent from "./Scan";
 
 export const metadata = {
   title: "Smart Oral Diagnosis - Scan",

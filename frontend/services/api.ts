@@ -364,13 +364,16 @@ export const uploadService = {
 // AI Services
 export const aiService = {
   predictFromDataUrl: async (dataUrl: string) => {
+    // Determine AI service base URL. Prefer dedicated NEXT_PUBLIC_AI_URL.
+    const AI_BASE = (process.env.NEXT_PUBLIC_AI_URL || `${API_BASE_URL}/ai`).replace(/\/$/, "");
+
     // Convert data URL to Blob
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     const formData = new FormData();
     formData.append("image", blob, "capture.jpg");
 
-    const response = await fetch(`${API_BASE_URL}/ai/predict`, {
+    const response = await fetch(`${AI_BASE}/predict`, {
       method: "POST",
       headers: getAuthHeaders(null),
       body: formData,
@@ -379,10 +382,11 @@ export const aiService = {
     return handleResponse(response);
   },
   predictFromFile: async (file: File) => {
+    const AI_BASE = (process.env.NEXT_PUBLIC_AI_URL || `${API_BASE_URL}/ai`).replace(/\/$/, "");
     const formData = new FormData();
     formData.append("image", file, file.name || "upload.jpg");
 
-    const response = await fetch(`${API_BASE_URL}/ai/predict`, {
+    const response = await fetch(`${AI_BASE}/predict`, {
       method: "POST",
       headers: getAuthHeaders(null),
       body: formData,

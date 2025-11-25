@@ -2,52 +2,14 @@
 import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import { CheckCircle, AlertCircle, RotateCcw } from "lucide-react";
-import UploadImage from "./UploadImage";
+import { CheckCircle, RotateCcw } from "lucide-react";
+import { OralType } from "types/oralTypes";
+import UploadImage from "../scan/UploadImage";
 import CameraCapture from "./CameraCapture";
-import { aiService } from "../services/api";
 import { Oralsdata } from "data/Data";
-
-type OralDisease = (typeof Oralsdata)[number];
-
-const diagnosisRecommendations: Record<string, string[]> = {
-    CaS: [
-        "Rinse with warm salt water twice daily to soothe ulcers.",
-        "Avoid spicy or acidic foods until the sore heals.",
-    ],
-    CoS: [
-        "Start an antiviral ointment at the first tingling sensation.",
-        "Do not share personal items like lip balm during an outbreak.",
-    ],
-    GUM: [
-        "Focus on gentle brushing and flossing to control plaque.",
-        "Schedule a dental visit if sores persist more than 10 days.",
-    ],
-    OLP: [
-        "Use alcohol-free mouthwash to limit irritation.",
-        "Track trigger foods (spicy, acidic) and avoid them during flares.",
-    ],
-    OT: [
-        "Clean removable appliances daily to reduce yeast buildup.",
-        "Ask your doctor about antifungal rinse if white patches spread.",
-    ],
-    MC: [
-        "Book an urgent oral surgeon consult for biopsy and staging.",
-        "Stop tobacco and alcohol immediately to slow progression.",
-    ],
-    OC: [
-        "Seek oncologist evaluation for imaging and treatment planning.",
-        "Maintain a soft diet and hydrate; pain control is essential.",
-    ],
-};
-
-const defaultRecommendations = [
-    "Schedule a dental checkup to confirm the diagnosis.",
-    "Document symptoms with clear photos for your dentist.",
-    "Maintain excellent oral hygiene and hydrate often.",
-];
-
-const diagnosisRecommendationEntries = Object.entries(diagnosisRecommendations);
+import Reco from "./Reco";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { analyzeFromDataUrl, setAnalysisResult, resetScan as resetScanAction } from "../../store/slices/scanSlice";
 
 const normalizeKey = (value?: string) =>
     (value ?? "")
@@ -56,13 +18,13 @@ const normalizeKey = (value?: string) =>
         .toLowerCase()
         .replace(/[^a-z0-9]/g, "");
 
-const findDiseaseByCode = (code?: string): OralDisease | undefined => {
+const findDiseaseByCode = (code?: string): OralType | undefined => {
     if (!code) return undefined;
     const normalized = code.trim().toLowerCase();
     return Oralsdata.find((disease) => disease.shortTitle.toLowerCase() === normalized);
 };
 
-const findDiseaseByName = (name?: string): OralDisease | undefined => {
+const findDiseaseByName = (name?: string): OralType | undefined => {
     if (!name) return undefined;
     const normalized = normalizeKey(name);
     return Oralsdata.find((disease) => normalizeKey(disease.title) === normalized);
@@ -113,7 +75,7 @@ interface AnalysisResult {
     confidence: number;
     diagnosis: string;
     diagnosisCode?: string;
-    matchedDisease?: OralDisease;
+    matchedDisease?: OralType;
     severity: "low" | "medium" | "high";
     recommendations: string[];
     areas: Array<{
@@ -126,9 +88,10 @@ interface AnalysisResult {
 }
 
 export default function ScanComponent() {
+    const dispatch = useAppDispatch();
+    const { analysisResult, isAnalyzing } = useAppSelector((state: any) => state.scan);
     const [capturedImage, setCapturedImage] = useState<string | null>(null);
-    const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+    // const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
     const [shouldAutoAnalyze, setShouldAutoAnalyze] = useState(false);
 
     const parseAnalysisResponse = useCallback((resp: any): AnalysisResult => {
@@ -175,8 +138,8 @@ export default function ScanComponent() {
         const rawConfidence = typeof resp?.confidence === "number"
             ? resp.confidence
             : typeof resp?.probability === "number"
-            ? resp.probability
-            : 0;
+                ? resp.probability
+                : 0;
 
         // Normalize to percent (0-100) — if value looks like fraction, scale it.
         const normalizedConfidence = rawConfidence <= 1 ? Math.round(rawConfidence * 100) : Math.round(rawConfidence);
@@ -185,14 +148,14 @@ export default function ScanComponent() {
         const normRecommendations = Array.isArray(resp?.recommendations)
             ? normalizeRecommendations(resp.recommendations)
             : Array.isArray(resp?.suggestions)
-            ? normalizeRecommendations(resp.suggestions)
-            : [];
+                ? normalizeRecommendations(resp.suggestions)
+                : [];
 
         const normAreas = Array.isArray(resp?.areas)
             ? resp.areas
             : Array.isArray(resp?.bboxes)
-            ? resp.bboxes
-            : [];
+                ? resp.bboxes
+                : [];
 
         const { matchedDisease, diagnosisCode } = matchDiseaseCandidates(candidateStrings, resolvedDiagnosis);
         const readableDiagnosis = matchedDisease?.title ?? resolvedDiagnosis;
@@ -210,22 +173,21 @@ export default function ScanComponent() {
 
     const analyzeImage = useCallback(async () => {
         if (!capturedImage) return;
-        setIsAnalyzing(true);
-        setAnalysisResult(null);
-
+        // dispatch thunk that handles network + parsing
         try {
-            const resp = await aiService.predictFromDataUrl(capturedImage);
-            const parsed = parseAnalysisResponse(resp);
-            setAnalysisResult(parsed);
-            toast.success("Analysis complete");
+            const action = await dispatch(analyzeFromDataUrl(capturedImage));
+            // thunk sets state; show toast on success
+            if (analyzeFromDataUrl.fulfilled.match(action)) {
+                toast.success("Analysis complete");
+            } else {
+                const err = (action.payload as any) || 'Analysis failed';
+                toast.error(String(err));
+            }
         } catch (err) {
-            console.error("AI analyze error:", err);
-            setAnalysisResult(null);
-            toast.error("Analysis failed. Please try again.");
-        } finally {
-            setIsAnalyzing(false);
+            console.error('AI analyze error:', err);
+            toast.error('Analysis failed. Please try again.');
         }
-    }, [capturedImage, parseAnalysisResponse]);
+    }, [capturedImage, dispatch]);
 
     useEffect(() => {
         if (capturedImage && shouldAutoAnalyze) {
@@ -236,10 +198,9 @@ export default function ScanComponent() {
 
     const resetScan = useCallback(() => {
         setCapturedImage(null);
-        setAnalysisResult(null);
-        setIsAnalyzing(false);
+        dispatch(resetScanAction());
         setShouldAutoAnalyze(false);
-    }, []);
+    }, [dispatch]);
 
     const handleCameraCapture = useCallback((imageData: string) => {
         setCapturedImage(imageData);
@@ -249,21 +210,25 @@ export default function ScanComponent() {
     const handleUploadCapture = useCallback((imageData: string) => {
         setCapturedImage(imageData);
         setShouldAutoAnalyze(false);
-        setIsAnalyzing(true);
-        setAnalysisResult(null);
-    }, []);
+        dispatch(setAnalysisResult(null));
+    }, [dispatch]);
 
     const handleUploadAnalysisResult = useCallback((payload: any | null, error?: Error) => {
         if (!payload || error) {
-            setIsAnalyzing(false);
+            // clear analyzing flag if any
             return;
         }
 
-        const parsed = parseAnalysisResponse(payload);
-        setAnalysisResult(parsed);
-        setIsAnalyzing(false);
-        toast.success("Analysis complete");
-    }, [parseAnalysisResponse]);
+        // backend response may be already user-friendly; try to parse locally
+        try {
+            const parsed = parseAnalysisResponse(payload);
+            dispatch(setAnalysisResult(parsed));
+            toast.success('Analysis complete');
+        } catch (err) {
+            console.error('Upload parse error:', err);
+            toast.error('Could not parse analysis result');
+        }
+    }, [dispatch]);
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {
@@ -381,69 +346,7 @@ export default function ScanComponent() {
                                                         </div>
                                                     </div>
 
-                                                    <div className="bg-blue-50 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-                                                        <h3 className="font-medium mb-2 flex items-center text-blue-600 dark:text-blue-300">
-                                                            <AlertCircle className="h-4 w-4 mr-2 text-blue-500 dark:text-blue-400" />
-                                                            Recommendations
-                                                        </h3>
-                                                        {(() => {
-                                                            const datasetListRaw = Array.isArray(analysisResult.matchedDisease?.symptoms?.list)
-                                                                ? analysisResult.matchedDisease?.symptoms?.list
-                                                                : [];
-                                                            const datasetList = normalizeRecommendations(datasetListRaw);
-                                                            const resolvedCode = (analysisResult.matchedDisease?.shortTitle ?? analysisResult.diagnosisCode ?? "").toUpperCase();
-                                                            const codeSpecific = resolvedCode
-                                                                ? diagnosisRecommendations[resolvedCode] ?? []
-                                                                : [];
-                                                            const quickTipsLabel = analysisResult.matchedDisease
-                                                                ? `${analysisResult.matchedDisease.title} Quick Tips`
-                                                                : resolvedCode
-                                                                ? `${resolvedCode} Quick Tips`
-                                                                : "Diagnosis Quick Tips";
-                                                            const sections = [
-                                                                {
-                                                                    title: "AI Suggestions",
-                                                                    items: analysisResult.recommendations,
-                                                                },
-                                                                codeSpecific.length
-                                                                    ? {
-                                                                          title: quickTipsLabel,
-                                                                          items: codeSpecific,
-                                                                      }
-                                                                    : null,
-                                                                datasetList.length
-                                                                    ? {
-                                                                          title: "Clinical Notes",
-                                                                          items: datasetList,
-                                                                      }
-                                                                    : null,
-                                                            ].filter((section): section is { title: string; items: string[] } => Boolean(section && section.items.length));
-
-                                                            const sectionComponents = sections.map((section) => (
-                                                                <div key={section.title} className="mb-4 last:mb-0">
-                                                                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-300">{section.title}</p>
-                                                                    <ul className="mt-2 space-y-1 list-disc list-inside text-gray-700 dark:text-gray-300">
-                                                                        {section.items.map((rec) => (
-                                                                            <li key={`${section.title}-${rec}`}>{rec}</li>
-                                                                        ))}
-                                                                    </ul>
-                                                                </div>
-                                                            ));
-
-                                                            if (sectionComponents.length) return sectionComponents;
-
-                                                            return (
-                                                                <div>
-                                                                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-300">General Care Tips</p>
-                                                                    <ul className="mt-2 space-y-1 list-disc list-inside text-gray-700 dark:text-gray-300">
-                                                                        {defaultRecommendations.map((tip) => (
-                                                                            <li key={`default-${tip}`}>{tip}</li>
-                                                                        ))}
-                                                                    </ul>
-                                                                </div>
-                                                            );
-                                                        })()}
-                                                    </div>
+                                                    <Reco />
                                                     <button
                                                         onClick={resetScan}
                                                         className="w-full px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"

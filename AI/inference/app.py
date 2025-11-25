@@ -3,6 +3,9 @@ import io
 # Disable oneDNN optimizations to avoid the informational oneDNN message and
 # reduce potential numerical differences. Set this before importing TensorFlow.
 os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
+# Reduce TensorFlow C++ logging (0=ALL,1=INFO,2=WARNING,3=ERROR)
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
+
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
@@ -62,17 +65,32 @@ def load_model():
     if model is None:
         if not MODEL_PATH or not os.path.exists(MODEL_PATH):
             raise RuntimeError(f"Model file not found. Checked MODEL_PATH={MODEL_PATH}")
-        model = tf.keras.models.load_model(MODEL_PATH)
+        # Load for inference only (avoid compiling metrics which aren't needed)
+        try:
+            model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+        except Exception:
+            # Fallback to default load to propagate any original exceptions
+            model = tf.keras.models.load_model(MODEL_PATH)
     return model
 
 
 @app.on_event("startup")
 async def startup_event():
     try:
+        # Diagnostic info: print chosen model path and any .h5 files in folder
+        print(f"MODEL_PATH={MODEL_PATH}")
+        try:
+            files = [f for f in os.listdir(os.path.dirname(__file__)) if f.lower().endswith('.h5')]
+            print("Found .h5 files:", files)
+        except Exception as _:
+            pass
+
         load_model()
         print("Model loaded")
     except Exception as e:
+        import traceback
         print(f"Failed loading model: {e}")
+        traceback.print_exc()
 
 
 @app.post("/predict")

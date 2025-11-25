@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {Orals} from "../../data/Data";
+import {Oralsdata} from "../../data/Data";
 import Link from "next/link";
 export default function Alldiseases() {
   return (
@@ -13,7 +13,7 @@ export default function Alldiseases() {
       Easy-to-understand answers about diseases and conditions.
       </p>
       <div className="flex flex-col gap-10 w-full">
-      {Orals.map((oral) => (
+      {Oralsdata.map((oral) => (
         <Link key={oral.id} href={`/alldiseases/${oral.id}`} className="group">
         <div className="transition duration-300 overflow-hidden flex flex-col md:flex-row items-center cursor-pointer hover:shadow-2xl border border-gray-700 rounded-2xl">
           <Image
