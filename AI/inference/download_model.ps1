@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Download model from Google Drive into this folder (AI/inference)
 # Usage (PowerShell):
 #   Set-Location "path\to\SmartOralDiagnosis\AI\inference"
@@ -41,8 +42,8 @@ if (Test-Path $output) {
     $size = (Get-Item $output).Length
     Write-Host "Download complete. File saved to: $output (size: $size bytes)"
 } else {
-    Write-Error "Download failed — file not found after gdown run."
+    Write-Error "Download failed - file not found after gdown run."
     exit 2
 }
 
-Write-Host "Done. You can now run the inference service (see README or run: uvicorn app:app --reload --port 8000)"
+Write-Host 'Done. You can now run the inference service (see README or run: uvicorn app:app --reload --port 8000)'

@@ -1,9 +1,11 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import toast from "react-hot-toast";
 import Image from "next/image";
 import { CheckCircle, AlertCircle, RotateCcw } from "lucide-react";
 import UploadImage from "./UploadImage";
 import CameraCapture from "./CameraCapture";
+import { aiService } from "../services/api";
 
 interface AnalysisResult {
     confidence: number;
@@ -23,48 +25,110 @@ export default function ScanComponent() {
     const [capturedImage, setCapturedImage] = useState<string | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+    const [shouldAutoAnalyze, setShouldAutoAnalyze] = useState(false);
 
-    const handleImageCapture = useCallback((imageData: string) => {
-        setCapturedImage(imageData);
+    const parseAnalysisResponse = useCallback((resp: any): AnalysisResult => {
+        const coerceSeverity = (value: any): AnalysisResult["severity"] => {
+            if (typeof value !== "string") return "low";
+            const normalized = value.toLowerCase();
+            if (normalized === "medium" || normalized === "high") return normalized as AnalysisResult["severity"];
+            return "low";
+        };
+
+        // AI service may return confidence either as fraction (0.0-1.0) or percent (0-100).
+        const rawConfidence = typeof resp?.confidence === "number"
+            ? resp.confidence
+            : typeof resp?.probability === "number"
+            ? resp.probability
+            : 0;
+
+        // Normalize to percent (0-100) — if value looks like fraction, scale it.
+        const confidence = rawConfidence <= 1 ? Math.round(rawConfidence * 100) : Math.round(rawConfidence);
+
+        return {
+            confidence,
+            diagnosis: resp?.diagnosis ?? resp?.label ?? JSON.stringify(resp ?? {}),
+            severity: coerceSeverity(resp?.severity ?? resp?.risk),
+            recommendations: Array.isArray(resp?.recommendations)
+                ? resp.recommendations
+                : Array.isArray(resp?.suggestions)
+                ? resp.suggestions
+                : [],
+            areas: Array.isArray(resp?.areas)
+                ? resp.areas
+                : Array.isArray(resp?.bboxes)
+                ? resp.bboxes
+                : []
+        };
     }, []);
 
     const analyzeImage = useCallback(async () => {
+        if (!capturedImage) return;
         setIsAnalyzing(true);
+        setAnalysisResult(null);
 
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        try {
+            const resp = await aiService.predictFromDataUrl(capturedImage);
+            const parsed = parseAnalysisResponse(resp);
+            setAnalysisResult(parsed);
+            toast.success("Analysis complete");
+        } catch (err) {
+            console.error("AI analyze error:", err);
+            setAnalysisResult(null);
+            toast.error("Analysis failed. Please try again.");
+        } finally {
+            setIsAnalyzing(false);
+        }
+    }, [capturedImage, parseAnalysisResponse]);
 
-        const mockResult: AnalysisResult = {
-            confidence: 0.87,
-            diagnosis: "Mild Dental Plaque Buildup",
-            severity: "low",
-            recommendations: [
-                "Increase brushing frequency to twice daily",
-                "Use fluoride toothpaste",
-                "Schedule a professional cleaning",
-                "Consider using an electric toothbrush"
-            ],
-            areas: [
-                { x: 120, y: 80, width: 40, height: 30, type: "plaque" },
-                { x: 200, y: 110, width: 35, height: 25, type: "plaque" }
-            ]
-        };
-
-        setAnalysisResult(mockResult);
-        setIsAnalyzing(false);
-    }, []);
+    useEffect(() => {
+        if (capturedImage && shouldAutoAnalyze) {
+            analyzeImage();
+            setShouldAutoAnalyze(false);
+        }
+    }, [capturedImage, shouldAutoAnalyze, analyzeImage]);
 
     const resetScan = useCallback(() => {
         setCapturedImage(null);
         setAnalysisResult(null);
         setIsAnalyzing(false);
+        setShouldAutoAnalyze(false);
     }, []);
+
+    const handleCameraCapture = useCallback((imageData: string) => {
+        setCapturedImage(imageData);
+        setShouldAutoAnalyze(true);
+    }, []);
+
+    const handleUploadCapture = useCallback((imageData: string) => {
+        setCapturedImage(imageData);
+        setShouldAutoAnalyze(false);
+        setIsAnalyzing(true);
+        setAnalysisResult(null);
+    }, []);
+
+    const handleUploadAnalysisResult = useCallback((payload: any | null, error?: Error) => {
+        if (!payload || error) {
+            setIsAnalyzing(false);
+            return;
+        }
+
+        const parsed = parseAnalysisResponse(payload);
+        setAnalysisResult(parsed);
+        setIsAnalyzing(false);
+        toast.success("Analysis complete");
+    }, [parseAnalysisResponse]);
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {
-            case "low": return "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30";
-            case "medium": return "text-yellow-700 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30";
-            case "high": return "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/30";
-            default: return "text-gray-700 dark:text-gray-400 bg-gray-100 dark:bg-gray-900/30";
+            case "low":
+                return "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30";
+            case "medium":
+                return "text-yellow-700 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30";
+            case "high":
+                return "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/30";
+            default:
+                return "text-gray-700 dark:text-gray-400 bg-gray-100 dark:bg-gray-900/30";
         }
     };
 
@@ -85,11 +149,13 @@ export default function ScanComponent() {
                         <div className="flex-1 flex flex-col justify-center">
                             {!capturedImage && (
                                 <div className="grid md:grid-cols-2 gap-2 h-full">
-                                    <CameraCapture onImageCapture={handleImageCapture} />
-                                    <UploadImage onImageCapture={handleImageCapture} />
+                                    <CameraCapture onImageCapture={handleCameraCapture} />
+                                    <UploadImage
+                                        onImageCapture={handleUploadCapture}
+                                        onAnalysisResult={handleUploadAnalysisResult}
+                                    />
                                 </div>
                             )}
-
 
                             {capturedImage && (
                                 <div className="rounded-lg p-6 border border-gray-300 dark:border-gray-700 h-full flex flex-col bg-gray-50 dark:bg-transparent">
@@ -113,22 +179,6 @@ export default function ScanComponent() {
                                                 height={300}
                                                 className="w-full h-auto max-h-[60vh] rounded-lg border border-gray-300 dark:border-gray-600 object-contain"
                                             />
-                                            {analysisResult && (
-                                                <div className="absolute inset-0">
-                                                    {analysisResult.areas.map((area, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className="absolute border-2 border-red-500 bg-red-500/20"
-                                                            style={{
-                                                                left: `${area.x}px`,
-                                                                top: `${area.y}px`,
-                                                                width: `${area.width}px`,
-                                                                height: `${area.height}px`,
-                                                            }}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            )}
                                         </div>
 
                                         <div className="space-y-4 flex flex-col justify-center">
@@ -165,7 +215,7 @@ export default function ScanComponent() {
                                                                 {analysisResult.severity.toUpperCase()} RISK
                                                             </span>
                                                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                                                                {Math.round(analysisResult.confidence * 100)}% confidence
+                                                                {analysisResult.confidence}% confidence
                                                             </span>
                                                         </div>
                                                     </div>
@@ -197,7 +247,8 @@ export default function ScanComponent() {
                             )}
                         </div>
                     </div>
-                </div></div>
+                </div>
+            </div>
         </>
     );
 }

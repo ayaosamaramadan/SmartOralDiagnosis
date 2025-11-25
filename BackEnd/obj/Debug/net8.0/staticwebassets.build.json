@@ -1,1 +1,39 @@
-{"Version":1,"Hash":"8zxx+gC/3KBuZqVyL2Riyiamrq4iOQ8qlO8NwwfiJSY=","Source":"MedicalManagement.API","BasePath":"_content/MedicalManagement.API","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[{"Name":"MedicalManagement.API\\wwwroot","Source":"MedicalManagement.API","ContentRoot":"c:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\wwwroot\\","BasePath":"_content/MedicalManagement.API","Pattern":"**"}],"Assets":[{"Identity":"c:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\wwwroot\\index.html","SourceId":"MedicalManagement.API","SourceType":"Discovered","ContentRoot":"c:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\wwwroot\\","BasePath":"_content/MedicalManagement.API","RelativePath":"index#[.{fingerprint}]?.html","AssetKind":"All","AssetMode":"All","AssetRole":"Primary","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"","AssetTraitName":"","AssetTraitValue":"","Fingerprint":"3ywtjg82j3","Integrity":"C3/a5Fzb7bF3QPKhE1er53gu8tolbBk67freNsil8X8=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"wwwroot\\index.html","FileLength":274,"LastWriteTime":"2025-11-19T12:16:50+00:00"}],"Endpoints":[{"Route":"index.3ywtjg82j3.html","AssetFile":"c:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\wwwroot\\index.html","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"274"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"C3/a5Fzb7bF3QPKhE1er53gu8tolbBk67freNsil8X8=\""},{"Name":"Last-Modified","Value":"Wed, 19 Nov 2025 12:16:50 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"}],"EndpointProperties":[{"Name":"fingerprint","Value":"3ywtjg82j3"},{"Name":"label","Value":"index.html"},{"Name":"integrity","Value":"sha256-C3/a5Fzb7bF3QPKhE1er53gu8tolbBk67freNsil8X8="}]},{"Route":"index.html","AssetFile":"c:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\wwwroot\\index.html","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"274"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"C3/a5Fzb7bF3QPKhE1er53gu8tolbBk67freNsil8X8=\""},{"Name":"Last-Modified","Value":"Wed, 19 Nov 2025 12:16:50 GMT"},{"Name":"Cache-Control","Value":"no-cache"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-C3/a5Fzb7bF3QPKhE1er53gu8tolbBk67freNsil8X8="}]}]}
+{
+  "Version": 1,
+  "Hash": "UObpN0AibaYN7T+ctGRiEaD6CrgVMy3NdaBW5V0UiQk=",
+  "Source": "MedicalManagement.API",
+  "BasePath": "_content/MedicalManagement.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "MedicalManagement.API\\wwwroot",
+      "Source": "MedicalManagement.API",
+      "ContentRoot": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\",
+      "BasePath": "_content/MedicalManagement.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\index.html",
+      "SourceId": "MedicalManagement.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\os\\Desktop\\SmartOralDiagnosis\\backend\\wwwroot\\",
+      "BasePath": "_content/MedicalManagement.API",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ]
+}

@@ -360,3 +360,34 @@ export const uploadService = {
     return handleResponse(response);
   },
 };
+
+// AI Services
+export const aiService = {
+  predictFromDataUrl: async (dataUrl: string) => {
+    // Convert data URL to Blob
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    const formData = new FormData();
+    formData.append("image", blob, "capture.jpg");
+
+    const response = await fetch(`${API_BASE_URL}/ai/predict`, {
+      method: "POST",
+      headers: getAuthHeaders(null),
+      body: formData,
+    });
+
+    return handleResponse(response);
+  },
+  predictFromFile: async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file, file.name || "upload.jpg");
+
+    const response = await fetch(`${API_BASE_URL}/ai/predict`, {
+      method: "POST",
+      headers: getAuthHeaders(null),
+      body: formData,
+    });
+
+    return handleResponse(response);
+  }
+};
