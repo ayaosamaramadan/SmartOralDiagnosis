@@ -222,11 +222,14 @@ else
     app.Logger.LogInformation("WebRootPath '{path}' not found; skipping static file middleware.", app.Environment.WebRootPath);
 }
 
+// Apply CORS policy early so preflight (OPTIONS) requests are handled
+// before authentication/authorization middleware runs.
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors("AllowFrontend");
 
 
 using (var scope = app.Services.CreateScope())

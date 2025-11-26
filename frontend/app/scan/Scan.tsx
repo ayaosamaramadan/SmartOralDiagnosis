@@ -178,7 +178,7 @@ export default function ScanComponent() {
             const action = await dispatch(analyzeFromDataUrl(capturedImage));
             // thunk sets state; show toast on success
             if (analyzeFromDataUrl.fulfilled.match(action)) {
-                toast.success("Analysis complete");
+               console.log('Analysis successful:', action.payload);
             } else {
                 const err = (action.payload as any) || 'Analysis failed';
                 toast.error(String(err));

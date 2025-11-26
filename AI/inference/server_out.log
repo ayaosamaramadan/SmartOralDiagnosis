@@ -1,0 +1,20 @@
+MODEL_PATH=C:\Users\ayara\SmartOralDiagnosis\AI\inference\model.h5
+Found .h5 files: ['model.h5', 'oral_disease_classifier_final_final_final.h5']
+Model loaded
+INFO:     127.0.0.1:58763 - "GET /docs HTTP/1.1" 200 OK
+
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 2s/step
+[1m1/1[0m [32m====================[0m[37m[0m [1m2s[0m 2s/step
+INFO:     127.0.0.1:51260 - "POST /predict HTTP/1.1" 200 OK
+
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 123ms/step
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 159ms/step
+INFO:     127.0.0.1:58588 - "POST /predict HTTP/1.1" 200 OK
+
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 127ms/step
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 173ms/step
+INFO:     127.0.0.1:50231 - "POST /predict HTTP/1.1" 200 OK
+
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 104ms/step
+[1m1/1[0m [32m====================[0m[37m[0m [1m0s[0m 134ms/step
+INFO:     127.0.0.1:50231 - "POST /predict HTTP/1.1" 200 OK

@@ -46,4 +46,4 @@ if (Test-Path $output) {
     exit 2
 }
 
-Write-Host 'Done. You can now run the inference service (see README or run: uvicorn app:app --reload --port 8000)'
+Write-Host 'Done. You can now run the inference service (see README or run: uvicorn app:app --reload --port 8001)'

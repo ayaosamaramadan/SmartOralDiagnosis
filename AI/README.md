@@ -27,18 +27,18 @@ Set-Location 'C:\path\to\SmartOralDiagnosis\AI\inference'
 .\.venv\Scripts\Activate.ps1    # activate the venv created by the download script
 pip install -r requirements.txt
 $env:MODEL_PATH = "$PWD\model.h5"   # optional if model.h5 is in the same folder
-uvicorn app:app --host 0.0.0.0 --port 8000
+uvicorn app:app --host 0.0.0.0 --port 8001
 ```
 
 The service exposes `POST /predict` and accepts a single form-file field named `image` (returns JSON: `{ "predictions": [...] }`).
 
 4) Configure the backend to talk to the inference service
 
-- Set `BackEnd/appsettings.json` `AIService:BaseUrl` to the running service (default is `http://localhost:8000/`).
+- Set `BackEnd/appsettings.json` `AIService:BaseUrl` to the running service (default is `http://localhost:8001/`).
 - Or set environment variable `AI_SERVICE_BASEURL`:
 
 ```powershell
-#$env:AI_SERVICE_BASEURL = "http://localhost:8000/"
+#$env:AI_SERVICE_BASEURL = "http://localhost:8001/"
 ```
 
 5) Call the backend endpoint (passes image to AI service)
@@ -63,7 +63,7 @@ PowerShell example using `Invoke-RestMethod`:
 6) Direct test to Python service (no JWT required)
 
 ```bash
-curl -X POST "http://localhost:8000/predict" -F "image=@/path/to/photo.jpg"
+curl -X POST "http://localhost:8001/predict" -F "image=@/path/to/photo.jpg"
 ```
 
 Notes
