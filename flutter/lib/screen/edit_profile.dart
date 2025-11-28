@@ -6,6 +6,7 @@ import '../components/edit_profile/progress_widget.dart';
 import '../components/edit_profile/completed_or.dart';
 import '../components/edit_profile/detect_location.dart';
 import '../components/edit_profile/langu.dart';
+import '../widgets/role_drawer.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -196,91 +197,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      drawer: Drawer(
-        child: Container(
-          color: isDark ? Colors.black : Colors.white,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: isDark
-                        ? [Colors.blueGrey.shade900, Colors.black]
-                        : [Colors.blue.shade300, Colors.blue.shade700],
-                  ),
-                ),
-                child: const Text(
-                  "My App",
-                  style: TextStyle(color: Colors.white, fontSize: 26),
-                ),
-              ),
-
-              ListTile(
-                leading: Icon(
-                  Icons.home,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                title: Text(
-                  "Home",
-                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
-                ),
-                onTap: () => Navigator.pushNamed(context, '/'),
-              ),
-
-              ListTile(
-                leading: Icon(
-                  Icons.medical_services,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                title: Text(
-                  "Diseases & Conditions",
-                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
-                ),
-                onTap: () => Navigator.pushNamed(context, '/Alldiseasea'),
-              ),
-
-              ListTile(
-                leading: Icon(
-                  Icons.info_outline,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                title: Text(
-                  "About Us",
-                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
-                ),
-                onTap: () {},
-              ),
-
-              const Divider(),
-
-              ListTile(
-                leading: Icon(
-                  Icons.mail_outline,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                title: Text(
-                  "Contact Us",
-                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
-                ),
-                onTap: () {},
-              ),
-
-              ListTile(
-                leading: Icon(
-                  Icons.login,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                title: Text(
-                  "Login",
-                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
-                ),
-                onTap: () => Navigator.pushNamed(context, '/login'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      drawer: const RoleDrawer(),
 
       // ============================
       //           شاشة Edit Profile

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../components/theme_toggle.dart';
 import '../theme/app_theme.dart';
+import '../widgets/role_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -157,100 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // ---------------- SIDE MENU ----------------
   // ---------------- SIDE MENU ----------------
-Drawer _buildSideMenu(BuildContext context, ColorScheme cs) {
-  return Drawer(
-    backgroundColor: cs.surface,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: Theme.of(context).brightness == Brightness.dark
-                  ? [cs.primary, cs.secondary]
-                  : [cs.primary.withOpacity(0.8), cs.primary],
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundColor: cs.onPrimary.withOpacity(0.2),
-                backgroundImage: _profilePhotoUrl != null && _profilePhotoUrl!.isNotEmpty
-                    ? NetworkImage(_profilePhotoUrl!) as ImageProvider
-                    : null,
-                child: _profilePhotoUrl == null || _profilePhotoUrl!.isEmpty
-                    ? Text(
-                        _userName != null && _userName!.isNotEmpty
-                            ? _userName!.split(' ').map((s) => s.isNotEmpty ? s[0] : '').take(2).join()
-                            : 'OS',
-                        style: TextStyle(color: cs.onPrimary, fontWeight: FontWeight.bold),
-                      )
-                    : null,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _userName != null && _userName!.isNotEmpty ? _userName! : 'OralScan',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: cs.onPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    const ThemeToggle(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        _buildDrawerItem(context, cs, "Home", Icons.home, () {
-          Navigator.pushNamed(context, '/');
-        }),
-        _buildDrawerItem(context, cs, "Diseases & Conditions", Icons.medical_services, () {
-          Navigator.pushNamed(context, '/Alldisease');
-        }),
-        _buildDrawerItem(context, cs, "Edit_pofile", Icons.edit, () {
-          Navigator.pushNamed(context, '/editProfile');
-        }),
-        _buildDrawerItem(context, cs, "About Us", Icons.info_outline, () {
-          // Add About navigation
-        }),
-        const Divider(),
-        ListTile(
-          leading: Icon(Icons.contact_page, color: cs.primary),
-          title: Text("Contact Us", style: TextStyle(color: cs.onSurface)),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.logout, color: cs.primary),
-          title: Text("Logout", style: TextStyle(color: cs.onSurface)),
-          onTap: () async {
-            Navigator.pop(context);
-            await _storage.delete(key: 'jwt');
-            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.login, color: cs.primary),
-          title: Text("Login", style: TextStyle(color: cs.onSurface)),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/login');
-          },
-        ),
-      ],
-    ),
-  );
+Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
+  return const RoleDrawer();
 }
 
 

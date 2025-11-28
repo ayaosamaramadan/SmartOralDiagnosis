@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/role_drawer.dart';
 import '../data/orals.dart';
 import 'disease_detail.dart';
 import '../theme/app_theme.dart';
@@ -213,65 +214,7 @@ class AlldiseaseScreen extends StatelessWidget {
   // ---------------- DRAWER MENU ------------------
   Widget _buildDrawer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Drawer(
-      child: Container(
-        color: isDark ? Colors.black : Colors.white,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: isDark
-                      ? [Colors.blueGrey.shade900, Colors.black]
-                      : [Colors.blue.shade300, Colors.blue.shade700],
-                ),
-              ),
-              child: const Text(
-                "My App",
-                style: TextStyle(color: Colors.white, fontSize: 26),
-              ),
-            ),
-
-            _drawerItem(
-              icon: Icons.home,
-              text: "Home",
-              route: '/',
-              context: context,
-            ),
-
-            _drawerItem(
-              icon: Icons.medical_services,
-              text: "Diseases & Conditions",
-              route: '/Alldiseasea',
-              context: context,
-            ),
-
-            _drawerItem(
-              icon: Icons.info_outline,
-              text: "About Us",
-              context: context,
-            ),
-
-            const Divider(),
-
-            _drawerItem(
-              icon: Icons.mail_outline,
-              text: "Contact Us",
-              context: context,
-            ),
-
-            _drawerItem(
-              icon: Icons.login,
-              text: "Login",
-              route: '/login',
-              context: context,
-            ),
-          ],
-        ),
-      ),
-    );
+    return const RoleDrawer();
   }
 
   Widget _drawerItem({

@@ -1,6 +1,7 @@
 import 'dart:io' show File;
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../widgets/role_drawer.dart';
 import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource, XFile;
 import '../components/theme_toggle.dart';
 
@@ -39,7 +40,7 @@ class _ScanPageState extends State<ScanPage> {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
-      drawer: _buildSideMenu(context, cs),
+      drawer: const RoleDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
