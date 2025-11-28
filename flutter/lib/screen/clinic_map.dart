@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:geolocator/geolocator.dart';
 import '../components/theme_toggle.dart';
+import '../components/app_nav.dart';
 import '../data/clinic_places.dart';
 
 void main() async {
@@ -344,42 +345,8 @@ class _ClinicMapState extends State<ClinicMap> {
                 ),
             ],
           ),
-          // Top-left back button (overlay, not AppBar)
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 8,
-            left: 12,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(30),
-                onTap: () => Navigator.of(context).pop(),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor.withOpacity(0.9),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.arrow_back, color: Theme.of(context).iconTheme.color),
-                ),
-              ),
-            ),
-          ),
-
-          // Top-right theme toggle (overlay, not AppBar)
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 8,
-            right: 12,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: ThemeToggle(),
-              ),
-            ),
-          ),
+          // Top navigation overlay (back + theme toggle)
+          const AppNav(),
   Positioned(
     left: 16,
     bottom: 16,

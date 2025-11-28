@@ -7,6 +7,7 @@ import '../components/edit_profile/completed_or.dart';
 import '../components/edit_profile/detect_location.dart';
 import '../components/edit_profile/langu.dart';
 import '../widgets/role_drawer.dart';
+import '../widgets/avatar_uploader.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -234,6 +235,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ],
                 ),
                 const SizedBox(height: 12),
+                  // Avatar uploader: shows initials and allows selecting/uploading a profile photo
+                  Center(
+                    child: AvatarUploader(
+                      initials: (_form['firstName'] as String?)?.isNotEmpty == true
+                          ? (_form['firstName'] as String).split(' ').map((s) => s.isNotEmpty ? s[0] : '').take(2).join()
+                          : 'OS',
+                      userId: _userId,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),

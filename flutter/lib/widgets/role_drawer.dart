@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../components/theme_toggle.dart';
+import 'avatar_uploader.dart';
 
 class RoleDrawer extends StatelessWidget {
   const RoleDrawer({super.key});
@@ -29,17 +30,27 @@ class RoleDrawer extends StatelessWidget {
     // common keys
     final candidates = <dynamic>[user['role'], user['Role'], user['type'], user['userType'], user['accountType']];
     for (final c in candidates) {
-      if (c is String && c.trim().isNotEmpty) return c.toLowerCase();
+      if (c is String && c.trim().isNotEmpty) return c.trim().toLowerCase();
+      if (c is Map) {
+        // handle cases like { role: 'Doctor' } or { name: 'Doctor' }
+        final val = (c['role'] ?? c['name'] ?? c['type']) as dynamic;
+        if (val is String && val.trim().isNotEmpty) return val.trim().toLowerCase();
+      }
     }
 
     // roles could be an array of strings or objects
     final r = user['roles'] ?? user['Roles'];
     if (r != null) {
-      if (r is String && r.isNotEmpty) return r.toLowerCase();
+      if (r is String && r.trim().isNotEmpty) return r.trim().toLowerCase();
       if (r is List && r.isNotEmpty) {
-        final first = r.first;
-        if (first is String && first.isNotEmpty) return first.toLowerCase();
-        if (first is Map && first['name'] != null && first['name'] is String) return (first['name'] as String).toLowerCase();
+        // prefer a string entry or map entry with common keys
+        for (final entry in r) {
+          if (entry is String && entry.trim().isNotEmpty) return entry.trim().toLowerCase();
+          if (entry is Map) {
+            final val = (entry['name'] ?? entry['role'] ?? entry['roleName'] ?? entry['role_name']) as dynamic;
+            if (val is String && val.trim().isNotEmpty) return val.trim().toLowerCase();
+          }
+        }
       }
     }
 
@@ -47,6 +58,13 @@ class RoleDrawer extends StatelessWidget {
     if (user.containsKey('data') && user['data'] is Map) {
       final data = Map<String, dynamic>.from(user['data']);
       final nested = _extractRole(data);
+      if (nested != null) return nested;
+    }
+
+    // sometimes the user object itself may contain another `user` wrapper
+    if (user.containsKey('user') && user['user'] is Map) {
+      final inner = Map<String, dynamic>.from(user['user']);
+      final nested = _extractRole(inner);
       if (nested != null) return nested;
     }
 
@@ -61,8 +79,52 @@ class RoleDrawer extends StatelessWidget {
       child: FutureBuilder<Map<String, dynamic>?>(
         future: _readUser(),
         builder: (context, snap) {
-            final user = snap.data;
-            final role = _extractRole(user);
+          // If still loading, show a simple loading drawer to avoid
+          // rendering default (patient) items briefly before we know the role.
+          if (snap.connectionState == ConnectionState.waiting || snap.connectionState == ConnectionState.active) {
+            final cs = Theme.of(context).colorScheme;
+            return Container(
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: Theme.of(context).brightness == Brightness.dark
+                            ? [cs.primary, cs.secondary]
+                            : [cs.primary.withOpacity(0.85), cs.primary],
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(radius: 28, backgroundColor: cs.onPrimary.withOpacity(0.2)),
+                        const SizedBox(width: 12),
+                        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Container(width: 120, height: 16, color: cs.onPrimary.withOpacity(0.15)),
+                          const SizedBox(height: 8),
+                          const ThemeToggle(),
+                        ])),
+                      ],
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // If future completed (done) - proceed to read the data / error
+          final user = snap.data;
+          final role = _extractRole(user);
+          if (snap.hasError) {
+            // Don't crash drawer rendering on unexpected read errors; fall back to guest behavior.
+            // Optionally you can log the error during development.
+            // debugPrint('RoleDrawer read error: ${snap.error}');
+          }
 
           String displayName = 'OralScan';
           String initials = 'OS';
@@ -158,10 +220,17 @@ class RoleDrawer extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: cs.onPrimary.withOpacity(0.2),
-                        child: Text(initials, style: TextStyle(color: cs.onPrimary, fontWeight: FontWeight.bold)),
+                      // avatar uploader shows initials and allows picking/uploading
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: AvatarUploader(
+                          initials: initials,
+                          initialUrl: user != null ? (user['photo'] as String?) : null,
+                          userId: user != null ? (user['id']?.toString() ?? user['Id']?.toString()) : null,
+                          onUploaded: (url) {
+                            // no-op here; AvatarUploader already persists to storage
+                          },
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(

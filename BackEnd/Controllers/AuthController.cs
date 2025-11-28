@@ -69,6 +69,12 @@ namespace MedicalManagement.API.Controllers
                     { "photo", user.Photo ?? string.Empty },
                     {"location", user.Location ?? string.Empty }
                 };
+                // Include role so clients that read from Mongo can see the user's role
+                try
+                {
+                    doc.Add("role", user.Role.ToString());
+                }
+                catch { /* ignore if role cannot be added for any reason */ }
                 await coll.InsertOneAsync(doc);
                 _logger?.LogInformation("Inserted user {Email} into MongoDB 'users' collection.", user.Email);
             }
@@ -110,6 +116,37 @@ namespace MedicalManagement.API.Controllers
                         PhoneNumber = mongoDoc.Contains("phone") ? mongoDoc.GetValue("phone").AsString : null,
                         DateOfBirth = mongoDoc.Contains("birthday") ? mongoDoc.GetValue("birthday").AsString : null,
                     };
+
+                    // Map role from Mongo document if present
+                    try
+                    {
+                        if (mongoDoc.Contains("role"))
+                        {
+                            var roleStr = mongoDoc.GetValue("role").AsString;
+                            if (!string.IsNullOrWhiteSpace(roleStr) && Enum.TryParse<UserRole>(roleStr, true, out var parsedRole))
+                            {
+                                user.Role = parsedRole;
+                            }
+                        }
+                        else if (mongoDoc.Contains("roles"))
+                        {
+                            // roles may be an array - try to take the first string entry
+                            var rolesVal = mongoDoc.GetValue("roles");
+                            if (rolesVal.IsBsonArray && rolesVal.AsBsonArray.Count > 0)
+                            {
+                                var first = rolesVal.AsBsonArray[0];
+                                var roleStr = first.AsString;
+                                if (!string.IsNullOrWhiteSpace(roleStr) && Enum.TryParse<UserRole>(roleStr, true, out var parsedRole2))
+                                {
+                                    user.Role = parsedRole2;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger?.LogDebug(ex, "Failed to parse role from Mongo document for {Email}", req.Email);
+                    }
                     _logger?.LogInformation("Found user {Email} in MongoDB for login.", req.Email);
                 }
             }
