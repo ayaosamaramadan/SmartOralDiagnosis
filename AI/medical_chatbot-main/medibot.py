@@ -8,6 +8,8 @@ from langchain import hub
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from dotenv import load_dotenv
+import requests
+import uuid
 
 
 
@@ -40,11 +42,25 @@ def main():
     for message in st.session_state.messages:
         st.chat_message(message['role']).markdown(message['content'])
 
+    # session id for storing chat history on backend
+    if 'session_id' not in st.session_state:
+        st.session_state.session_id = str(uuid.uuid4())
+
     prompt=st.chat_input("Pass your prompt here")
 
     if prompt:
         st.chat_message('user').markdown(prompt)
         st.session_state.messages.append({'role':'user', 'content': prompt})
+        # save user message to backend
+        try:
+            backend = os.environ.get('BACKEND_URL', 'http://localhost:5000')
+            requests.post(f"{backend}/api/chat/messages", json={
+                'sessionId': st.session_state.session_id,
+                'role': 'user',
+                'content': prompt
+            }, timeout=5)
+        except Exception:
+            pass
 
         CUSTOM_PROMPT_TEMPLATE = """
                 Use the pieces of information provided in the context to answer user's question.
@@ -91,6 +107,16 @@ def main():
             result=response["answer"]
             st.chat_message('assistant').markdown(result)
             st.session_state.messages.append({'role':'assistant', 'content': result})
+            # save assistant message to backend
+            try:
+                backend = os.environ.get('BACKEND_URL', 'http://localhost:5000')
+                requests.post(f"{backend}/api/chat/messages", json={
+                    'sessionId': st.session_state.session_id,
+                    'role': 'assistant',
+                    'content': result
+                }, timeout=5)
+            except Exception:
+                pass
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
