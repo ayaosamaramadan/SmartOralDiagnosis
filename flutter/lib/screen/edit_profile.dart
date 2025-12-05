@@ -8,6 +8,7 @@ import '../components/edit_profile/detect_location.dart';
 import '../components/edit_profile/langu.dart';
 import '../widgets/role_drawer.dart';
 import '../widgets/avatar_uploader.dart';
+import '../services/api.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     'phoneNumber': '',
   };
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
-  static const String apiBase = 'http://10.0.2.2:5000';
+  static final String apiBase = Api.baseUrl;
   String? _jwt;
   String? _userId;
   bool _loading = false;
@@ -195,7 +196,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       drawer: const RoleDrawer(),

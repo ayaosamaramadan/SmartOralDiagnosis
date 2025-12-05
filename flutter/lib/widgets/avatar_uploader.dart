@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/api.dart';
 
 class AvatarUploader extends StatefulWidget {
   final String initials;
@@ -23,7 +24,7 @@ class _AvatarUploaderState extends State<AvatarUploader> {
   String? _photoUrl;
   bool _uploading = false;
 
-  static const String apiBase = 'http://10.0.2.2:5000';
+  static final String apiBase = Api.baseUrl;
 
   @override
   void initState() {

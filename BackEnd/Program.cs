@@ -82,15 +82,27 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000";
+// Support multiple frontend origins (comma-separated) and include flutter web default host/port
+var frontendOriginsRaw = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000,http://localhost:52552,http://localhost:55695";
+var frontendOrigins = frontendOriginsRaw.Split(new[] {',',';'}, StringSplitOptions.RemoveEmptyEntries)
+    .Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(frontendOrigin)
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+        // If no specific origins configured, fall back to allowing localhost origins used in development
+        if (frontendOrigins.Length == 0)
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        }
+        else
+        {
+            policy.WithOrigins(frontendOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        }
     });
 });
 
@@ -155,6 +167,22 @@ builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddSingleton<MongoDbService>();
 
+
+// Allow configuring which URLs Kestrel will listen on. Default includes 5000 and
+// the Flutter web dev port 52552 so the backend can be reached from the browser
+// when developing Flutter web locally. This can be overridden by environment
+// variable 'BackendUrls' or the standard 'ASPNETCORE_URLS'. Configure the
+// WebHost URLs before building the app.
+var backendUrlsRaw = builder.Configuration["BackendUrls"] ?? Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000;http://localhost:52552";
+try
+{
+    // UseUrls accepts a semicolon-separated list of URLs
+    builder.WebHost.UseUrls(backendUrlsRaw);
+}
+catch
+{
+    // We'll log later once the app exists
+}
 
 var app = builder.Build();
 

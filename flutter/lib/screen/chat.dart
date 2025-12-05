@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/embedded_chat_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -75,46 +77,38 @@ class ChatScreen extends StatelessWidget {
                             icon:
                                 const Icon(Icons.close, color: Colors.white70),
                           ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            onPressed: () async {
+                              final uri = Uri.parse('http://localhost:8501/');
+                              await launchUrl(uri, mode: LaunchMode.externalApplication);
+                            },
+                            icon: const Icon(Icons.open_in_browser, color: Colors.white70),
+                            tooltip: 'Open in browser',
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
 
+                // Embedded iframe / webview area
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.only(top: 170, left: 24, right: 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.chat_bubble_outline,
-                            size: 80, color: Colors.white54),
-                        SizedBox(height: 16),
-                        Text(
-                          'Chat with Medical Assistant',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          'Immediate and reliable medical answers — clear, concise, and trustworthy.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Hey! Curious about something medical? Let’s dive in!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white60),
-                        ),
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26, blurRadius: 8),
                       ],
                     ),
+                    clipBehavior: Clip.hardEdge,
+                    child: EmbeddedChatView(url: 'http://localhost:8501/'),
                   ),
                 ),
 
+                // Bottom input bar (kept simple)
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

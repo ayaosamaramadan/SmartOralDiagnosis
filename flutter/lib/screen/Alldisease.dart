@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/role_drawer.dart';
 import '../data/orals.dart';
 import 'disease_detail.dart';
-import '../theme/app_theme.dart';
 
 class FixedButton extends StatelessWidget {
   final VoidCallback? onPressed;

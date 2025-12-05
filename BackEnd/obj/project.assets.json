@@ -4809,32 +4809,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\k\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+      "projectUniqueName": "C:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
       "projectName": "MedicalManagement.API",
-      "projectPath": "C:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
-      "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\k\\Desktop\\GP\\SmartOralDiagnosis\\BackEnd\\obj\\",
+      "projectPath": "C:\\Dell\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "C:\\Dell\\SmartOralDiagnosis\\backend\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\k\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

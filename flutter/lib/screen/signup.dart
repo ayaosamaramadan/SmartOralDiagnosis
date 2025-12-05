@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/api.dart';
 import '../theme/app_theme.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -24,7 +25,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
   bool _isLoading = false;
 
-  static const String _backendBaseUrl = 'http://10.0.2.2:5000';
+  // Use Api.baseUrl which chooses host depending on platform (web vs emulator)
+  // For web this will be http://localhost:52552, for emulator it stays 10.0.2.2:5000
+  final String _backendBaseUrl = Api.baseUrl;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
