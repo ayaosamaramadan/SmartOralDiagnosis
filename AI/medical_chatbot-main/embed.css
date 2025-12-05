@@ -1,0 +1,188 @@
+/* CSS variables for light/dark themes */
+:root {
+  /* Light mode (default) */
+  --chat-bg: #ffffff;
+  --chat-text: #111827;
+  --muted: #6b7280;
+  --input-bg: #f9fafb;
+  --input-border: #e5e7eb;
+  --focus: #2563eb; /* blue-600 */
+  --assistant-bg: #f0f7ff; /* soft blue tint */
+  --user-bg: #f3fff7; /* soft green tint */
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode */
+    --chat-bg: #0b1220;
+    --chat-text: #e6eef8;
+    --muted: #94a3b8;
+    --input-bg: #0f1724;
+    --input-border: #1f2937;
+    --focus: #60a5fa; /* lighter blue for dark */
+    --assistant-bg: #06202b; /* dark blue tint */
+    --user-bg: #04321a; /* dark green tint */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Overall page container */
+.main .block-container {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--chat-text) !important;
+  background-color: var(--chat-bg) !important;
+}
+
+/* Chat messages container spacing */
+[data-testid="stChatMessage"] {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Hide avatar column for both user and assistant */
+[data-testid="stChatMessage"] > div:first-child { display: none !important; }
+
+/* Expand message bubble to full width when avatar is removed */
+[data-testid="stChatMessage"] .stMarkdown { max-width: 100% !important; }
+
+/* Message bubble styling */
+[data-testid="stChatMessage"] .stMarkdown {
+  color: var(--chat-text) !important;
+  background: var(--assistant-bg) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  box-shadow: 0 1px 3px var(--shadow-color);
+  max-width: 78%;
+  line-height: 1.5;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+/* User messages: align right and use user bg */
+[data-testid="stChatMessage"]:nth-child(even) .stMarkdown {
+  background: var(--user-bg) !important;
+  margin-left: auto !important;
+  color: var(--chat-text) !important;
+}
+
+/* Assistant messages subtle tint */
+[data-testid="stChatMessage"]:nth-child(odd) .stMarkdown {
+  background: var(--assistant-bg) !important;
+}
+
+/* Improve message inner paragraphs */
+[data-testid="stChatMessage"] .stMarkdown p { margin: 0 0 6px 0; }
+
+/* Chat input styling and focus */
+.stChatInput, .stChatInput > div > div {
+  background: var(--input-bg) !important;
+  border-radius: 12px !important;
+}
+
+div[data-testid="stChatInput"] {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 10px !important;
+  border-radius: 12px !important;
+  background: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  box-shadow: 0 1px 2px var(--shadow-color) !important;
+  margin: 6px 0 !important;
+  transition: all 0.12s ease !important;
+}
+
+div[data-testid="stChatInput"] textarea[data-testid="stChatInputTextArea"] {
+  background: transparent !important;
+  border: none !important;
+  padding: 8px 6px !important;
+  margin: 0 !important;
+  color: var(--chat-text) !important;
+  width: 100% !important;
+  resize: none !important;
+  line-height: 1.4 !important;
+}
+
+div[data-testid="stChatInput"]:focus-within {
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12) !important;
+  border-color: var(--focus) !important;
+}
+
+textarea[data-testid="stChatInputTextArea"],
+[data-testid="stChatInputTextArea"],
+.stChatInput textarea,
+.stTextInput,
+input[type="text"] {
+  border: 1px solid var(--input-border) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: box-shadow .12s ease, border-color .12s ease !important;
+  background: var(--input-bg) !important;
+}
+
+textarea[data-testid="stChatInputTextArea"]:focus,
+[data-testid="stChatInputTextArea"]:focus,
+.stChatInput textarea:focus,
+.stTextInput:focus,
+input[type="text"]:focus,
+textarea:focus {
+  border-color: var(--focus) !important;
+  box-shadow: 0 0 0 6px rgba(37,99,235,0.12) !important;
+  outline: none !important;
+}
+
+textarea[data-testid="stChatInputTextArea"]:focus-visible,
+[data-testid="stChatInputTextArea"]:focus-visible,
+.stTextInput:focus-visible,
+input[type="text"]:focus-visible {
+  border-color: var(--focus) !important;
+  box-shadow: 0 0 0 6px rgba(37,99,235,0.12) !important;
+  outline: none !important;
+}
+
+[style*="#dc2626"], [style*="#b91c1c"], [style*="rgb(220, 38, 38)"], [style*="rgb(220,38,38)"] {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+div[data-testid="stChatInput"],
+div[data-testid="stChatInput"] *,
+textarea[data-testid="stChatInputTextArea"],
+textarea[data-testid="stChatInputTextArea"] * {
+  border-color: var(--input-border) !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+div[data-testid="stChatInput"][style*="#dc2626"],
+div[data-testid="stChatInput"][style*="rgb(220,38,38)"],
+div[data-testid="stChatInput"] [style*="#dc2626"],
+div[data-testid="stChatInput"] [style*="rgb(220,38,38)"] {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+textarea[data-testid="stChatInputTextArea"]:focus,
+textarea[data-testid="stChatInputTextArea"]:focus-visible {
+  border-color: var(--focus) !important;
+  box-shadow: 0 0 0 6px rgba(37,99,235,0.12) !important;
+  outline: none !important;
+}
+
+.baseui-input, .baseui-textarea, .baseui-input * , .baseui-textarea * {
+  border-color: var(--input-border) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.stAlert, .stError, .st-exception { color: #b91c1c !important; }
+
+#MainMenu { visibility: hidden !important; }
+header { display: none !important; }
+footer { display: none !important; }
+a[href*="streamlit"] { display: none !important; }
+.css-1lsmgbg, .css-1y0tads, .css-12oz5g7 { display: none !important; }

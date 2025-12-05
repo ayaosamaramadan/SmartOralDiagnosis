@@ -6,16 +6,26 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine current brightness and pick palette
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? const Color(0xFF0B1220) : const Color(0xFFF9FAFB);
+    final headerColor = isDark ? const Color(0xFF0F1724) : Colors.white;
+    final headerBorder = isDark ? const Color(0xFF1F2937) : const Color(0xFFE5E7EB);
+    final headerText = isDark ? const Color(0xFFE6EEFB) : const Color(0xFF111827);
+    final actionBg = isDark ? const Color(0xFF1F2937) : const Color(0xFFF3F4F6);
+    final actionText = isDark ? const Color(0xFF9CA3AF) : const Color(0xFF374151);
+    final containerColor = isDark ? const Color(0xFF0B1220) : Colors.white;
+    final containerBorder = isDark ? const Color(0xFF1F2937) : const Color(0xFFE5E7EB);
+    final containerShadow = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.04);
+
     return Scaffold(
       body: Stack(
         children: [
-          // Clean background
+          // Dark mode background
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFFF9FAFB),
-            ),
+            color: bgColor,
           ),
 
           SafeArea(
@@ -25,11 +35,11 @@ class ChatScreen extends StatelessWidget {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: headerColor,
                     border: Border(
                       bottom: BorderSide(
-                        color: Color(0xFFE5E7EB),
+                        color: headerBorder,
                         width: 1,
                       ),
                     ),
@@ -37,10 +47,10 @@ class ChatScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Chat',
                         style: TextStyle(
-                          color: Color(0xFF111827),
+                          color: headerText,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -61,14 +71,13 @@ class ChatScreen extends StatelessWidget {
                           const SizedBox(width: 8),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.close,
-                              color: Color(0xFF6B7280),
+                              color: actionText,
                               size: 20,
                             ),
                             style: IconButton.styleFrom(
-                              backgroundColor:
-                                  const Color(0xFFF3F4F6),
+                              backgroundColor: actionBg,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(6),
                               ),
@@ -86,15 +95,15 @@ class ChatScreen extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: containerColor,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: const Color(0xFFE5E7EB),
+                        color: containerBorder,
                         width: 1,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: containerShadow,
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -102,7 +111,7 @@ class ChatScreen extends StatelessWidget {
                     ),
                     clipBehavior: Clip.hardEdge,
                     child: EmbeddedChatView(
-                      url: 'http://localhost:8501/?embed=true',
+                      url: 'http://localhost:8501/?embed=true&theme=${isDark ? 'dark' : 'light'}',
                     ),
                   ),
                 ),
@@ -128,8 +137,12 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bg = isDark ? const Color(0xFF1F2937) : const Color(0xFFF3F4F6);
+    final fg = isDark ? const Color(0xFF9CA3AF) : const Color(0xFF374151);
+
     return Material(
-      color: const Color(0xFFF3F4F6),
+      color: bg,
       borderRadius: BorderRadius.circular(6),
       child: InkWell(
         onTap: onPressed,
@@ -141,13 +154,13 @@ class _ActionButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 16,
-                color: const Color(0xFF374151),
+                color: fg,
               ),
               const SizedBox(width: 6),
               Text(
                 label,
-                style: const TextStyle(
-                  color: Color(0xFF374151),
+                style: TextStyle(
+                  color: fg,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
