@@ -9,14 +9,18 @@ import { RiCompassDiscoverFill } from "react-icons/ri";
 
 const Chatbot = () => {
     const [open, setOpen] = useState(false);
+    const [showStreamlit, setShowStreamlit] = useState(false);
 
     return (
         <>
             <button
-                onClick={() => setOpen((s) => !s)}
+                onClick={() => {
+                    setOpen(true);
+                    setShowStreamlit(true);
+                }}
                 className="fixed bottom-6 right-6 z-50 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition group"
                 aria-label="Open chat overlay"
-                   style={{ zIndex: 2147483647 }}
+                style={{ zIndex: 2147483647 }}
             >
                 <IoChatbubbleEllipses />
                 <span className="absolute right-full mr-2 bottom-1/2 translate-y-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
@@ -26,12 +30,6 @@ const Chatbot = () => {
 
             {open && (
                 <div style={{ zIndex: 2147483647 }} className="bot-aimate fixed inset-0 z-50 flex items-center justify-end p-6">
-
-                    <div
-                        className="absolute inset-0 bg-[rgb(0 0 0 / 0.4)]"
-                        onClick={() => setOpen(false)}
-                        aria-hidden="true"
-                    />
 
                     <aside
                         role="dialog"
@@ -64,8 +62,8 @@ const Chatbot = () => {
                                     <TfiWrite className="w-4 h-4 text-gray-700 dark:text-gray-200" />
                                     <span className="text-sm text-gray-700 dark:text-gray-200 hidden sm:inline">New Chat</span>
                                 </button>
-                              
-                                
+
+
 
                                 <button
                                     onClick={() => setOpen(false)}
@@ -78,55 +76,23 @@ const Chatbot = () => {
                             </div>
                         </header>
 
-                        <div className="backdrop-blur-sm p-6 sm:p-8 overflow-y-auto flex-1 flex items-center justify-center flex-col text-center space-y-4 group" role="document">
-                            <PiChatCenteredDotsDuotone className="w-16 h-16 sm:w-20 sm:h-20 text-gray-400 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-500" />
-                            <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-gray-100 transition-all duration-200 group-hover:tracking-wide">Chat with Medical Assistant</h2>
-                            <p className="text-sm sm:text-md text-gray-700 dark:text-gray-300 max-w-xl sm:max-w-2xl transition-colors duration-200 group-hover:text-gray-900 dark:group-hover:text-gray-100">
-                                Immediate and reliable medical answers — clear, concise, and trustworthy.
-                            </p>
-                            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl sm:max-w-2xl transition-colors duration-200 group-hover:text-gray-800 dark:group-hover:text-gray-200">
-                                Hey! Curious about something medical? Let’s dive in
-                            </p>
+
+
+                        <div className="overflow-y-auto flex-1 flex flex-col">
+                            {showStreamlit && (
+                                <div className="w-full h-full rounded-md overflow-hidden" style={{ minHeight: '60vh' }}>
+                                    <div className="w-full border-t-4 border-blue-500 h-full rounded-t-md overflow-hidden">
+                                        <iframe
+                                            src={"http://localhost:8501/?embed=true"}
+                                            title="Embedded Streamlit Chat"
+                                            className="w-full h-full border-0"
+                                            style={{ border: 'none', outline: 'none' }}
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
-                        <form
-                            className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-800"
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                    }}
-                        >
-                            <div className="flex gap-2 items-end">
-                                 <div className="flex-1 rounded-md border border-gray-200 dark:border-gray-800 px-3 py-2 bg-white dark:bg-gray-900 text-sm flex items-center gap-3 transition-shadow duration-200 hover:shadow-md">
-                                 
-                                <input
-                                    name="message"
-                                    aria-label="Message"
-                                    className="flex-1 rounded-md bg-transparent text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-150 px-2 py-1"
-                                    placeholder="Write your message here..."
-                                />
-                             
-                                    <button
-                                        type="button"
-                                        className="ml-2 mt-0 flex-none flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md hover:scale-105 transform transition duration-150 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        aria-label="Talk to doctor"
-                                        title="Talk to doctor"
-                                     
-                                    >
-                                        <FaUserDoctor className="w-4 h-4" />
-                                        <span className="hidden sm:inline">Talk to Doctor</span>
-                                    </button>
-
-                                  
-                                </div>
-                                <button
-                                    type="submit"
-                                    aria-label="Send message"
-                                    className="w-12 h-12 mt-0 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-950 via-blue-600 to-blue-400 text-white hover:scale-110 transform transition duration-150 shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <IoSend className="w-5 h-5" />
-                                </button>
-                            </div>
-                        </form>
                     </aside>
                 </div>
             )}
