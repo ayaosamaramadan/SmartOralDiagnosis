@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "OralScan",
+            "ORACLE",
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,

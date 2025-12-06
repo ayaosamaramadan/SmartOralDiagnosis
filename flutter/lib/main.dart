@@ -8,6 +8,7 @@ import 'screen/login.dart';
 import 'screen/signup.dart';
 import 'screen/scan.dart';
 import 'screen/chat.dart';
+import 'screen/loading_screen.dart';
 import 'screen/disease_detail.dart';
 import 'screen/clinic_map.dart';
 import 'screen/Alldisease.dart';
@@ -55,13 +56,14 @@ class MyApp extends StatelessWidget {
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: themeMode,
-          home: const HomeScreen(),
+          home: const LoadingScreen(),
           routes: {
             '/home': (context) => const HomeScreen(),
             '/login': (context) => const LoginScreen(),
             '/signup': (context) => const SignUpScreen(),
             '/scan': (context) => const ScanPage(),
             '/chat': (context) => const ChatScreen(),
+            '/loading': (context) => const LoadingScreen(),
              '/Alldisease': (context) => const AlldiseaseScreen(),
             '/map': (context) => const ClinicMap(), 
              '/editProfile': (context) => const EditProfileScreen(),
