@@ -32,7 +32,7 @@ def set_custom_prompt(custom_prompt_template):
 def inject_styles():
     """Inject CSS for light/dark themes and allow forcing via ?theme=dark|light"""
     try:
-        params = st.experimental_get_query_params()
+        params = st.query_params
     except Exception:
         params = {}
 
