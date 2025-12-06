@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../components/theme_toggle.dart';
 import '../theme/app_theme.dart';
 import '../widgets/role_drawer.dart';
 
@@ -30,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if (raw != null && raw.isNotEmpty) {
         final Map<String, dynamic> user = Map<String, dynamic>.from(jsonDecode(raw));
         setState(() {
-          // The backend may store Photo as full URL or relative path
           _profilePhotoUrl = user['photo'] as String?;
           final first = user['firstName'] as String? ?? '';
           final last = user['lastName'] as String? ?? '';
@@ -156,8 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ---------------- SIDE MENU ----------------
-  // ---------------- SIDE MENU ----------------
 Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
   return const RoleDrawer();
 }
@@ -172,7 +168,6 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
     );
   }
 
-  // ---------------- HERO SECTION ----------------
   Widget _buildHeroSection(BuildContext context, ColorScheme cs, TextTheme ts) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -253,7 +248,6 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
     );
   }
 
-  // ---------------- CONTACT ROW ----------------
   Widget _buildContactRow(BuildContext context, ColorScheme cs, TextTheme ts) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -293,7 +287,6 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
     );
   }
 
-  // ---------------- FIND CLINICS ----------------
   Widget _buildFindClinicsSection(BuildContext context, ColorScheme cs, TextTheme ts) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),

@@ -21,11 +21,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
         setState(() {
           _initialized = true;
         });
-        // Play the video once then navigate to home when finished.
         _controller.setLooping(false);
         _controller.play();
-
-        // Listen for completion and navigate to home.
         _controller.addListener(() {
           if (!_navigated && _controller.value.isInitialized) {
             final pos = _controller.value.position;
@@ -39,7 +36,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
           }
         });
 
-        // Safety fallback: navigate to home after 8 seconds if not already navigated.
         Future.delayed(const Duration(seconds: 8), () {
           if (!_navigated && mounted) {
             _navigated = true;
@@ -47,7 +43,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
           }
         });
       }).catchError((e) {
-        // Initialization failed — keep the screen but show fallback UI.
         debugPrint('Video initialization error: $e');
       });
   }
@@ -60,10 +55,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    // Use the requested background color (#0656b3) as a gradient base.
-    const Color base = Color(0xFF0656B3);
-    const Color dark = Color(0xFF0656B3);
+  Widget build(BuildContext context) {  
+    const Color dark = Color.fromARGB(255, 0, 0, 0);
 
     return Scaffold(
       body: Container(
@@ -73,7 +66,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [base, dark],
+            colors: [Color.fromARGB(255, 0, 0, 0), dark],
           ),
         ),
         child: SafeArea(
@@ -87,7 +80,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
-                      color: Colors.black,
+                    
                       constraints: const BoxConstraints(
                         maxWidth: 480,
                         maxHeight: 320,
@@ -100,13 +93,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
                           : SizedBox(
                               width: 200,
                               height: 120,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(
-                                          Colors.white),
-                                ),
-                              ),
                             ),
                     ),
                   ),
