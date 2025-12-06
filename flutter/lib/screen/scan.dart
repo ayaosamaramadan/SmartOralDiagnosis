@@ -174,7 +174,7 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  // ---------------- NAVBAR (نفس الهوم بالظبط) ----------------
+
   Widget _buildNavBar(BuildContext context, ColorScheme cs) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
