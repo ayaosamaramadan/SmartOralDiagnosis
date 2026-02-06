@@ -164,6 +164,7 @@ builder.Services.AddHttpClient("AIService", client =>
 
 
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<CaseSimilarityService>();
 
 builder.Services.AddSingleton<MongoDbService>();
 
