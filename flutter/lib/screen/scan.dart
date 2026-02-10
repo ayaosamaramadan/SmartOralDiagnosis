@@ -15,7 +15,6 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   final ImagePicker _picker = ImagePicker();
   File? _imageFile;
-
   Future<void> _pickFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {

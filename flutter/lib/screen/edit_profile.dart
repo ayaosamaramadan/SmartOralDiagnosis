@@ -34,7 +34,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool _loading = false;
   String? _role;
 
-  // controllers to allow updating initial values after async load
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -45,7 +44,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void _onDetectLocation(String location) {
     setState(() {
       _form['location'] = location;
-      _locationController.text = location; // populate the Location field with detected city
+      _locationController.text = location;
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Location detected')),
@@ -83,7 +82,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _phoneController.text = _form['phoneNumber'];
           _locationController.text = _form['location'];
         });
-        // If we have jwt and id, attempt to refresh from backend
         if (_jwt != null && _userId != null) {
           try {
             final controller = (_role != null && _role!.toLowerCase().contains('doctor')) ? 'Doctors' : 'Patients';
@@ -105,7 +103,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 _phoneController.text = _form['phoneNumber'];
                 _locationController.text = _form['location'];
               });
-              // After refreshing, try to flush any pending updates saved while offline
               await _flushPendingUpdates();
             }
           } catch (_) {}
@@ -130,7 +127,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       'location': _form['location'],
     };
 
-    // Try backend update if we have token and id
     if (_jwt != null && _userId != null) {
       try {
         final controller = (_role != null && _role!.toLowerCase().contains('doctor')) ? 'Doctors' : 'Patients';
@@ -143,7 +139,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             body: jsonEncode(payload));
 
         if (resp.statusCode == 200) {
-          // update local cached user if present
           try {
             final existing = await _storage.read(key: 'user');
             if (existing != null) {
@@ -160,11 +155,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           return;
         }
       } catch (_) {
-        // network error, fallback to local save
       }
     }
 
-    // Fallback: save locally in secure storage
     try {
       final existing = await _storage.read(key: 'user');
       if (existing != null) {
@@ -186,7 +179,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Saved locally — will sync when online')));
     } catch (_) {}
 
-    // enqueue pending sync so it will be pushed to backend (and Mongo) when online
     try {
       await _enqueuePendingUpdate({'userId': _userId, 'role': _role, 'payload': payload});
     } catch (_) {}
@@ -200,9 +192,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       drawer: const RoleDrawer(),
 
-      // ============================
-      //           شاشة Edit Profile
-      // ============================
       appBar: AppBar(
         title: const Text('Edit Profile'),
         actions: [IconButton(onPressed: _loading ? null : _onSave, icon: _loading ? const SizedBox(width:24,height:24,child:CircularProgressIndicator(strokeWidth:2)) : const Icon(Icons.save))],
@@ -235,7 +224,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                  // Avatar uploader: shows initials and allows selecting/uploading a profile photo
                   Center(
                     child: AvatarUploader(
                       initials: (_form['firstName'] as String?)?.isNotEmpty == true
@@ -412,7 +400,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
-  // Persist a pending update to secure storage so it can be flushed later when online.
   Future<void> _enqueuePendingUpdate(Map<String, dynamic> entry) async {
     try {
       final raw = await _storage.read(key: 'pending_profile_updates');
@@ -430,7 +417,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } catch (_) {}
   }
 
-  // Attempt to flush pending updates to the backend. On success, clear them.
   Future<void> _flushPendingUpdates() async {
     try {
       final raw = await _storage.read(key: 'pending_profile_updates');
@@ -444,7 +430,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         final role = item['role']?.toString() ?? _role;
         final payload = Map<String, dynamic>.from(item['payload'] ?? {});
         if (itemUserId == null) {
-          // cannot flush without user id; keep it
           remaining.add(item);
           continue;
         }
@@ -458,7 +443,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               },
               body: jsonEncode(payload));
           if (resp.statusCode == 200) {
-            // success — backend will sync to Mongo; do not re-add
             continue;
           } else {
             remaining.add(item);

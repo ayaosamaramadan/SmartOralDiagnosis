@@ -345,7 +345,6 @@ class _ClinicMapState extends State<ClinicMap> {
                 ),
             ],
           ),
-          // Top navigation overlay (back + theme toggle)
           const AppNav(),
   Positioned(
     left: 16,
@@ -407,7 +406,6 @@ class _ClinicMapState extends State<ClinicMap> {
             ),
           ),
 
-          // Locate me (bottom)
           AnimatedContainer(
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
