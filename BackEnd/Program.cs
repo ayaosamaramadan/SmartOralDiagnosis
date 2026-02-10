@@ -91,9 +91,40 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // Support multiple frontend origins (comma-separated) and include flutter web default host/port
-var frontendOriginsRaw = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000,http://localhost:52552,http://localhost:55695";
-var frontendOrigins = frontendOriginsRaw.Split(new[] {',',';'}, StringSplitOptions.RemoveEmptyEntries)
-    .Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+// Gather frontend origin(s) from configuration and common environment variable names
+var frontendCandidates = new List<string>();
+var cfgFrontend = builder.Configuration.GetValue<string>("FrontendOrigin");
+if (!string.IsNullOrWhiteSpace(cfgFrontend)) frontendCandidates.Add(cfgFrontend);
+
+var envNames = new[] { "FRONTEND_ORIGIN", "FRONTEND_ORIGINS", "NEXT_PUBLIC_APP_URL", "NEXT_PUBLIC_FRONTEND_URL", "NEXT_PUBLIC_BACK_URL", "NEXT_PUBLIC_BACKEND_URL", "VERCEL_URL" };
+foreach (var n in envNames)
+{
+    var v = Environment.GetEnvironmentVariable(n);
+    if (!string.IsNullOrWhiteSpace(v)) frontendCandidates.Add(v);
+}
+
+// Normalize candidates: split on commas/semicolons and ensure scheme present (assume https if missing host-only)
+var frontendOrigins = frontendCandidates
+    .SelectMany(c => (c ?? string.Empty).Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
+    .Select(s => s.Trim())
+    .Where(s => !string.IsNullOrEmpty(s))
+    .Select(s => 
+    {
+        // If value looks like 'example.vercel.app' or 'example.com' (no scheme), assume https
+        if (s.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || s.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return s;
+        // Add https:// for host-only entries and strip any trailing slashes
+        return "https://" + s.TrimEnd('/');
+    })
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .ToArray();
+
+// Fallback to common local development hosts when nothing configured
+if (frontendOrigins.Length == 0)
+{
+    frontendOrigins = new[] { "http://localhost:3000", "http://localhost:52552", "http://localhost:55695" };
+}
+
+Console.WriteLine("Resolved frontend origins for CORS: " + string.Join(", ", frontendOrigins));
 
 builder.Services.AddCors(options =>
 {
