@@ -85,7 +85,7 @@ def main():
         st.session_state.messages.append({'role': 'user', 'content': prompt})
         # save user message to backend
         try:
-            backend = os.environ.get('BACKEND_URL', 'http://localhost:5000')
+            backend = os.environ.get('NEXT_BACKEND_SERVER', os.environ.get('BACKEND_URL', os.environ.get('NEXT_BACKEND_SERVER')))
             requests.post(f"{backend}/api/chat/messages", json={
                 'sessionId': st.session_state.session_id,
                 'role': 'user',
@@ -133,7 +133,7 @@ def main():
             st.session_state.messages.append({'role': 'assistant', 'content': result})
 
             try:
-                backend = os.environ.get('BACKEND_URL', 'http://localhost:5000')
+                backend = os.environ.get('NEXT_BACKEND_SERVER', os.environ.get('BACKEND_URL', 'http://localhost:5000'))
                 requests.post(f"{backend}/api/chat/messages", json={
                     'sessionId': st.session_state.session_id,
                     'role': 'assistant',

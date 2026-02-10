@@ -1,6 +1,13 @@
 // API base configuration
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+// Prefer `NEXT_PUBLIC_API_URL` (may include `/api`).
+// Fallback to `NEXT_PUBLIC_BACK_URL` (host-only) then localhost.
+const API_BASE_URL = (() => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const backUrl = process.env.NEXT_PUBLIC_BACK_URL;
+  if (apiUrl && apiUrl.length > 0) return apiUrl.replace(/\/$/, '');
+  if (backUrl && backUrl.length > 0) return backUrl.replace(/\/$/, '') + '/api';
+  return 'http://localhost:5000/api';
+})();
 
 // Helper function to get auth headers
 const getAuthHeaders = (contentType: string | null = "application/json") => {
@@ -13,11 +20,29 @@ const getAuthHeaders = (contentType: string | null = "application/json") => {
 
 // Helper function to handle API responses
 const handleResponse = async (response: Response) => {
+  // Read response body as text first to safely handle empty bodies
+  const text = await response.text();
+
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "API request failed");
+    // Try to parse JSON error body, fall back to status text
+    try {
+      const error = text ? JSON.parse(text) : null;
+      const message = error && (error.message || error.error) ? (error.message || error.error) : response.statusText || "API request failed";
+      throw new Error(message);
+    } catch (ex) {
+      throw new Error(response.statusText || "API request failed");
+    }
   }
-  return response.json();
+
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch (ex) {
+    // If response is not valid JSON, return raw text
+    // (some endpoints may return plain text)
+    return text;
+  }
 };
 
 // Authentication Services
@@ -161,6 +186,20 @@ export const doctorService = {
     );
     return handleResponse(response);
   },
+  getAverageRating: async (doctorId: string) => {
+    const response = await fetch(`${API_BASE_URL}/doctors/ratings/average/${doctorId}`, {
+      headers: getAuthHeaders(),
+    });
+    return handleResponse(response);
+  },
+  createRating: async (rating: { doctorId: string; score: number; comment?: string }) => {
+    const response = await fetch(`${API_BASE_URL}/doctors/ratings`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(rating),
+    });
+    return handleResponse(response);
+  },
 };
 
 // Appointment Services
@@ -187,10 +226,31 @@ export const appointmentService = {
     type: string;
     reason: string;
   }) => {
+    // map frontend fields to backend Appointment model shape and ensure enum uses numeric value
+    const mapType = (t: any) => {
+      if (t == null) return 0;
+      if (typeof t === "number") return t;
+      const s = String(t).toLowerCase();
+      if (s.includes("consult")) return 0;
+      if (s.includes("follow")) return 1;
+      if (s.includes("emerg")) return 2;
+      if (s.includes("rout")) return 3;
+      return 0;
+    };
+
+    const payload = {
+      PatientId: appointmentData.patientId,
+      DoctorId: appointmentData.doctorId,
+      AppointmentDate: appointmentData.appointmentDate,
+      Duration: appointmentData.duration,
+      Type: mapType(appointmentData.type),
+      Reason: appointmentData.reason,
+    };
+
     const response = await fetch(`${API_BASE_URL}/appointments`, {
       method: "POST",
       headers: getAuthHeaders(),
-      body: JSON.stringify(appointmentData),
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   },

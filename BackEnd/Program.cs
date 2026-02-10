@@ -8,23 +8,23 @@ using MedicalManagement.API.Services;
 using MedicalManagement.API.Middleware;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 void LoadDotEnv()
 {
     try
     {
-        string? cwd = Directory.GetCurrentDirectory();
-        var candidates = new[] {
-            Path.Combine(cwd, ".env"),
-            Path.Combine(cwd, "..", ".env"),
-            Path.Combine(cwd, "..", "..", ".env")
-        };
-
-        foreach (var path in candidates)
+        string? dir = Directory.GetCurrentDirectory();
+        // Search upward up to 6 levels for a .env file to accommodate running from build output folders
+        for (int i = 0; i < 7 && !string.IsNullOrEmpty(dir); i++)
         {
-            if (File.Exists(path))
+            var candidate = Path.Combine(dir, ".env");
+            Console.WriteLine($"LoadDotEnv: checking {candidate}");
+            if (File.Exists(candidate))
             {
-                var lines = File.ReadAllLines(path);
+                Console.WriteLine("LoadDotEnv: found .env at: " + candidate);
+                var lines = File.ReadAllLines(candidate);
                 foreach (var raw in lines)
                 {
                     var line = raw.Trim();
@@ -35,23 +35,32 @@ void LoadDotEnv()
                     var val = line.Substring(idx + 1).Trim().Trim('"').Trim('\'');
                     if (!string.IsNullOrEmpty(key))
                     {
-                        // If env var already present, don't overwrite
-                        if (Environment.GetEnvironmentVariable(key) == null)
+                        var existing = Environment.GetEnvironmentVariable(key);
+                        if (string.IsNullOrEmpty(existing))
                         {
                             Environment.SetEnvironmentVariable(key, val);
+                            Console.WriteLine($"LoadDotEnv: set {key}={val}");
                         }
                     }
                 }
                 break;
             }
+            dir = Path.GetDirectoryName(dir);
         }
     }
-    catch
+    catch (Exception ex)
     {
-          }
+        Console.WriteLine("LoadDotEnv: exception while loading .env: " + ex.Message);
+    }
 }
 
 LoadDotEnv();
+
+// Debug: print key env vars to help troubleshoot .env loading
+Console.WriteLine("DEBUG: NEXT_BACKEND_SERVER=" + (Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER") ?? "<null>"));
+Console.WriteLine("DEBUG: NEXT_PUBLIC_BACKEND_URL=" + (Environment.GetEnvironmentVariable("NEXT_PUBLIC_BACKEND_URL") ?? "<null>"));
+Console.WriteLine("DEBUG: RAILWAY_STATIC_URL=" + (Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL") ?? "<null>"));
+Console.WriteLine("DEBUG: PORT=" + (Environment.GetEnvironmentVariable("PORT") ?? "<null>"));
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,9 +92,40 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // Support multiple frontend origins (comma-separated) and include flutter web default host/port
-var frontendOriginsRaw = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:3000,http://localhost:52552,http://localhost:55695";
-var frontendOrigins = frontendOriginsRaw.Split(new[] {',',';'}, StringSplitOptions.RemoveEmptyEntries)
-    .Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+// Gather frontend origin(s) from configuration and common environment variable names
+var frontendCandidates = new List<string>();
+var cfgFrontend = builder.Configuration.GetValue<string>("FrontendOrigin");
+if (!string.IsNullOrWhiteSpace(cfgFrontend)) frontendCandidates.Add(cfgFrontend);
+
+var envNames = new[] { "FRONTEND_ORIGIN", "FRONTEND_ORIGINS", "NEXT_PUBLIC_APP_URL", "NEXT_PUBLIC_FRONTEND_URL", "NEXT_PUBLIC_BACK_URL", "NEXT_PUBLIC_BACKEND_URL", "VERCEL_URL" };
+foreach (var n in envNames)
+{
+    var v = Environment.GetEnvironmentVariable(n);
+    if (!string.IsNullOrWhiteSpace(v)) frontendCandidates.Add(v);
+}
+
+// Normalize candidates: split on commas/semicolons and ensure scheme present (assume https if missing host-only)
+var frontendOrigins = frontendCandidates
+    .SelectMany(c => (c ?? string.Empty).Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
+    .Select(s => s.Trim())
+    .Where(s => !string.IsNullOrEmpty(s))
+    .Select(s => 
+    {
+        // If value looks like 'example.vercel.app' or 'example.com' (no scheme), assume https
+        if (s.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || s.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return s;
+        // Add https:// for host-only entries and strip any trailing slashes
+        return "https://" + s.TrimEnd('/');
+    })
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .ToArray();
+
+// Fallback to common local development hosts when nothing configured
+if (frontendOrigins.Length == 0)
+{
+    frontendOrigins = new[] { "http://localhost:3000", "http://localhost:52552", "http://localhost:55695" };
+}
+
+Console.WriteLine("Resolved frontend origins for CORS: " + string.Join(", ", frontendOrigins));
 
 builder.Services.AddCors(options =>
 {
@@ -156,14 +196,24 @@ builder.Services.AddAuthorization(options =>
 });
 
 // Register an HttpClient for contacting the external AI inference service.
-var aiBaseUrl = builder.Configuration.GetValue<string>("AIService:BaseUrl") ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL");
+// Read from config or common environment variable names (loaded from .env by LoadDotEnv()).
+var aiBaseUrl = builder.Configuration.GetValue<string>("AIService:BaseUrl")
+                ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL")
+                ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASE_URL")
+                ?? Environment.GetEnvironmentVariable("AI_BASEURL")
+                ?? Environment.GetEnvironmentVariable("AI_BASE_URL");
 builder.Services.AddHttpClient("AIService", client =>
 {
-    if (!string.IsNullOrEmpty(aiBaseUrl)) client.BaseAddress = new Uri(aiBaseUrl);
+    if (!string.IsNullOrEmpty(aiBaseUrl))
+    {
+        try { client.BaseAddress = new Uri(aiBaseUrl); }
+        catch { /* ignore invalid URL here; will surface at runtime */ }
+    }
 });
 
 
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<CaseSimilarityService>();
 
 builder.Services.AddSingleton<MongoDbService>();
 
@@ -173,15 +223,55 @@ builder.Services.AddSingleton<MongoDbService>();
 // when developing Flutter web locally. This can be overridden by environment
 // variable 'BackendUrls' or the standard 'ASPNETCORE_URLS'. Configure the
 // WebHost URLs before building the app.
-var backendUrlsRaw = builder.Configuration["BackendUrls"] ?? Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000;http://localhost:52552";
-try
+// Allow configuring which URLs Kestrel will listen on. Try config key first,
+// then common environment variable names. `LoadDotEnv()` above will populate
+// environment variables from a `.env` file if present.
+// Prefer explicit backend server variables commonly used in this repo
+var backendUrlsRaw = builder.Configuration.GetValue<string>("BackendUrls")
+                     ?? Environment.GetEnvironmentVariable("NEXT_PUBLIC_BACKEND_URL")
+                     ?? Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER")
+                     ?? Environment.GetEnvironmentVariable("BACKEND_URL")
+                     ?? Environment.GetEnvironmentVariable("BACKEND_URLS")
+                     ?? Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+
+// Public hosting platforms (Railway/Heroku) provide a public URL (RAILWAY_STATIC_URL)
+// and a runtime `PORT` to bind to. If the public URL exists but no explicit
+// backend listen URL is configured, prefer binding to 0.0.0.0:$PORT so the
+// platform can route the public domain to the process.
+var railwayPublicUrl = Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL")
+                       ?? Environment.GetEnvironmentVariable("RAILWAY_URL");
+var platformPort = Environment.GetEnvironmentVariable("PORT");
+
+if (string.IsNullOrWhiteSpace(backendUrlsRaw))
 {
-    // UseUrls accepts a semicolon-separated list of URLs
-    builder.WebHost.UseUrls(backendUrlsRaw);
+    if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER")))
+    {
+        backendUrlsRaw = Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER");
+    }
+    else if (!string.IsNullOrWhiteSpace(platformPort))
+    {
+        backendUrlsRaw = $"http://0.0.0.0:{platformPort}";
+    }
 }
-catch
+
+// Log what we resolved so you can confirm the value from .env / env vars.
+Console.WriteLine("Resolved backend URLs from config/env: " + (backendUrlsRaw ?? "<none>"));
+if (!string.IsNullOrWhiteSpace(railwayPublicUrl))
 {
-    // We'll log later once the app exists
+    Console.WriteLine("Railway/Platform public URL detected: " + railwayPublicUrl + ". The app should be reachable via that domain if the platform routes to this process.");
+}
+
+if (!string.IsNullOrWhiteSpace(backendUrlsRaw))
+{
+    try
+    {
+        // UseUrls accepts a semicolon-separated list of URLs
+        builder.WebHost.UseUrls(backendUrlsRaw);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Failed to call UseUrls with value: " + backendUrlsRaw + " - " + ex.Message);
+    }
 }
 
 var app = builder.Build();
@@ -253,6 +343,44 @@ else
 // Apply CORS policy early so preflight (OPTIONS) requests are handled
 // before authentication/authorization middleware runs.
 app.UseCors("AllowFrontend");
+
+// Fallback CORS middleware: echo the request Origin when it's allowed
+// and ensure OPTIONS preflight requests return the necessary headers.
+app.Use(async (context, next) =>
+{
+    var origin = context.Request.Headers["Origin"].FirstOrDefault();
+    var allowAll = string.Equals(Environment.GetEnvironmentVariable("ALLOW_ALL_ORIGINS"), "true", StringComparison.OrdinalIgnoreCase);
+
+    if (!string.IsNullOrEmpty(origin))
+    {
+        // If the origin matches configured frontend origins OR the host has allowed all origins,
+        // echo the origin back so the browser accepts it. This avoids using a wildcard when
+        // credentials are involved.
+        if (allowAll || frontendOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
+        {
+            context.Response.Headers["Access-Control-Allow-Origin"] = origin;
+            context.Response.Headers["Vary"] = "Origin";
+        }
+    }
+
+    context.Response.Headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
+    context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
+
+    // If credentials are allowed by policy or in permissive mode, expose the credential header.
+    if (allowAll || frontendOrigins.Length > 0)
+    {
+        context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+    }
+
+    if (HttpMethods.IsOptions(context.Request.Method))
+    {
+        context.Response.StatusCode = StatusCodes.Status204NoContent;
+        await context.Response.CompleteAsync();
+        return;
+    }
+
+    await next();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

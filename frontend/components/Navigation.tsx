@@ -18,7 +18,7 @@ export default function Navigation() {
 
     const commonItems = [
       { href: "/alldiseases", label: "Diseases & Conditions" },
-     { href: "/profile", label: "Profile" },
+     { href: "/editprofile", label: "Profile" },
     ];
 
   const rawRole = (user as any).role ?? (user as any).Role ?? (user as any).userRole ?? "";
@@ -31,7 +31,7 @@ export default function Navigation() {
           { href: "/appointments", label: "Appointments" },
           { href: "/scan", label: "Oral Scanner" },
        { href: "/medical-records", label: "Medical Records" },
-          { href: "/doctors", label: "Find Doctors" },
+          { href: "/find-doctors", label: "Find Doctors" },
         ];
       case "doctor":
         return [
@@ -92,6 +92,32 @@ export default function Navigation() {
         <div className="flex items-center gap-4">
           {user ? (
             <>
+            {( user.role === "patient") && (
+              <Link href="/chatwithdoc" className="relative p-2 rounded-full text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 mr-2" aria-label="Chat">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.2-4.2A7.963 7.963 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full">•</span>
+              </Link>
+            )}
+
+            {user.role === "doctor" && (
+              <>
+                <Link href="/chatwithpat" className="relative p-2 rounded-full text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 mr-2" aria-label="Chat">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.2-4.2A7.963 7.963 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full">•</span>
+              </Link>
+              <Link href="/docNotific" className="relative p-2 rounded-full text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 mr-2" aria-label="Notifications">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h11z" />
+                </svg>
+                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full">•</span>
+              </Link>
+              </>
+            )}
+
             <details className="relative group mr-3">
               <summary className="flex items-center gap-3 cursor-pointer list-none rounded-full px-2 py-1 hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 ease-out focus:outline-none">
               <div
@@ -125,8 +151,8 @@ export default function Navigation() {
                 }
               }}
               >
-              <Link
-                href="/profile"
+              {/* <Link
+                href="/editprofile"
                 role="menuitem"
                 className="block px-4 py-2 text-sm text-black dark:text-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:dark:from-blue-300 hover:dark:to-blue-200 hover:text-blue-600 hover:pl-4 border-l-4 border-transparent hover:border-blue-400 transition-all duration-150"
                 onClick={(e) => {
@@ -135,7 +161,7 @@ export default function Navigation() {
                 }}
               >
                 Profile
-              </Link>
+              </Link> */}
 
               <Link
                 href="/editprofile"
@@ -148,7 +174,7 @@ export default function Navigation() {
               >
                 Edit Profile
               </Link>
-
+{/* 
               <Link
                 href="/settings"
                 role="menuitem"
@@ -159,7 +185,7 @@ export default function Navigation() {
                 }}
               >
                 Settings
-              </Link>
+              </Link> */}
 
               {
               user.role=== "admin" && (

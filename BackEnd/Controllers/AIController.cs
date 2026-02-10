@@ -27,7 +27,7 @@ namespace MedicalManagement.API.Controllers
             try
             {
                 var client = _httpFactory.CreateClient("AIService");
-               var target = client.BaseAddress != null ? new Uri(client.BaseAddress, "predict") : new Uri((Request.Headers.ContainsKey("X-AI-Endpoint") ? Request.Headers["X-AI-Endpoint"].ToString() : "http://localhost:5000/predict"));
+               var target = client.BaseAddress != null ? new Uri(client.BaseAddress, "predict") : new Uri((Request.Headers.ContainsKey("X-AI-Endpoint") ? Request.Headers["X-AI-Endpoint"].ToString() : Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER") + "/predict")!);
 
                 using var content = new MultipartFormDataContent();
                 using var stream = image.OpenReadStream();
