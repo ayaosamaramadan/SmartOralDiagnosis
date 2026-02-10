@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\k\\Desktop\\_oral\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
+    "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\k\\Desktop\\_oral\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
+    "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\k\\Desktop\\_oral\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "projectUniqueName": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "C:\\Users\\k\\Desktop\\_oral\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
-        "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\k\\Desktop\\_oral\\SmartOralDiagnosis\\BackEnd\\obj\\",
+        "projectPath": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "packagesPath": "C:\\Users\\aya osos\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\k\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\aya osos\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -101,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
