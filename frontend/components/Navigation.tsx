@@ -18,7 +18,7 @@ export default function Navigation() {
 
     const commonItems = [
       { href: "/alldiseases", label: "Diseases & Conditions" },
-     { href: "/profile", label: "Profile" },
+     { href: "/editprofile", label: "Profile" },
     ];
 
   const rawRole = (user as any).role ?? (user as any).Role ?? (user as any).userRole ?? "";
@@ -125,8 +125,8 @@ export default function Navigation() {
                 }
               }}
               >
-              <Link
-                href="/profile"
+              {/* <Link
+                href="/editprofile"
                 role="menuitem"
                 className="block px-4 py-2 text-sm text-black dark:text-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:dark:from-blue-300 hover:dark:to-blue-200 hover:text-blue-600 hover:pl-4 border-l-4 border-transparent hover:border-blue-400 transition-all duration-150"
                 onClick={(e) => {
@@ -135,7 +135,7 @@ export default function Navigation() {
                 }}
               >
                 Profile
-              </Link>
+              </Link> */}
 
               <Link
                 href="/editprofile"
@@ -148,7 +148,7 @@ export default function Navigation() {
               >
                 Edit Profile
               </Link>
-
+{/* 
               <Link
                 href="/settings"
                 role="menuitem"
@@ -159,7 +159,7 @@ export default function Navigation() {
                 }}
               >
                 Settings
-              </Link>
+              </Link> */}
 
               {
               user.role=== "admin" && (

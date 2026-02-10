@@ -219,10 +219,31 @@ export const appointmentService = {
     type: string;
     reason: string;
   }) => {
+    // map frontend fields to backend Appointment model shape and ensure enum uses numeric value
+    const mapType = (t: any) => {
+      if (t == null) return 0;
+      if (typeof t === "number") return t;
+      const s = String(t).toLowerCase();
+      if (s.includes("consult")) return 0;
+      if (s.includes("follow")) return 1;
+      if (s.includes("emerg")) return 2;
+      if (s.includes("rout")) return 3;
+      return 0;
+    };
+
+    const payload = {
+      PatientId: appointmentData.patientId,
+      DoctorId: appointmentData.doctorId,
+      AppointmentDate: appointmentData.appointmentDate,
+      Duration: appointmentData.duration,
+      Type: mapType(appointmentData.type),
+      Reason: appointmentData.reason,
+    };
+
     const response = await fetch(`${API_BASE_URL}/appointments`, {
       method: "POST",
       headers: getAuthHeaders(),
-      body: JSON.stringify(appointmentData),
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   },
