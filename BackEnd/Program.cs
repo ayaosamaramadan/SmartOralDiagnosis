@@ -349,26 +349,26 @@ app.UseCors("AllowFrontend");
 app.Use(async (context, next) =>
 {
     var origin = context.Request.Headers["Origin"].FirstOrDefault();
+    var allowAll = string.Equals(Environment.GetEnvironmentVariable("ALLOW_ALL_ORIGINS"), "true", StringComparison.OrdinalIgnoreCase);
+
     if (!string.IsNullOrEmpty(origin))
     {
-        // If the resolved frontend origins explicitly include this origin, echo it.
-        if (frontendOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
+        // If the origin matches configured frontend origins OR the host has allowed all origins,
+        // echo the origin back so the browser accepts it. This avoids using a wildcard when
+        // credentials are involved.
+        if (allowAll || frontendOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
         {
             context.Response.Headers["Access-Control-Allow-Origin"] = origin;
-        }
-        else
-        {
-            // As a fallback, if frontendOrigins contains a host-only entry like https://example.com
-            // it's already matched above. We avoid wildcard '*' here to respect credentials policy.
+            context.Response.Headers["Vary"] = "Origin";
         }
     }
 
     context.Response.Headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
     context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
-    if (frontendOrigins.Length > 0)
+
+    // If credentials are allowed by policy or in permissive mode, expose the credential header.
+    if (allowAll || frontendOrigins.Length > 0)
     {
-        // We configured specific origins earlier and enabled credentials on the policy,
-        // so expose the credential header here.
         context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
     }
 
