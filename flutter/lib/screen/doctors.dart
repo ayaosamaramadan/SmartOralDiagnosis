@@ -7,6 +7,7 @@ class DoctorsScreen extends StatefulWidget {
   State<DoctorsScreen> createState() => _DoctorsScreenState();
 }
 
+
 class _DoctorsScreenState extends State<DoctorsScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _sortOption = 'Name A→Z';
