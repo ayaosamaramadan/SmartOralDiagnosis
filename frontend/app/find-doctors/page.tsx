@@ -111,7 +111,7 @@ export default function FindDoctorsPage() {
 
 
               <div className="flex items-center gap-2 pt-3">
-                <Link href={`/doctors/${doc.id}`} className="px-3 py-1 rounded-full bg-blue-600 text-white text-sm">View Profile</Link>
+                <Link href={`/find-doctors/${doc.id}`} className="px-3 py-1 rounded-full bg-blue-600 text-white text-sm">View Profile</Link>
                 <button className="px-3 py-1 rounded-full border text-sm">Make a call</button>
               </div>
             </div>
