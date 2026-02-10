@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { doctorService } from "../../../services/api";
+import { useAuth } from "../../../contexts/AuthContext";
 import Link from "next/link";
 
 type DoctorFull = {
@@ -38,6 +39,11 @@ export default function DoctorProfilePage() {
   const [rating, setRating] = useState<{ average: number; count: number } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
+
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [comment, setComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -76,8 +82,7 @@ export default function DoctorProfilePage() {
       </div>
 
       {loading && <div>Loading doctor...</div>}
-      {error && <div className="text-red-600">{error}</div>}
-
+    
       {doctor && (
         <section className="bg-white dark:bg-[#111] border rounded-lg p-6 shadow-sm">
           <div className="flex flex-col md:flex-row gap-6">
@@ -112,6 +117,66 @@ export default function DoctorProfilePage() {
                 <div><strong>Experience:</strong> {doctor.experience ? `${doctor.experience} years` : "—"}</div>
                 <div><strong>Consultation Fee:</strong> {doctor.consultationFee ? `$${doctor.consultationFee}` : "—"}</div>
                 <div><strong>License:</strong> {doctor.licenseNumber ?? "—"}</div>
+              </div>
+
+              <div className="mt-4">
+                <h3 className="font-medium">Rate this doctor</h3>
+                <div className="flex items-center gap-3 mt-2">
+                  <div className="flex gap-1 text-2xl">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setSelectedRating(s)}
+                        className={s <= (selectedRating ?? Math.round(rating?.average ?? 0)) ? "text-yellow-400" : "text-gray-300"}
+                        aria-label={`Rate ${s} star`}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </div>
+                  <div className="text-sm text-gray-600">{selectedRating ? `${selectedRating} / 5` : `${rating?.average?.toFixed(1) ?? "0.0"} / 5`}</div>
+                </div>
+
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Leave a short comment (optional)"
+                  className="w-full mt-3 p-2 border rounded h-24"
+                />
+
+                <div className="mt-2">
+                  <div className="text-sm text-gray-600">{!user ? <span>You can submit anonymously or <Link href="/auth/login" className="text-blue-600 underline">login</Link></span> : <span>Submitting as <strong>{user.firstName}</strong></span>}</div>
+                  <button
+                    onClick={async () => {
+                      if (!selectedRating) {
+                        alert("Please select a rating before submitting.");
+                        return;
+                      }
+                      setSubmitting(true);
+                      try {
+                        await doctorService.createRating({ doctorId: id!, score: selectedRating, comment: comment || undefined });
+                        const avg = await doctorService.getAverageRating(id!);
+                        setRating(avg);
+                        setSelectedRating(null);
+                        setComment("");
+                        // small inline confirmation instead of alert
+                        setError("Thank you for your feedback.");
+                        setTimeout(() => setError(null), 2500);
+                      } catch (ex: any) {
+                        console.error(ex);
+                        setError(ex?.message || "Failed to submit rating");
+                      } finally {
+                        setSubmitting(false);
+                      }
+                    }}
+                  
+                    className="mt-2 px-3 py-2 rounded bg-blue-600 text-white"
+                  >
+                    {submitting ? "Submitting..." : "Submit Rating"}
+                  </button>
+                  {error && <div className="text-sm text-green-600 mt-2">{error}</div>}
+                </div>
               </div>
 
               <div className="mt-4">

@@ -13,11 +13,29 @@ const getAuthHeaders = (contentType: string | null = "application/json") => {
 
 // Helper function to handle API responses
 const handleResponse = async (response: Response) => {
+  // Read response body as text first to safely handle empty bodies
+  const text = await response.text();
+
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "API request failed");
+    // Try to parse JSON error body, fall back to status text
+    try {
+      const error = text ? JSON.parse(text) : null;
+      const message = error && (error.message || error.error) ? (error.message || error.error) : response.statusText || "API request failed";
+      throw new Error(message);
+    } catch (ex) {
+      throw new Error(response.statusText || "API request failed");
+    }
   }
-  return response.json();
+
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch (ex) {
+    // If response is not valid JSON, return raw text
+    // (some endpoints may return plain text)
+    return text;
+  }
 };
 
 // Authentication Services
@@ -164,6 +182,14 @@ export const doctorService = {
   getAverageRating: async (doctorId: string) => {
     const response = await fetch(`${API_BASE_URL}/doctors/ratings/average/${doctorId}`, {
       headers: getAuthHeaders(),
+    });
+    return handleResponse(response);
+  },
+  createRating: async (rating: { doctorId: string; score: number; comment?: string }) => {
+    const response = await fetch(`${API_BASE_URL}/doctors/ratings`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(rating),
     });
     return handleResponse(response);
   },
