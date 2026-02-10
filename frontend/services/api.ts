@@ -161,6 +161,12 @@ export const doctorService = {
     );
     return handleResponse(response);
   },
+  getAverageRating: async (doctorId: string) => {
+    const response = await fetch(`${API_BASE_URL}/doctors/ratings/average/${doctorId}`, {
+      headers: getAuthHeaders(),
+    });
+    return handleResponse(response);
+  },
 };
 
 // Appointment Services

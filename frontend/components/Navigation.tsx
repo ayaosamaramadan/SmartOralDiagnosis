@@ -31,7 +31,7 @@ export default function Navigation() {
           { href: "/appointments", label: "Appointments" },
           { href: "/scan", label: "Oral Scanner" },
        { href: "/medical-records", label: "Medical Records" },
-          { href: "/doctors", label: "Find Doctors" },
+          { href: "/find-doctors", label: "Find Doctors" },
         ];
       case "doctor":
         return [
