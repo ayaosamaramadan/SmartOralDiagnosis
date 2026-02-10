@@ -8,6 +8,7 @@ using MedicalManagement.API.Services;
 using MedicalManagement.API.Middleware;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 
 void LoadDotEnv()
@@ -342,6 +343,44 @@ else
 // Apply CORS policy early so preflight (OPTIONS) requests are handled
 // before authentication/authorization middleware runs.
 app.UseCors("AllowFrontend");
+
+// Fallback CORS middleware: echo the request Origin when it's allowed
+// and ensure OPTIONS preflight requests return the necessary headers.
+app.Use(async (context, next) =>
+{
+    var origin = context.Request.Headers["Origin"].FirstOrDefault();
+    if (!string.IsNullOrEmpty(origin))
+    {
+        // If the resolved frontend origins explicitly include this origin, echo it.
+        if (frontendOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
+        {
+            context.Response.Headers["Access-Control-Allow-Origin"] = origin;
+        }
+        else
+        {
+            // As a fallback, if frontendOrigins contains a host-only entry like https://example.com
+            // it's already matched above. We avoid wildcard '*' here to respect credentials policy.
+        }
+    }
+
+    context.Response.Headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
+    context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
+    if (frontendOrigins.Length > 0)
+    {
+        // We configured specific origins earlier and enabled credentials on the policy,
+        // so expose the credential header here.
+        context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+    }
+
+    if (HttpMethods.IsOptions(context.Request.Method))
+    {
+        context.Response.StatusCode = StatusCodes.Status204NoContent;
+        await context.Response.CompleteAsync();
+        return;
+    }
+
+    await next();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
