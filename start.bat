@@ -42,8 +42,8 @@ if not exist "bin" (
     dotnet restore
 )
 
-echo 🚀 Starting .NET Web API on http://localhost:5000
-start "Medical Management API" cmd /c "dotnet run --urls=http://localhost:5000"
+echo 🚀 Starting .NET Web API on %NEXT_BACKEND_SERVER%
+start "Medical Management API" cmd /c "dotnet run --urls=%NEXT_BACKEND_SERVER%"
 
 REM Wait for backend to start
 timeout /t 5 /nobreak >nul
@@ -79,8 +79,8 @@ echo.
 echo 🎉 Medical Management System is running!
 echo =======================================
 echo Frontend: http://localhost:3000
-echo Backend API: http://localhost:5000
-echo API Documentation: http://localhost:5000/swagger
+echo Backend API: %NEXT_BACKEND_SERVER%
+echo API Documentation: %NEXT_BACKEND_SERVER%/swagger
 echo.
 echo Press any key to open the application in your browser...
 pause >nul

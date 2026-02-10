@@ -48,7 +48,7 @@ The service exposes `POST /predict` and accepts a single form-file field named `
 Example `curl` (via backend, requires a valid JWT):
 
 ```bash
-curl -X POST "http://localhost:5000/api/ai/predict" \
+curl -X POST "NEXT_BACKEND_SERVER/api/ai/predict" \
 	-H "Authorization: Bearer <YOUR_JWT>" \
 	-F "image=@/path/to/photo.jpg"
 ```
@@ -57,7 +57,7 @@ PowerShell example using `Invoke-RestMethod`:
 
 ```powershell
 #$token = '<YOUR_JWT>'
-#Invoke-RestMethod -Uri 'http://localhost:5000/api/ai/predict' -Method Post -Headers @{ Authorization = "Bearer $token" } -Form @{ image = Get-Item 'C:\path\to\photo.jpg' }
+#Invoke-RestMethod -Uri 'NEXT_BACKEND_SERVER/api/ai/predict' -Method Post -Headers @{ Authorization = "Bearer $token" } -Form @{ image = Get-Item 'C:\path\to\photo.jpg' }
 ```
 
 6) Direct test to Python service (no JWT required)

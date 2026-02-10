@@ -43,8 +43,8 @@ if [ ! -d "bin" ] || [ ! -d "obj" ]; then
     dotnet restore
 fi
 
-echo "🚀 Starting .NET Web API on http://localhost:5000"
-dotnet run --urls="http://localhost:5000" &
+echo "🚀 Starting .NET Web API on $NEXT_BACKEND_SERVER"
+dotnet run --urls="$NEXT_BACKEND_SERVER" &
 BACKEND_PID=$!
 
 # Wait a moment for backend to start
@@ -82,8 +82,8 @@ echo ""
 echo "🎉 Medical Management System is running!"
 echo "======================================="
 echo "Frontend: http://localhost:3000"
-echo "Backend API: http://localhost:5000"
-echo "API Documentation: http://localhost:5000/swagger"
+echo "Backend API: $NEXT_BACKEND_SERVER"
+echo "API Documentation: $NEXT_BACKEND_SERVER/swagger"
 echo ""
 echo "Press Ctrl+C to stop all services"
 
