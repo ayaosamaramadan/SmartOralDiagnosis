@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sVd/VZJX2hVhUiS2HvXGEPGmds692psTOKn5loPYqSI=",
+  "Hash": "u79EEylDVD9ykuawRPXrf/UFy0vw+uHgu4q64YmHqqI=",
   "Source": "MedicalManagement.API",
   "BasePath": "_content/MedicalManagement.API",
   "Mode": "Default",
@@ -10,17 +10,36 @@
     {
       "Name": "MedicalManagement.API\\wwwroot",
       "Source": "MedicalManagement.API",
-      "ContentRoot": "C:\\Users\\aya osos\\SmartOralDiagnosis\\BACKEND\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\",
       "BasePath": "_content/MedicalManagement.API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\aya osos\\SmartOralDiagnosis\\BACKEND\\wwwroot\\index.html",
+      "Identity": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\icon.svg",
       "SourceId": "MedicalManagement.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\aya osos\\SmartOralDiagnosis\\BACKEND\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\",
+      "BasePath": "_content/MedicalManagement.API",
+      "RelativePath": "icon.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\icon.svg"
+    },
+    {
+      "Identity": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\index.html",
+      "SourceId": "MedicalManagement.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\",
       "BasePath": "_content/MedicalManagement.API",
       "RelativePath": "index.html",
       "AssetKind": "All",

@@ -1,7 +1,6 @@
 fastapi
 uvicorn[standard]
-# tensorflow 2.14 has no wheels for Python 3.13; use 2.20 which supports 3.13
-tensorflow==2.20.0
+tensorflow
 pillow
 numpy
 python-multipart

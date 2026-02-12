@@ -15,6 +15,9 @@ export const metadata = {
   title: "Medical Management System",
   description:
     "Comprehensive medical management system for doctors, patients, and administrators",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

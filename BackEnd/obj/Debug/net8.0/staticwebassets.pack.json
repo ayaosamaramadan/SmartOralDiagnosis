@@ -1,7 +1,11 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\aya osos\\SmartOralDiagnosis\\BACKEND\\wwwroot\\index.html",
+      "Id": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\icon.svg",
+      "PackagePath": "staticwebassets\\icon.svg"
+    },
+    {
+      "Id": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {

@@ -64,8 +64,10 @@ BackEnd/bin/Debug/net8.0/MedicalManagement.API.staticwebassets.runtime.json
 BackEnd/obj/MedicalManagement.API.csproj.nuget.g.props
 AI/inference/model.h5
 AI/inference/
+AI/
 BackEnd/obj/Debug/net8.0/MedicalManagement.API.AssemblyInfo.cs
 BackEnd/obj/Debug/net8.0/MedicalManagement.API.AssemblyInfoInputs.cache
 BackEnd/bin/Debug/net8.0/MedicalManagement.API.dll
+node_modules
 node_modules
 node_modules
