@@ -72,7 +72,6 @@ class AlldiseaseScreen extends StatelessWidget {
           child: Column(
             children: [
 
-              // ⭐⭐⭐ NAV BAR جاهز ⭐⭐⭐
               _buildNavBar(context, isDark),
 
               Expanded(
@@ -165,14 +164,12 @@ class AlldiseaseScreen extends StatelessWidget {
     );
   }
 
-  // ---------------- NAV BAR ------------------
   Widget _buildNavBar(BuildContext context, bool isDark) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
 
-          // BACK + TITLE
           Row(
             children: [
               IconButton(
@@ -210,7 +207,6 @@ class AlldiseaseScreen extends StatelessWidget {
     );
   }
 
-  // ---------------- DRAWER MENU ------------------
   Widget _buildDrawer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return const RoleDrawer();

@@ -6,7 +6,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine current brightness and pick palette
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? const Color(0xFF0B1220) : const Color(0xFFF9FAFB);
     final headerColor = isDark ? const Color(0xFF0F1724) : Colors.white;
@@ -21,7 +20,6 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Dark mode background
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -31,7 +29,6 @@ class ChatScreen extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                // Header with title and action buttons
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -90,7 +87,6 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Embedded Streamlit chat area (centered and responsive)
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.all(16),

@@ -2,7 +2,7 @@
 The trained AI models are too large for GitHub.  
 You can download them from the link below:
 
-👉 [Click here to download the model](https://drive.google.com/file/d/1kZflYeDP1mb3HEJqoAT097afrWc0fS63/view?usp=drive_link)
+👉 [Click here to download the model](https://drive.google.com/drive/folders/1FsvGKNSxdHr-JESXSUGp_zihy6A7Klf0?usp=drive_link)
 
 How to run the inference service and connect it to the backend
 ------------------------------------------------------------
