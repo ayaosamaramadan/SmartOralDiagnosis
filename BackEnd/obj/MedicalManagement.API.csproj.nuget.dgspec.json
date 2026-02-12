@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
+    "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
+    "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectUniqueName": "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
-        "packagesPath": "C:\\Users\\aya osos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\obj\\",
+        "projectPath": "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "E:\\SmartOralDiagnosis\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\aya osos\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -37,7 +37,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -93,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -261,7 +261,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account ? ", style: TextStyle(color: iconColor.withOpacity(0.7), fontSize: 15)),
+                    Text("Already have an account ? ", style: TextStyle(color: iconColor.withOpacity(0.7), fontSize: 10)),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);

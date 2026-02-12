@@ -110,6 +110,8 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   Widget build(BuildContext context) {
     final d = widget.doctor;
     final rating = (d['rating'] as double?) ?? 0.0;
+    final width = MediaQuery.of(context).size.width;
+    final narrow = width < 480;
 
     return Scaffold(
       appBar: AppBar(
@@ -128,62 +130,119 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 44,
-                      backgroundColor: Colors.blue.shade600,
-                      child: Text(
-                        (d['initials'] ?? '').toString().toUpperCase(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            d['name'] ?? '',
+                child: Builder(builder: (context) {
+                  if (narrow) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundColor: Colors.blue.shade600,
+                          child: Text(
+                            (d['initials'] ?? '').toString().toUpperCase(),
                             style: const TextStyle(
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            d['specialty'] ?? '',
-                            style: const TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          d['name'] ?? '',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              ...List.generate(5, (i) {
-                                if (i < rating.floor()) {
-                                  return const Icon(Icons.star,
-                                      color: Colors.amber, size: 18);
-                                }
-                                if (i == rating.floor() &&
-                                    rating - rating.floor() >= 0.5) {
-                                  return const Icon(Icons.star_half,
-                                      color: Colors.amber, size: 18);
-                                }
-                                return const Icon(Icons.star_border,
-                                    color: Colors.grey, size: 18);
-                              }),
-                              const SizedBox(width: 6),
-                              Text(rating.toStringAsFixed(1)),
-                            ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          d['specialty'] ?? '',
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ...List.generate(5, (i) {
+                              if (i < rating.floor()) {
+                                return const Icon(Icons.star,
+                                    color: Colors.amber, size: 18);
+                              }
+                              if (i == rating.floor() &&
+                                  rating - rating.floor() >= 0.5) {
+                                return const Icon(Icons.star_half,
+                                    color: Colors.amber, size: 18);
+                              }
+                              return const Icon(Icons.star_border,
+                                  color: Colors.grey, size: 18);
+                            }),
+                            const SizedBox(width: 6),
+                            Text(rating.toStringAsFixed(1)),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 44,
+                        backgroundColor: Colors.blue.shade600,
+                        child: Text(
+                          (d['initials'] ?? '').toString().toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                           ),
-                        ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              d['name'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              d['specialty'] ?? '',
+                              style: const TextStyle(color: Colors.grey),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                ...List.generate(5, (i) {
+                                  if (i < rating.floor()) {
+                                    return const Icon(Icons.star,
+                                        color: Colors.amber, size: 18);
+                                  }
+                                  if (i == rating.floor() &&
+                                      rating - rating.floor() >= 0.5) {
+                                    return const Icon(Icons.star_half,
+                                        color: Colors.amber, size: 18);
+                                  }
+                                  return const Icon(Icons.star_border,
+                                      color: Colors.grey, size: 18);
+                                }),
+                                const SizedBox(width: 6),
+                                Text(rating.toStringAsFixed(1)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+                }),
               ),
             ),
 
@@ -246,23 +305,42 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
 
             const SizedBox(height: 24),
 
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('All Doctors'),
+            LayoutBuilder(builder: (context, constraints) {
+              if (constraints.maxWidth < 420) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('All Doctors'),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Book Appointment'),
+                    ),
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('All Doctors'),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Book Appointment'),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Book Appointment'),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
           ],
         ),
       ),

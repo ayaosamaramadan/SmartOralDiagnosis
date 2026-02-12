@@ -168,6 +168,10 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
   }
 
   Widget _buildHeroSection(BuildContext context, ColorScheme cs, TextTheme ts) {
+    final width = MediaQuery.of(context).size.width;
+    final isWide = width >= 600;
+    final titleSize = isWide ? 32.0 : 20.0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -180,19 +184,23 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
               bottomLeft: Radius.circular(170),
               bottomRight: Radius.circular(30),
             ),
-            child: Image.asset(
-              "assets/home.jpg",
-              fit: BoxFit.cover,
+            child: SizedBox(
+              width: double.infinity,
+              height: isWide ? 300 : 180,
+              child: Image.asset(
+                "assets/home.jpg",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(height: 24),
-          RichText(
-            text: TextSpan(
+          Text.rich(
+            TextSpan(
               children: [
                 TextSpan(
                   text: "Scan your Mouth ",
                   style: GoogleFonts.poppins(
-                    fontSize: 32,
+                    fontSize: titleSize,
                     fontWeight: FontWeight.bold,
                     color: cs.primary.withOpacity(0.9),
                   ),
@@ -200,7 +208,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
                 TextSpan(
                   text: "With AI to detect ",
                   style: GoogleFonts.poppins(
-                    fontSize: 32,
+                    fontSize: titleSize,
                     fontWeight: FontWeight.bold,
                     color: cs.onBackground,
                   ),
@@ -208,13 +216,15 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
                 TextSpan(
                   text: "Oral and dental diseases",
                   style: GoogleFonts.poppins(
-                    fontSize: 32,
+                    fontSize: titleSize,
                     fontWeight: FontWeight.bold,
                     color: cs.primary,
                   ),
                 ),
               ],
             ),
+            textAlign: TextAlign.start,
+            softWrap: true,
           ),
           const SizedBox(height: 16),
           Text(
@@ -229,7 +239,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: cs.primary,
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                padding: EdgeInsets.symmetric(horizontal: isWide ? 30 : 20, vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
@@ -238,7 +248,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
               icon: const Icon(Icons.camera_alt),
               label: Text(
                 "Start Scan Now",
-                style: TextStyle(color: cs.onPrimary, fontSize: 16),
+                style: TextStyle(color: cs.onPrimary, fontSize: isWide ? 16 : 14),
               ),
             ),
           ),
@@ -256,14 +266,30 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
           color: cs.surface.withOpacity(0.3),
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _contactInfo(Icons.location_on, "Visit Us", "Cairo, Egypt", cs, ts),
-            _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
-            _contactInfo(Icons.email, "Send Message", "info.egy@gmail.com", cs, ts),
-          ],
-        ),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final isNarrow = constraints.maxWidth < 500;
+          if (isNarrow) {
+            return Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 20,
+              runSpacing: 12,
+              children: [
+                _contactInfo(Icons.location_on, "Visit Us", "Cairo, Egypt", cs, ts),
+                _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
+                _contactInfo(Icons.email, "Send Message", "info.egy@gmail.com", cs, ts),
+              ],
+            );
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _contactInfo(Icons.location_on, "Visit Us", "Cairo, Egypt", cs, ts),
+              _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
+              _contactInfo(Icons.email, "Send Message", "info.egy@gmail.com", cs, ts),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -305,56 +331,106 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
                 ),
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Find Clinics on the Map',
-                        style: ts.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: cs.onSurface,
+            child: LayoutBuilder(builder: (context, constraints) {
+              final narrow = constraints.maxWidth < 600;
+              if (narrow) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Find Clinics on the Map',
+                      style: ts.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: cs.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Locate nearby clinics and specialists, compare reviews, and get directions quickly.',
+                      style: ts.bodyMedium?.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/map');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: cs.primary,
+                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        elevation: 6,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: cs.onPrimary.withOpacity(0.2),
+                            radius: 16,
+                            child: Icon(Icons.location_on, color: cs.onPrimary, size: 18),
+                          ),
+                          const SizedBox(width: 10),
+                          Text('Open Map', style: ts.labelLarge?.copyWith(color: cs.onPrimary)),
+                          const SizedBox(width: 8),
+                          Icon(Icons.arrow_forward, color: cs.onPrimary),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Find Clinics on the Map',
+                          style: ts.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: cs.onSurface,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Locate nearby clinics and specialists, compare reviews, and get directions quickly.',
-                        style: ts.bodyMedium?.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        Text(
+                          'Locate nearby clinics and specialists, compare reviews, and get directions quickly.',
+                          style: ts.bodyMedium?.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/map');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: cs.primary,
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    elevation: 6,
+                  const SizedBox(width: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/map');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: cs.primary,
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      elevation: 6,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: cs.onPrimary.withOpacity(0.2),
+                          radius: 16,
+                          child: Icon(Icons.location_on, color: cs.onPrimary, size: 18),
+                        ),
+                        const SizedBox(width: 10),
+                        Text('Open Map', style: ts.labelLarge?.copyWith(color: cs.onPrimary)),
+                        const SizedBox(width: 8),
+                        Icon(Icons.arrow_forward, color: cs.onPrimary),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: cs.onPrimary.withOpacity(0.2),
-                        radius: 16,
-                        child: Icon(Icons.location_on, color: cs.onPrimary, size: 18),
-                      ),
-                      const SizedBox(width: 10),
-                      Text('Open Map', style: ts.labelLarge?.copyWith(color: cs.onPrimary)),
-                      const SizedBox(width: 8),
-                      Icon(Icons.arrow_forward, color: cs.onPrimary),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
           ),
         ),
       ),

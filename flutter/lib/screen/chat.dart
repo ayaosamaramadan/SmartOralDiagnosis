@@ -17,6 +17,9 @@ class ChatScreen extends StatelessWidget {
     final containerBorder = isDark ? const Color(0xFF1F2937) : const Color(0xFFE5E7EB);
     final containerShadow = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.04);
 
+    final width = MediaQuery.of(context).size.width;
+    final compact = width < 480;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -54,17 +57,43 @@ class ChatScreen extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          _ActionButton(
-                            icon: Icons.explore,
-                            label: 'Discover',
-                            onPressed: () {},
-                          ),
-                          const SizedBox(width: 8),
-                          _ActionButton(
-                            icon: Icons.edit,
-                            label: 'New Chat',
-                            onPressed: () {},
-                          ),
+                          if (compact) ...[
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.explore, color: actionText, size: 20),
+                              tooltip: 'Discover',
+                              style: IconButton.styleFrom(
+                                backgroundColor: actionBg,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.edit, color: actionText, size: 20),
+                              tooltip: 'New Chat',
+                              style: IconButton.styleFrom(
+                                backgroundColor: actionBg,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            _ActionButton(
+                              icon: Icons.explore,
+                              label: 'Discover',
+                              onPressed: () {},
+                            ),
+                            const SizedBox(width: 8),
+                            _ActionButton(
+                              icon: Icons.edit,
+                              label: 'New Chat',
+                              onPressed: () {},
+                            ),
+                          ],
                           const SizedBox(width: 8),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
@@ -90,6 +119,7 @@ class ChatScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.all(16),
+                    constraints: const BoxConstraints(minWidth: 200),
                     decoration: BoxDecoration(
                       color: containerColor,
                       borderRadius: BorderRadius.circular(16),
@@ -106,8 +136,10 @@ class ChatScreen extends StatelessWidget {
                       ],
                     ),
                     clipBehavior: Clip.hardEdge,
-                    child: EmbeddedChatView(
-                      url: 'http://localhost:8501/?embed=true&theme=${isDark ? 'dark' : 'light'}',
+                    child: SizedBox.expand(
+                      child: EmbeddedChatView(
+                        url: 'http://localhost:8501/?embed=true&theme=${isDark ? 'dark' : 'light'}',
+                      ),
                     ),
                   ),
                 ),

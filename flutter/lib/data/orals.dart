@@ -1,3 +1,69 @@
+final Map<String, List<String>> diagnosisRecommendations = {
+  "CaS": [
+    "Rinse with warm salt water twice daily to soothe ulcers.",
+    "Avoid spicy or acidic foods until the sore heals.",
+  ],
+  "CoS": [
+    "Start an antiviral ointment at the first tingling sensation.",
+    "Do not share personal items like lip balm during an outbreak.",
+  ],
+  "GUM": [
+    "Focus on gentle brushing and flossing to control plaque.",
+    "Schedule a dental visit if sores persist more than 10 days.",
+  ],
+  "OLP": [
+    "Use alcohol-free mouthwash to limit irritation.",
+    "Track trigger foods (spicy, acidic) and avoid them during flares.",
+  ],
+  "OT": [
+    "Clean removable appliances daily to reduce yeast buildup.",
+    "Ask your doctor about antifungal rinse if white patches spread.",
+  ],
+  "MC": [
+    "Book an urgent oral surgeon consult for biopsy and staging.",
+    "Stop tobacco and alcohol immediately to slow progression.",
+  ],
+  "OC": [
+    "Seek oncologist evaluation for imaging and treatment planning.",
+    "Maintain a soft diet and hydrate; pain control is essential.",
+  ],
+};
+
+final List<String> defaultRecommendations = [
+  "Schedule a dental checkup to confirm the diagnosis.",
+  "Document symptoms with clear photos for your dentist.",
+  "Maintain excellent oral hygiene and hydrate often.",
+];
+
+List<String> recommendationsFor(String diagnosis) {
+  final key = diagnosis.trim();
+
+  // Direct match (case-sensitive key as stored)
+  if (diagnosisRecommendations.containsKey(key)) {
+    return diagnosisRecommendations[key]!;
+  }
+
+  // Try uppercase form (handles short codes like "CaS" vs "CAS")
+  final up = key.toUpperCase();
+  if (diagnosisRecommendations.containsKey(up)) {
+    return diagnosisRecommendations[up]!;
+  }
+
+  // Try to match against the `orals` entries by shortTitle or title
+  for (final entry in orals) {
+    final short = (entry['shortTitle'] ?? '').toString();
+    final title = (entry['title'] ?? '').toString();
+    if (short.toUpperCase() == up || title.toLowerCase() == key.toLowerCase()) {
+      final code = short.toUpperCase();
+      if (diagnosisRecommendations.containsKey(code)) {
+        return diagnosisRecommendations[code]!;
+      }
+    }
+  }
+
+  // Fall back to default recommendations
+  return defaultRecommendations;
+}
 
 final List<Map<String, dynamic>> orals = [
   {
@@ -569,3 +635,4 @@ final List<Map<String, dynamic>> orals = [
     }
   }
 ];
+
