@@ -38,11 +38,11 @@ model = None
 
 # Define class labels in the same order the model was trained to output.
 # Update these names if your trained model uses different class ordering.
-# Short codes correspond to asset folders: CaS, CoS, GUM, MC, OC, OLP, OT
+# Short codes correspond to dataset folders: CaS, CoS, Gum, MC, OC, OLP, OT
 CLASS_LABELS = [
     "CaS",
     "CoS",
-    "GUM",
+    "Gum",
     "MC",
     "OC",
     "OLP",
@@ -53,7 +53,7 @@ CLASS_LABELS = [
 HUMAN_LABELS = {
     "CaS": "CaS",
     "CoS": "Commissural Stomatitis",
-    "GUM": "Gingival Condition",
+    "Gum": "Gingival Condition",
     "MC": "Mucocele",
     "OC": "Oral Cancer",
     "OLP": "Oral Lichen Planus",
