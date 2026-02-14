@@ -125,24 +125,16 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                       style: const TextStyle(fontSize: 13),
                       decoration: InputDecoration(
                         hintText: 'Search',
-                        hintStyle:
-                            const TextStyle(fontSize: 13),
+                        hintStyle: const TextStyle(fontSize: 13),
                         prefixIcon: const Icon(
                           Icons.search,
                           size: 18,
                         ),
-                        contentPadding:
-                            const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 10),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                         filled: true,
-                        fillColor:
-                            Theme.of(context).brightness ==
-                                    Brightness.dark
-                                ? Colors.white12
-                                : Colors.grey.shade200,
+                        fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.white12 : Colors.grey.shade200,
                         border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide.none,
                         ),
                       ),
@@ -154,13 +146,8 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   height: 38,
                   width: 38,
                   decoration: BoxDecoration(
-                    color:
-                        Theme.of(context).brightness ==
-                                Brightness.dark
-                            ? Colors.white12
-                            : Colors.grey.shade200,
-                    borderRadius:
-                        BorderRadius.circular(12),
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white12 : Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: IconButton(
                     padding: EdgeInsets.zero,
@@ -287,26 +274,17 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                               SizedBox(
                                 height: 30,
                                 width: 30,
-                                child:
-                                    OutlinedButton(
-                                  onPressed:
-                                      () {},
-                                  style:
-                                      OutlinedButton
-                                          .styleFrom(
-                                    padding:
-                                        EdgeInsets
-                                            .zero,
-                                    shape:
-                                        RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius
-                                              .circular(
-                                                  18),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/doctorChat');
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
                                     ),
                                   ),
-                                  child:
-                                      const Icon(
+                                  child: const Icon(
                                     Icons.call,
                                     size: 14,
                                   ),

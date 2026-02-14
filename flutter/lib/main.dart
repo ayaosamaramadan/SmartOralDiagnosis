@@ -15,6 +15,7 @@ import 'screen/Alldisease.dart';
 import 'screen/edit_profile.dart';
 import 'screen/doctors.dart';
 import 'screen/doctor_detail.dart';
+import 'screen/doctor_chat_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
             '/map': (context) => const ClinicMap(), 
              '/editProfile': (context) => const EditProfileScreen(),
             '/doctors': (context) => const DoctorsScreen(),
+            '/doctorChat': (context) => const DoctorChatPage(),
             '/doctorDetail': (context) {
               final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
               return DoctorDetailScreen(doctor: args);

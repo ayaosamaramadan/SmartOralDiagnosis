@@ -557,6 +557,7 @@ class _ScanPageState extends State<ScanPage> {
             title: Text("Contact Us", style: TextStyle(color: cs.onSurface)),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/doctors');
             },
           ),
 

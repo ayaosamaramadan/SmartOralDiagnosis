@@ -178,7 +178,10 @@ class RoleDrawer extends StatelessWidget {
           items.add(ListTile(
             leading: Icon(Icons.contact_page, color: cs.primary),
             title: Text('Contact Us', style: TextStyle(color: cs.onSurface)),
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/doctors');
+            },
           ));
 
           items.add(ListTile(
