@@ -39,7 +39,7 @@ class AlldiseaseScreen extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: _buildDrawer(context),
+      drawer: const RoleDrawer(),
 
       body: Container(
         width: double.infinity,
@@ -72,7 +72,57 @@ class AlldiseaseScreen extends StatelessWidget {
           child: Column(
             children: [
 
-              _buildNavBar(context, isDark),
+              // ✅ NAV BAR بعد التعديل
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // يخلي المينيو يمين
+                  children: [
+
+                    // Back + Title
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color:
+                                isDark ? Colors.white : Colors.black,
+                            size: 28,
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          "All Diseases",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: isDark
+                                ? Colors.blueAccent
+                                : Colors.blue.shade800,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // Menu Icon على اليمين
+                    Builder(
+                      builder: (context) => IconButton(
+                        icon: Icon(
+                          Icons.menu,
+                          color:
+                              isDark ? Colors.white : Colors.black,
+                          size: 32,
+                        ),
+                        onPressed: () =>
+                            Scaffold.of(context).openDrawer(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               Expanded(
                 child: ListView.builder(
@@ -87,7 +137,8 @@ class AlldiseaseScreen extends StatelessWidget {
                     final rawImg = (imgList != null && imgList.isNotEmpty)
                         ? (imgList.first as String)
                         : null;
-                    final imgAsset = rawImg != null ? _assetPath(rawImg) : null;
+                    final imgAsset =
+                        rawImg != null ? _assetPath(rawImg) : null;
 
                     return Card(
                       color: isDark
@@ -101,7 +152,8 @@ class AlldiseaseScreen extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(8),
                         leading: imgAsset != null
                             ? ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius:
+                                    BorderRadius.circular(8),
                                 child: Image.asset(
                                   imgAsset,
                                   width: 64,
@@ -110,17 +162,21 @@ class AlldiseaseScreen extends StatelessWidget {
                                 ),
                               )
                             : CircleAvatar(
-                                backgroundColor:
-                                    isDark ? Colors.white24 : Colors.blueAccent,
+                                backgroundColor: isDark
+                                    ? Colors.white24
+                                    : Colors.blueAccent,
                                 child: Text(
                                   short,
-                                  style: const TextStyle(color: Colors.white),
+                                  style: const TextStyle(
+                                      color: Colors.white),
                                 ),
                               ),
                         title: Text(
                           title,
                           style: TextStyle(
-                            color: isDark ? Colors.white : Colors.black87,
+                            color: isDark
+                                ? Colors.white
+                                : Colors.black87,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -138,7 +194,8 @@ class AlldiseaseScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => DiseaseDetailScreen(item: item),
+                              builder: (_) =>
+                                  DiseaseDetailScreen(item: item),
                             ),
                           );
                         },
@@ -156,81 +213,14 @@ class AlldiseaseScreen extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamed(context, '/chat');
         },
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor:
+            Theme.of(context).colorScheme.primary,
         tooltip: 'Chat',
-        child: const Icon(Icons.chat_bubble, color: Colors.white),
+        child: const Icon(Icons.chat_bubble,
+            color: Colors.white),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    );
-  }
-
-  Widget _buildNavBar(BuildContext context, bool isDark) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: isDark ? Colors.white : Colors.black,
-                  size: 28,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                "All Diseases",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.blueAccent : Colors.blue.shade800,
-                ),
-              ),
-            ],
-          ),
-
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: isDark ? Colors.white : Colors.black,
-                size: 32,
-              ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawer(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return const RoleDrawer();
-  }
-
-  Widget _drawerItem({
-    required IconData icon,
-    required String text,
-    required BuildContext context,
-    String? route,
-  }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return ListTile(
-      leading: Icon(icon, color: isDark ? Colors.white : Colors.black87),
-      title: Text(
-        text,
-        style: TextStyle(
-          color: isDark ? Colors.white : Colors.black87,
-        ),
-      ),
-      onTap: () {
-        if (route != null) Navigator.pushNamed(context, route);
-      },
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.endFloat,
     );
   }
 }
