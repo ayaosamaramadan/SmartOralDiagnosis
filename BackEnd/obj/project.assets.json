@@ -4809,19 +4809,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DELL\\.nuget\\packages\\": {}
+    "C:\\Users\\aya osos\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "projectUniqueName": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
       "projectName": "MedicalManagement.API",
-      "projectPath": "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
-      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "E:\\SmartOralDiagnosis\\backend\\obj\\",
+      "projectPath": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+      "packagesPath": "C:\\Users\\aya osos\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\aya osos\\SmartOralDiagnosis\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\aya osos\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4844,8 +4844,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -4901,16 +4900,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file E:\\SmartOralDiagnosis\\backend\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
-    }
-  ]
+  }
 }

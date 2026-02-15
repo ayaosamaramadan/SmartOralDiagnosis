@@ -255,12 +255,12 @@ const Edit = () => {
 
 
                 <div>
-                  <div className="mt-4">
+                  <div className="mt-4 ml-10">
                     <div className="font-medium text-lg text-gray-900 dark:text-gray-100">{user.firstName} {user.lastName}</div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">{(user as any).email}</div>
                   </div>
 
-                  <div className="mt-5 flex gap-2 w-full">
+                  <div className="mt-5 ml-10 flex gap-2 w-full">
                     <input
                       type="file"
                       accept="image/*"

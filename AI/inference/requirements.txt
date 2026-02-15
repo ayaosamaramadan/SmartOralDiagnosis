@@ -1,14 +1,7 @@
 fastapi
 uvicorn[standard]
-<<<<<<< HEAD
-# tensorflow 2.14 has no wheels for Python 3.13; use 2.20 which supports 3.13
-tensorflow-cpu==2.20.0  # use CPU build to avoid GPU/CUDA dependency on Windows
+# Use CPU TensorFlow build pinned for Windows compatibility
+tensorflow-cpu==2.20.0
 pillow==11.3.0
-numpy==2.3.4
+numpy==2.2.6
 python-multipart==0.0.6
-=======
-tensorflow
-pillow
-numpy
-python-multipart
->>>>>>> 80d461eec1770a66a0528b7688be5aad5303cf57
