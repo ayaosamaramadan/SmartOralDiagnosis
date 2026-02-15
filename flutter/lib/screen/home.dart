@@ -169,6 +169,10 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
     final width = MediaQuery.of(context).size.width;
     final isWide = width >= 600;
     final titleSize = isWide ? 32.0 : 20.0;
+    final double imageHeight = (isWide
+            ? (width * 0.35).clamp(220.0, 380.0)
+            : (width * 0.55).clamp(140.0, 260.0)) as double;
+    final double bottomLeftRadius = isWide ? 170.0 : (width * 0.18).clamp(40.0, 100.0) as double;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -184,7 +188,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
             ),
             child: SizedBox(
               width: double.infinity,
-              height: isWide ? 300 : 180,
+              height: imageHeight,
               child: Image.asset(
                 "assets/home.jpg",
                 fit: BoxFit.cover,

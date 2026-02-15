@@ -31,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final cs = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // اختيار gradient و text colors بناءً على الثيم
     final gradientColors = isDark
         ? [appColors.gradientStart, appColors.gradientMiddle, appColors.gradientEnd]
         : [Colors.blue.shade200, Colors.blue.shade400, Colors.blue.shade700];
@@ -151,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 color: isDark ? Colors.lightBlue.shade200 : Colors.blue.shade900,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                fontSize: 10,
                                 decoration: TextDecoration.underline,
                               ),
                             ),
@@ -211,13 +210,12 @@ class _LoginScreenState extends State<LoginScreen> {
         body: jsonEncode({'email': email, 'password': password}),
       );
 
-      if (mounted) Navigator.of(context).pop(); // dismiss loading
+      if (mounted) Navigator.of(context).pop(); 
 
       if (resp.statusCode == 200) {
         final body = jsonDecode(resp.body);
         final token = body['token'];
         if (token != null) await _secureStorage.write(key: 'jwt', value: token.toString());
-        // Store the returned user object so other screens (home/profile) can read it
         try {
           final user = body['user'];
           if (user != null) {
