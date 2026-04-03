@@ -30,7 +30,6 @@ class _ScanPageState extends State<ScanPage> {
       setState(() {
         _imageFile = File(image.path);
       });
-      // automatically analyze when image is captured
       await _analyzeImage();
     }
   }
@@ -41,7 +40,6 @@ class _ScanPageState extends State<ScanPage> {
       setState(() {
         _imageFile = File(image.path);
       });
-      // automatically analyze when an image is selected
       await _analyzeImage();
     }
   }
@@ -98,10 +96,8 @@ class _ScanPageState extends State<ScanPage> {
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        // For now just close and print to console; future: submit to backend
                         final name = _patientNameController.text.trim();
                         final notes = _notesController.text.trim();
-                        // TODO: submit form data with image reference
                         Navigator.of(ctx).pop();
                       },
                       child: const Text('Save'),
@@ -475,34 +471,51 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  Widget _buildNavBar(BuildContext context, ColorScheme cs) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "OralScan",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: cs.primary,
-            ),
-          ),
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu, color: cs.onSurface, size: 32),
+Widget _buildNavBar(BuildContext context, ColorScheme cs) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: cs.onSurface,
+                size: 28,
+              ),
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                Navigator.pop(context);
               },
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            const SizedBox(width: 8),
+            Text(
+              "ORACLE",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: cs.primary,
+              ),
+            ),
+          ],
+        ),
 
-  // ---------------- Drawer (نسخة طبق الأصل من الهوم) ----------------
+        Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu, color: cs.onSurface, size: 32),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
   Drawer _buildSideMenu(BuildContext context, ColorScheme cs) {
     return Drawer(
       backgroundColor: cs.surface,
@@ -557,6 +570,7 @@ class _ScanPageState extends State<ScanPage> {
             title: Text("Contact Us", style: TextStyle(color: cs.onSurface)),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/doctors');
             },
           ),
 

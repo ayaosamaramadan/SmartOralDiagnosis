@@ -27,7 +27,21 @@ namespace MedicalManagement.API.Controllers
             try
             {
                 var client = _httpFactory.CreateClient("AIService");
-               var target = client.BaseAddress != null ? new Uri(client.BaseAddress, "predict") : new Uri((Request.Headers.ContainsKey("X-AI-Endpoint") ? Request.Headers["X-AI-Endpoint"].ToString() : Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER") + "/predict")!);
+
+                Uri target;
+                if (Request.Headers.TryGetValue("X-AI-Endpoint", out var endpointHeader)
+                    && Uri.TryCreate(endpointHeader.ToString(), UriKind.Absolute, out var overrideUri))
+                {
+                    target = overrideUri;
+                }
+                else if (client.BaseAddress != null)
+                {
+                    target = new Uri(client.BaseAddress, "predict");
+                }
+                else
+                {
+                    return StatusCode(500, new { message = "AI service base URL not configured" });
+                }
 
                 using var content = new MultipartFormDataContent();
                 using var stream = image.OpenReadStream();

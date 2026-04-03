@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     } catch (e) {
-      // ignore parsing errors
     }
   }
 
@@ -95,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ---------------- NAVBAR ----------------
   Widget _buildNavBar(BuildContext context, ColorScheme cs) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -171,6 +169,10 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
     final width = MediaQuery.of(context).size.width;
     final isWide = width >= 600;
     final titleSize = isWide ? 32.0 : 20.0;
+    final double imageHeight = (isWide
+            ? (width * 0.35).clamp(220.0, 380.0)
+            : (width * 0.55).clamp(140.0, 260.0)) as double;
+    final double bottomLeftRadius = isWide ? 170.0 : (width * 0.18).clamp(40.0, 100.0) as double;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -186,7 +188,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
             ),
             child: SizedBox(
               width: double.infinity,
-              height: isWide ? 300 : 180,
+              height: imageHeight,
               child: Image.asset(
                 "assets/home.jpg",
                 fit: BoxFit.cover,
@@ -271,11 +273,14 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
           if (isNarrow) {
             return Wrap(
               alignment: WrapAlignment.center,
-              spacing: 20,
+              spacing: 13,
               runSpacing: 12,
               children: [
                 _contactInfo(Icons.location_on, "Visit Us", "Cairo, Egypt", cs, ts),
-                _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/doctors'),
+                  child: _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
+                ),
                 _contactInfo(Icons.email, "Send Message", "info.egy@gmail.com", cs, ts),
               ],
             );
@@ -285,7 +290,10 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _contactInfo(Icons.location_on, "Visit Us", "Cairo, Egypt", cs, ts),
-              _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/doctors'),
+                child: _contactInfo(Icons.phone, "Give Us a Call", "(+20) 71 419 2082", cs, ts),
+              ),
               _contactInfo(Icons.email, "Send Message", "info.egy@gmail.com", cs, ts),
             ],
           );

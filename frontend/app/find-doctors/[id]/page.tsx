@@ -240,22 +240,22 @@ export default function DoctorProfilePage() {
                     <button className="px-3 py-2 rounded border" onClick={SendPatDetailsToDoc}>Book Appointment</button>
                   </div>
                 ) : (
-                  <div className="p-3 border rounded space-y-2 bg-gray-50">
+                  <div className="p-3 border rounded space-y-2 bg-gray-50 dark:bg-[#0b0b0b] border-gray-200 dark:border-gray-700">
                     <div className="flex flex-col sm:flex-row gap-2">
                       <label className="flex-1">
-                        <div className="text-sm">Preferred date & time</div>
+                        <div className="text-sm text-gray-700 dark:text-gray-300">Preferred date & time</div>
                         <input
                           type="datetime-local"
                           value={appointmentDate ?? ""}
                           onChange={(e) => setAppointmentDate(e.target.value)}
-                          className="w-full p-2 border rounded mt-1"
+                          className="w-full p-2 rounded mt-1 bg-white dark:bg-[#0b0b0b] text-gray-900 dark:text-gray-300 border border-gray-300 dark:border-gray-700"
                         />
                       </label>
                     </div>
 
                     <div>
-                      <div className="text-sm">Reason (optional)</div>
-                      <input value={reasonText} onChange={(e) => setReasonText(e.target.value)} className="w-full p-2 border rounded mt-1" />
+                      <div className="text-sm text-gray-700 dark:text-gray-300">Reason (optional)</div>
+                      <input value={reasonText} onChange={(e) => setReasonText(e.target.value)} className="w-full p-2 rounded mt-1 bg-white dark:bg-[#0b0b0b] text-gray-900 dark:text-gray-300 border border-gray-300 dark:border-gray-700" />
                     </div>
 
                     <div className="flex gap-2">

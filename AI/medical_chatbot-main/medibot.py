@@ -8,11 +8,17 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
-from langchain import hub
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-load_dotenv()
+# Load only if a real dotenv file exists. This project currently has a .env directory.
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.isfile(dotenv_path):
+    load_dotenv(dotenv_path)
+
+dotenv_local_path = os.path.join(os.path.dirname(__file__), ".env.local")
+if os.path.isfile(dotenv_local_path):
+    load_dotenv(dotenv_local_path, override=True)
 
 DB_FAISS_PATH = "vectorstore/db_faiss"
 
@@ -25,7 +31,7 @@ def get_vectorstore():
 
 
 def set_custom_prompt(custom_prompt_template):
-    prompt = PromptTemplate(template=custom_prompt_template, input_variables=["context", "question"])
+    prompt = PromptTemplate(template=custom_prompt_template, input_variables=["context", "input"])
     return prompt
 
 
@@ -100,7 +106,7 @@ def main():
                 Dont provide anything out of the given context
 
                 Context: {context}
-                Question: {question}
+                Question: {input}
 
                 Start the answer directly. No small talk please.
                 """
@@ -110,8 +116,13 @@ def main():
             if vectorstore is None:
                 st.error("Failed to load the vector store")
 
-            GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+            GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '').strip()
             GROQ_MODEL_NAME = "llama-3.1-8b-instant"
+
+            if not GROQ_API_KEY:
+                st.error("Missing GROQ_API_KEY. Add it to ai/medical_chatbot-main/.env.local")
+                st.info("Example: GROQ_API_KEY=gsk_...")
+                return
 
             llm = ChatGroq(
                 model=GROQ_MODEL_NAME,
@@ -120,7 +131,7 @@ def main():
                 api_key=GROQ_API_KEY
             )
 
-            retrieval_qa_chat_prompt = hub.pull("langchain-ai/retrieval-qa-chat")
+            retrieval_qa_chat_prompt = set_custom_prompt(CUSTOM_PROMPT_TEMPLATE)
 
             combine_docs_chain = create_stuff_documents_chain(llm, retrieval_qa_chat_prompt)
 
@@ -143,7 +154,12 @@ def main():
                 pass
 
         except Exception as e:
-            st.error(f"Error: {str(e)}")
+            err = str(e)
+            err_lower = err.lower()
+            if "invalid_api_key" in err_lower or "invalid api key" in err_lower or "error code: 401" in err_lower:
+                st.error("Invalid GROQ_API_KEY. Please replace it with a valid key in ai/medical_chatbot-main/.env.local")
+            else:
+                st.error(f"Error: {err}")
 
 
 if __name__ == "__main__":
