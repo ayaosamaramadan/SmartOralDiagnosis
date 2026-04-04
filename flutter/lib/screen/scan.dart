@@ -129,7 +129,6 @@ class _ScanPageState extends State<ScanPage> {
     });
 
     try {
-      // Change this to your inference server address if needed.
       // For Android emulator use 10.0.2.2 to access host machine localhost.
       // const String aiBase = 'http://10.0.2.2:8000';
       // For real device on the same Wi-Fi

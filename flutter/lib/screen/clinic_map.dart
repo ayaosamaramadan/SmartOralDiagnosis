@@ -455,7 +455,6 @@ class _ClinicMapState extends State<ClinicMap> {
       ),
     ),
   ),
-          // Centered 'CLINICS' pill button (opens clinics modal)
           Positioned(
             bottom: 20,
             left: 0,

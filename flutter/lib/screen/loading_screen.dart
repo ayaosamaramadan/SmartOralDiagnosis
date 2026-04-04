@@ -76,7 +76,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Video area
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Container(

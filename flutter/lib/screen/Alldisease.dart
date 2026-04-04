@@ -35,7 +35,12 @@ class AlldiseaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final brightness = Theme.of(context).brightness;
+    final isDark = brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final onBackground = colorScheme.onBackground;
+    final primary = colorScheme.primary;
+    final cardColor = Theme.of(context).cardColor;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -58,10 +63,10 @@ class AlldiseaseScreen extends StatelessWidget {
                 )
               : const LinearGradient(
                   colors: [
+                    Color(0xFFF8FAFF),
+                    Color(0xFFEAF4FF),
+                    Color(0xFFDFF0FF),
                     Color(0xFFE3F2FD),
-                    Color(0xFFBBDEFB),
-                    Color(0xFF90CAF9),
-                    Color(0xFF64B5F6),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -72,23 +77,19 @@ class AlldiseaseScreen extends StatelessWidget {
           child: Column(
             children: [
 
-              // ✅ NAV BAR بعد التعديل
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // يخلي المينيو يمين
+                      MainAxisAlignment.spaceBetween, 
                   children: [
-
-                    // Back + Title
                     Row(
                       children: [
                         IconButton(
                           icon: Icon(
                             Icons.arrow_back,
-                            color:
-                                isDark ? Colors.white : Colors.black,
+                            color: onBackground,
                             size: 28,
                           ),
                           onPressed: () => Navigator.pop(context),
@@ -99,25 +100,20 @@ class AlldiseaseScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? Colors.blueAccent
-                                : Colors.blue.shade800,
+                            color: primary,
                           ),
                         ),
                       ],
                     ),
 
-                    // Menu Icon على اليمين
                     Builder(
                       builder: (context) => IconButton(
                         icon: Icon(
                           Icons.menu,
-                          color:
-                              isDark ? Colors.white : Colors.black,
+                          color: onBackground,
                           size: 32,
                         ),
-                        onPressed: () =>
-                            Scaffold.of(context).openDrawer(),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
                       ),
                     ),
                   ],
@@ -141,9 +137,7 @@ class AlldiseaseScreen extends StatelessWidget {
                         rawImg != null ? _assetPath(rawImg) : null;
 
                     return Card(
-                      color: isDark
-                          ? Colors.white.withAlpha(30)
-                          : Colors.black.withAlpha(20),
+                      color: isDark ? Colors.white.withAlpha(30) : cardColor.withOpacity(0.95),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       shape: RoundedRectangleBorder(
@@ -152,8 +146,7 @@ class AlldiseaseScreen extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(8),
                         leading: imgAsset != null
                             ? ClipRRect(
-                                borderRadius:
-                                    BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(8),
                                 child: Image.asset(
                                   imgAsset,
                                   width: 64,
@@ -162,30 +155,23 @@ class AlldiseaseScreen extends StatelessWidget {
                                 ),
                               )
                             : CircleAvatar(
-                                backgroundColor: isDark
-                                    ? Colors.white24
-                                    : Colors.blueAccent,
+                                backgroundColor: primary,
                                 child: Text(
                                   short,
-                                  style: const TextStyle(
-                                      color: Colors.white),
+                                  style: TextStyle(color: colorScheme.onPrimary),
                                 ),
                               ),
                         title: Text(
                           title,
                           style: TextStyle(
-                            color: isDark
-                                ? Colors.white
-                                : Colors.black87,
+                            color: colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         subtitle: Text(
                           desc,
                           style: TextStyle(
-                            color: isDark
-                                ? Colors.white70
-                                : Colors.black.withOpacity(0.7),
+                            color: colorScheme.onSurface.withOpacity(0.75),
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
