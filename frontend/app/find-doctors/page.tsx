@@ -66,6 +66,8 @@ export default function FindDoctorsPage() {
     return full.includes(query.toLowerCase());
   });
 
+  const getPlaceholder = (name: string, i: number) => `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0D8ABC&color=ffffff&size=256&rounded=true`;
+
   const sorted = [...filtered].sort((a, b) => {
     const key = sort || "name_asc";
     switch (key) {
@@ -117,16 +119,19 @@ export default function FindDoctorsPage() {
       {error && <div className="text-red-600 mb-2">Error: {error}</div>} */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {sorted.map((doc) => (
+        {sorted.map((doc, i) => (
           <div key={doc.id} className="bg-white dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex flex-col items-center text-center gap-3">
               <div className="w-24 h-24 rounded-full overflow-hidden bg-blue-50 flex items-center justify-center border">
-                {doc.photo ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <Image src={doc.photo} alt={`${doc.firstName} ${doc.lastName}`} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-xl font-semibold text-blue-600">{(doc.firstName?.charAt(0) ?? "") + (doc.lastName?.charAt(0) ?? "")}</span>
-                )}
+                {
+                  // use a real image element for external placeholders to avoid next/image remote config
+                }
+                <img
+                  src={doc.photo ?? getPlaceholder(`${doc.firstName} ${doc.lastName}`, i)}
+                  alt={`${doc.firstName} ${doc.lastName}`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
 
               <div className="font-medium text-lg">{doc.firstName} {doc.lastName}</div>
