@@ -4,7 +4,7 @@ import 'progress_widget.dart';
 class CompletedOr extends StatelessWidget {
   final Map<String, dynamic> form; // expects keys: firstName,lastName,email,password,location,phoneNumber
 
-  const CompletedOr({Key? key, required this.form}) : super(key: key);
+  const CompletedOr({super.key, required this.form});
 
   @override
   Widget build(BuildContext context) {

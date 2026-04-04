@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
+    "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
+    "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectUniqueName": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectPath": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
         "packagesPath": "C:\\Users\\ayara\\.nuget\\packages\\",
-        "outputPath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\obj\\",
+        "outputPath": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ayara\\AppData\\Roaming\\NuGet\\NuGet.Config"

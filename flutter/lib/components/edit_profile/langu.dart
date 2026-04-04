@@ -4,7 +4,7 @@ class Langu extends StatefulWidget {
   final void Function(String code)? onChanged;
   final String initial;
 
-  const Langu({Key? key, this.onChanged, this.initial = 'en'}) : super(key: key);
+  const Langu({super.key, this.onChanged, this.initial = 'en'});
 
   @override
   State<Langu> createState() => _LanguState();

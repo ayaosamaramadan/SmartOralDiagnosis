@@ -1,4 +1,6 @@
-import 'dart:io' show File;
+import 'dart:async';
+import 'dart:io' show File, SocketException;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/role_drawer.dart';
@@ -6,8 +8,10 @@ import 'package:image_picker/image_picker.dart'
     show ImagePicker, ImageSource, XFile;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../components/theme_toggle.dart';
 import '../data/orals.dart';
+import '../services/api.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -120,6 +124,192 @@ class _ScanPageState extends State<ScanPage> {
     super.dispose();
   }
 
+  String _readEnv(String key) {
+    final raw = dotenv.env[key]?.trim() ?? '';
+    if (raw.length >= 2) {
+      final first = raw[0];
+      final last = raw[raw.length - 1];
+      if ((first == '"' && last == '"') || (first == '\'' && last == '\'')) {
+        return raw.substring(1, raw.length - 1).trim();
+      }
+    }
+    return raw;
+  }
+
+  String _normalizeBaseUrl(String rawBaseUrl) {
+    var baseUrl = rawBaseUrl.trim();
+    while (baseUrl.endsWith('/')) {
+      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+    }
+    return baseUrl;
+  }
+
+  String _withDefaultScheme(String rawUrl) {
+    final value = rawUrl.trim();
+    if (value.isEmpty) return value;
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    return 'http://$value';
+  }
+
+  String? _extractSchemeAndHost(String rawUrl) {
+    final parsed = Uri.tryParse(rawUrl);
+    if (parsed == null || parsed.host.isEmpty) return null;
+
+    final scheme = parsed.scheme.isEmpty ? 'http' : parsed.scheme;
+    return '$scheme://${parsed.host}';
+  }
+
+  List<Uri> _resolveAiPredictUris() {
+    final candidates = <String>[];
+
+    final explicitPredictUrl = _readEnv('AI_PREDICT_URL');
+    final explicitAiBaseUrl = _readEnv('AI_BASE_URL');
+    final normalizedPredictUrl = _withDefaultScheme(explicitPredictUrl);
+    final normalizedAiBaseUrl = _withDefaultScheme(explicitAiBaseUrl);
+
+    if (normalizedPredictUrl.isNotEmpty) {
+      candidates.add(normalizedPredictUrl);
+    }
+    if (normalizedAiBaseUrl.isNotEmpty) {
+      final normalizedBase = _normalizeBaseUrl(normalizedAiBaseUrl);
+      if (normalizedBase.toLowerCase().endsWith('/predict')) {
+        candidates.add(normalizedBase);
+      } else {
+        candidates.add('$normalizedBase/predict');
+      }
+    }
+
+    final configuredApiUrl = _readEnv('API_URL');
+    final backendBase = _withDefaultScheme(
+      configuredApiUrl.isNotEmpty ? configuredApiUrl : Api.baseUrl,
+    );
+    final normalizedBackendBase = _normalizeBaseUrl(backendBase);
+    candidates.add('$normalizedBackendBase/api/ai/predict');
+    candidates.add('$normalizedBackendBase/ai/predict');
+    candidates.add('$normalizedBackendBase/predict');
+
+    final apiHost = configuredApiUrl.isEmpty
+        ? _extractSchemeAndHost(Api.baseUrl)
+        : _extractSchemeAndHost(_withDefaultScheme(configuredApiUrl));
+
+    if (apiHost != null) {
+      candidates.add('$apiHost:8000/predict');
+      candidates.add('$apiHost:8001/predict');
+    }
+
+    if (kIsWeb) {
+      candidates.add('http://localhost:8000/predict');
+      candidates.add('http://localhost:8001/predict');
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
+      // 10.0.2.2 is emulator-only. Keep localhost fallbacks for adb reverse.
+      candidates.add('http://10.0.2.2:8000/predict');
+      candidates.add('http://10.0.2.2:8001/predict');
+      candidates.add('http://127.0.0.1:8000/predict');
+      candidates.add('http://127.0.0.1:8001/predict');
+      candidates.add('http://localhost:8000/predict');
+      candidates.add('http://localhost:8001/predict');
+    } else {
+      candidates.add('http://localhost:8000/predict');
+      candidates.add('http://localhost:8001/predict');
+    }
+
+    final seen = <String>{};
+    final uris = <Uri>[];
+
+    for (final raw in candidates) {
+      final value = raw.trim();
+      if (value.isEmpty || seen.contains(value)) continue;
+
+      final uri = Uri.tryParse(value);
+      if (uri == null || uri.scheme.isEmpty || uri.host.isEmpty) continue;
+
+      seen.add(value);
+      uris.add(uri);
+    }
+
+    return uris;
+  }
+
+  String? _extractDiagnosis(Map<String, dynamic>? body) {
+    if (body == null) return null;
+
+    final direct = body['diagnosis'] ?? body['label'] ?? body['prediction'];
+    if (direct is String && direct.trim().isNotEmpty) {
+      return direct.trim();
+    }
+
+    final predictions = body['predictions'];
+    if (predictions is List && predictions.isNotEmpty) {
+      final first = predictions.first;
+      if (first is Map) {
+        final label = first['diagnosis'] ?? first['label'] ?? first['class'];
+        if (label is String && label.trim().isNotEmpty) {
+          return label.trim();
+        }
+      } else if (first is String && first.trim().isNotEmpty) {
+        return first.trim();
+      }
+    }
+
+    return null;
+  }
+
+  int? _extractConfidencePercent(Map<String, dynamic>? body) {
+    if (body == null) return null;
+
+    dynamic raw = body['confidence'] ?? body['score'] ?? body['probability'];
+    if (raw == null) {
+      final predictions = body['predictions'];
+      if (predictions is List && predictions.isNotEmpty) {
+        final first = predictions.first;
+        if (first is Map) {
+          raw = first['confidence'] ?? first['score'] ?? first['probability'];
+        }
+      }
+    }
+
+    if (raw is int) {
+      return raw.clamp(0, 100).toInt();
+    }
+
+    if (raw is double) {
+      final normalized = raw <= 1 ? raw * 100 : raw;
+      return normalized.round().clamp(0, 100).toInt();
+    }
+
+    if (raw is String) {
+      final parsed = double.tryParse(raw.trim());
+      if (parsed != null) {
+        final normalized = parsed <= 1 ? parsed * 100 : parsed;
+        return normalized.round().clamp(0, 100).toInt();
+      }
+    }
+
+    return null;
+  }
+
+  String _buildConnectivityErrorMessage(List<String> attempts) {
+    final hasExplicitAiUrl =
+        _readEnv('AI_PREDICT_URL').isNotEmpty ||
+        _readEnv('AI_BASE_URL').isNotEmpty;
+    final hasApiUrl = _readEnv('API_URL').isNotEmpty;
+
+    final lastAttempt = attempts.isEmpty
+        ? ''
+        : ' Last attempt: ${attempts.last}.';
+    final androidHint = !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+      ? 'On a real Android phone, 10.0.2.2 works only for emulator. '
+      : '';
+
+    final setupHint = (hasExplicitAiUrl || hasApiUrl)
+        ? 'Check that your AI server is running and reachable from this device.'
+        : 'Set API_URL and/or AI_BASE_URL in flutter/.env to your PC LAN IP, then start FastAPI with --host 0.0.0.0.';
+
+    return 'Cannot connect to AI service. $androidHint$setupHint$lastAttempt';
+  }
+
   Future<void> _analyzeImage() async {
     if (_imageFile == null) return;
     setState(() {
@@ -129,37 +319,59 @@ class _ScanPageState extends State<ScanPage> {
     });
 
     try {
-      // For Android emulator use 10.0.2.2 to access host machine localhost.
-      // const String aiBase = 'http://10.0.2.2:8000';
-      // For real device on the same Wi-Fi
-      const String aiBase = 'http://192.168.1.11:8000';
-
-      final uri = Uri.parse('$aiBase/predict');
-
-      final request = http.MultipartRequest('POST', uri);
-      request.files.add(
-        await http.MultipartFile.fromPath('image', _imageFile!.path),
-      );
-
-      final streamed = await request.send();
-      final resp = await http.Response.fromStream(streamed);
-      if (resp.statusCode >= 200 && resp.statusCode < 300) {
-        final body = json.decode(resp.body);
+      final candidateUris = _resolveAiPredictUris();
+      if (candidateUris.isEmpty) {
         setState(() {
-          _diagnosis = body['diagnosis']?.toString() ?? 'Unknown';
-          final conf = body['confidence'];
-          if (conf is int)
-            _confidence = conf;
-          else if (conf is double)
-            _confidence = (conf * 100).round();
-          else if (conf is String)
-            _confidence = int.tryParse(conf) ?? null;
+          _diagnosis =
+              'No AI endpoint configured. Add AI_BASE_URL in flutter/.env.';
         });
-      } else {
-        setState(() {
-          _diagnosis = 'Analysis failed (${resp.statusCode})';
-        });
+        return;
       }
+
+      final attempts = <String>[];
+      http.Response? successResponse;
+
+      for (final uri in candidateUris) {
+        try {
+          final request = http.MultipartRequest('POST', uri);
+          request.files.add(
+            await http.MultipartFile.fromPath('image', _imageFile!.path),
+          );
+
+          final streamed = await request.send().timeout(
+            const Duration(seconds: 25),
+          );
+          final response = await http.Response.fromStream(streamed);
+
+          if (response.statusCode >= 200 && response.statusCode < 300) {
+            successResponse = response;
+            break;
+          }
+
+          attempts.add('${uri.toString()} -> HTTP ${response.statusCode}');
+        } on TimeoutException {
+          attempts.add('${uri.toString()} -> timed out');
+        } on SocketException catch (e) {
+          attempts.add('${uri.toString()} -> ${e.message}');
+        } catch (e) {
+          attempts.add('${uri.toString()} -> $e');
+        }
+      }
+
+      if (successResponse == null) {
+        setState(() {
+          _diagnosis = _buildConnectivityErrorMessage(attempts);
+        });
+        return;
+      }
+
+      final decoded = json.decode(successResponse.body);
+      final body = decoded is Map<String, dynamic> ? decoded : null;
+
+      setState(() {
+        _diagnosis = _extractDiagnosis(body) ?? 'Unknown diagnosis';
+        _confidence = _extractConfidencePercent(body);
+      });
     } catch (e) {
       setState(() {
         _diagnosis = 'Analysis error: ${e.toString()}';
@@ -390,7 +602,7 @@ class _ScanPageState extends State<ScanPage> {
                                     ),
                                     if (_confidence != null)
                                       Text(
-                                        '$_confidence% confi`dence',
+                                        '$_confidence% confidence',
                                         style: TextStyle(
                                           color: cs.onSurface.withOpacity(0.8),
                                         ),
@@ -421,12 +633,14 @@ class _ScanPageState extends State<ScanPage> {
                                         ? recommendationsFor(_diagnosis!)
                                         : defaultRecommendations;
                                     return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: recs
                                           .map(
                                             (r) => Padding(
-                                              padding:
-                                                  const EdgeInsets.only(bottom: 8.0),
+                                              padding: const EdgeInsets.only(
+                                                bottom: 8.0,
+                                              ),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -470,50 +684,44 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-Widget _buildNavBar(BuildContext context, ColorScheme cs) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: cs.onSurface,
-                size: 28,
+  Widget _buildNavBar(BuildContext context, ColorScheme cs) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back, color: cs.onSurface, size: 28),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
+              const SizedBox(width: 8),
+              Text(
+                "ORACLE",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: cs.primary,
+                ),
+              ),
+            ],
+          ),
+
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: cs.onSurface, size: 32),
               onPressed: () {
-                Navigator.pop(context);
+                Scaffold.of(context).openDrawer();
               },
             ),
-            const SizedBox(width: 8),
-            Text(
-              "ORACLE",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: cs.primary,
-              ),
-            ),
-          ],
-        ),
-
-        Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu, color: cs.onSurface, size: 32),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   Drawer _buildSideMenu(BuildContext context, ColorScheme cs) {
     return Drawer(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DetectLocation extends StatefulWidget {
   final void Function(String location)? onDetected;
 
-  const DetectLocation({Key? key, this.onDetected}) : super(key: key);
+  const DetectLocation({super.key, this.onDetected});
 
   @override
   State<DetectLocation> createState() => _DetectLocationState();

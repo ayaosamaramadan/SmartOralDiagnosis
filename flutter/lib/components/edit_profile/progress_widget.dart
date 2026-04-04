@@ -4,7 +4,7 @@ class ProgressWidget extends StatelessWidget {
   final int percent;
   final double size;
 
-  const ProgressWidget({Key? key, required this.percent, this.size = 96}) : super(key: key);
+  const ProgressWidget({super.key, required this.percent, this.size = 96});
 
   @override
   Widget build(BuildContext context) {

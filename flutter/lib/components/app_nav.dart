@@ -10,11 +10,11 @@ class AppNav extends StatelessWidget {
   final bool showThemeToggle;
 
   const AppNav({
-    Key? key,
+    super.key,
     this.onBack,
     this.showBack = true,
     this.showThemeToggle = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

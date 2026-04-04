@@ -23,7 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String _selectedType = 'patient';
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   final String _backendBaseUrl = Api.baseUrl;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 const SizedBox(height: 24),
                 DropdownButtonFormField<String>(
-                  value: _selectedType,
+                  initialValue: _selectedType,
                   decoration: _inputDecoration(
                     'Account Type',
                     Icons.category,

@@ -38,7 +38,7 @@ class AlldiseaseScreen extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final isDark = brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
-    final onBackground = colorScheme.onBackground;
+    final onBackground = colorScheme.onSurface;
     final primary = colorScheme.primary;
     final cardColor = Theme.of(context).cardColor;
 

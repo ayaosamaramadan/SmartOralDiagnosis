@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DoctorChatPage extends StatelessWidget {
-  const DoctorChatPage({Key? key}) : super(key: key);
+  const DoctorChatPage({super.key});
 
   @override
   Widget build(BuildContext context) {

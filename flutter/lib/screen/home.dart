@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _profilePhotoUrl = user['photo'] as String?;
           final first = user['firstName'] as String? ?? '';
           final last = user['lastName'] as String? ?? '';
-          _userName = (first + ' ' + last).trim();
+          _userName = ('$first $last').trim();
         });
       }
     } catch (e) {
@@ -171,8 +171,8 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
     final titleSize = isWide ? 32.0 : 20.0;
     final double imageHeight = (isWide
             ? (width * 0.35).clamp(220.0, 380.0)
-            : (width * 0.55).clamp(140.0, 260.0)) as double;
-    final double bottomLeftRadius = isWide ? 170.0 : (width * 0.18).clamp(40.0, 100.0) as double;
+            : (width * 0.55).clamp(140.0, 260.0));
+    final double bottomLeftRadius = isWide ? 170.0 : (width * 0.18).clamp(40.0, 100.0);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -212,7 +212,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
                   style: GoogleFonts.poppins(
                     fontSize: titleSize,
                     fontWeight: FontWeight.bold,
-                    color: cs.onBackground,
+                    color: cs.onSurface,
                   ),
                 ),
                 TextSpan(
@@ -232,7 +232,7 @@ Widget _buildSideMenu(BuildContext context, ColorScheme cs) {
           Text(
             "Use our smart tool to analyze mouth and dental images and detect early signs of oral problems quickly and accurately.",
             style: ts.bodyMedium?.copyWith(
-              color: cs.onBackground.withOpacity(0.7),
+              color: cs.onSurface.withOpacity(0.7),
             ),
           ),
           const SizedBox(height: 20),
