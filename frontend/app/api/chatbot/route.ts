@@ -94,7 +94,7 @@ export async function POST(req: Request) {
       );
     }
 
-    async function callGemini(modelName: string) {
+    const callGemini = async (modelName: string) => {
       const normalizedModelName = normalizeModelName(modelName);
       const url = `${GEMINI_API_ROOT}/models/${normalizedModelName}:generateContent?key=${encodeURIComponent(geminiKey)}`;
       const res = await fetch(url, {
@@ -126,7 +126,7 @@ export async function POST(req: Request) {
         d = null;
       }
       return { res, d, modelName: normalizedModelName };
-    }
+    };
 
     const initialCandidates = [configuredModel, ...FALLBACK_MODELS].filter(
       (name, index, arr) => name.length > 0 && arr.indexOf(name) === index
