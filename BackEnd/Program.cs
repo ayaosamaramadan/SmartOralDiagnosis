@@ -197,11 +197,12 @@ builder.Services.AddAuthorization(options =>
 
 // Register an HttpClient for contacting the external AI inference service.
 // Read from config or common environment variable names (loaded from .env by LoadDotEnv()).
-var aiBaseUrl = builder.Configuration.GetValue<string>("AIService:BaseUrl")
-                ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL")
+var aiBaseUrl = Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL")
                 ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASE_URL")
                 ?? Environment.GetEnvironmentVariable("AI_BASEURL")
-                ?? Environment.GetEnvironmentVariable("AI_BASE_URL");
+                ?? Environment.GetEnvironmentVariable("AI_BASE_URL")
+                ?? builder.Configuration.GetValue<string>("AIService:BaseUrl");
+Console.WriteLine("Resolved AI service base URL: " + (aiBaseUrl ?? "<none>"));
 builder.Services.AddHttpClient("AIService", client =>
 {
     if (!string.IsNullOrEmpty(aiBaseUrl))

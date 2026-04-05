@@ -1,0 +1,7 @@
+.venv
+env310
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.ipynb
