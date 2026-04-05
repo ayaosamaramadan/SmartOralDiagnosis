@@ -1,0 +1,14 @@
+**/.git
+**/.gitignore
+**/.vscode
+**/.env
+**/bin
+**/obj
+**/node_modules
+**/.next
+**/.dart_tool
+**/build
+AI
+frontend
+flutter
+env
