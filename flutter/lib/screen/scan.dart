@@ -161,8 +161,24 @@ class _ScanPageState extends State<ScanPage> {
     return '$scheme://${parsed.host}';
   }
 
+  bool _isLoopbackHost(String host) {
+    final normalized = host.trim().toLowerCase();
+    return normalized == 'localhost' ||
+        normalized == '127.0.0.1' ||
+        normalized == '::1' ||
+        normalized == '10.0.2.2';
+  }
+
+  bool _isLoopbackUrl(String rawUrl) {
+    final normalized = _withDefaultScheme(rawUrl);
+    final parsed = Uri.tryParse(normalized);
+    if (parsed == null || parsed.host.isEmpty) return false;
+    return _isLoopbackHost(parsed.host);
+  }
+
   List<Uri> _resolveAiPredictUris() {
     final candidates = <String>[];
+    var hasExplicitRemoteAiEndpoint = false;
 
     final explicitPredictUrl = _readEnv('AI_PREDICT_URL');
     final explicitAiBaseUrl = _readEnv('AI_BASE_URL');
@@ -171,6 +187,9 @@ class _ScanPageState extends State<ScanPage> {
 
     if (normalizedPredictUrl.isNotEmpty) {
       candidates.add(normalizedPredictUrl);
+      if (!_isLoopbackUrl(normalizedPredictUrl)) {
+        hasExplicitRemoteAiEndpoint = true;
+      }
     }
     if (normalizedAiBaseUrl.isNotEmpty) {
       final normalizedBase = _normalizeBaseUrl(normalizedAiBaseUrl);
@@ -179,6 +198,9 @@ class _ScanPageState extends State<ScanPage> {
       } else {
         candidates.add('$normalizedBase/predict');
       }
+      if (!_isLoopbackUrl(normalizedBase)) {
+        hasExplicitRemoteAiEndpoint = true;
+      }
     }
 
     final configuredApiUrl = _readEnv('API_URL');
@@ -186,30 +208,42 @@ class _ScanPageState extends State<ScanPage> {
       configuredApiUrl.isNotEmpty ? configuredApiUrl : Api.baseUrl,
     );
     final normalizedBackendBase = _normalizeBaseUrl(backendBase);
-    candidates.add('$normalizedBackendBase/api/ai/predict');
-    candidates.add('$normalizedBackendBase/ai/predict');
-    candidates.add('$normalizedBackendBase/predict');
+    final backendBaseUri = Uri.tryParse(normalizedBackendBase);
+    final backendIsLoopback =
+        backendBaseUri != null && _isLoopbackHost(backendBaseUri.host);
+    if (!(backendIsLoopback && hasExplicitRemoteAiEndpoint)) {
+      candidates.add('$normalizedBackendBase/api/ai/predict');
+      candidates.add('$normalizedBackendBase/ai/predict');
+      candidates.add('$normalizedBackendBase/predict');
+    }
 
     final apiHost = configuredApiUrl.isEmpty
         ? _extractSchemeAndHost(Api.baseUrl)
         : _extractSchemeAndHost(_withDefaultScheme(configuredApiUrl));
 
     if (apiHost != null) {
-      candidates.add('$apiHost:8000/predict');
-      candidates.add('$apiHost:8001/predict');
+      final apiHostUri = Uri.tryParse(apiHost);
+      final apiHostIsLoopback =
+          apiHostUri != null && _isLoopbackHost(apiHostUri.host);
+      if (!(apiHostIsLoopback && hasExplicitRemoteAiEndpoint)) {
+        candidates.add('$apiHost:8000/predict');
+        candidates.add('$apiHost:8001/predict');
+      }
     }
 
     if (kIsWeb) {
       candidates.add('http://localhost:8000/predict');
       candidates.add('http://localhost:8001/predict');
     } else if (defaultTargetPlatform == TargetPlatform.android) {
-      // 10.0.2.2 is emulator-only. Keep localhost fallbacks for adb reverse.
-      candidates.add('http://10.0.2.2:8000/predict');
-      candidates.add('http://10.0.2.2:8001/predict');
-      candidates.add('http://127.0.0.1:8000/predict');
-      candidates.add('http://127.0.0.1:8001/predict');
-      candidates.add('http://localhost:8000/predict');
-      candidates.add('http://localhost:8001/predict');
+      // Only use Android loopback fallbacks when no explicit LAN/public AI URL is configured.
+      if (!hasExplicitRemoteAiEndpoint) {
+        candidates.add('http://10.0.2.2:8000/predict');
+        candidates.add('http://10.0.2.2:8001/predict');
+        candidates.add('http://127.0.0.1:8000/predict');
+        candidates.add('http://127.0.0.1:8001/predict');
+        candidates.add('http://localhost:8000/predict');
+        candidates.add('http://localhost:8001/predict');
+      }
     } else {
       candidates.add('http://localhost:8000/predict');
       candidates.add('http://localhost:8001/predict');
@@ -296,18 +330,19 @@ class _ScanPageState extends State<ScanPage> {
         _readEnv('AI_BASE_URL').isNotEmpty;
     final hasApiUrl = _readEnv('API_URL').isNotEmpty;
 
-    final lastAttempt = attempts.isEmpty
+    final attemptsSummary = attempts.isEmpty
         ? ''
-        : ' Last attempt: ${attempts.last}.';
-    final androidHint = !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-      ? 'On a real Android phone, 10.0.2.2 works only for emulator. '
-      : '';
+        : ' Tried ${attempts.length} endpoint(s). Last attempt: ${attempts.last}.';
+    final androidHint =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+        ? 'On a real Android phone, 10.0.2.2 works only for emulator. '
+        : '';
 
     final setupHint = (hasExplicitAiUrl || hasApiUrl)
         ? 'Check that your AI server is running and reachable from this device.'
         : 'Set API_URL and/or AI_BASE_URL in flutter/.env to your PC LAN IP, then start FastAPI with --host 0.0.0.0.';
 
-    return 'Cannot connect to AI service. $androidHint$setupHint$lastAttempt';
+    return 'Cannot connect to AI service. $androidHint$setupHint$attemptsSummary';
   }
 
   Future<void> _analyzeImage() async {
