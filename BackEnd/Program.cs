@@ -247,35 +247,31 @@ var railwayPublicUrl = Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL")
                        ?? Environment.GetEnvironmentVariable("RAILWAY_URL");
 var platformPort = Environment.GetEnvironmentVariable("PORT");
 
-if (string.IsNullOrWhiteSpace(backendUrlsRaw))
+var resolvedListenUrls = backendUrlsRaw;
+if (!string.IsNullOrWhiteSpace(platformPort))
 {
-    if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER")))
-    {
-        backendUrlsRaw = Environment.GetEnvironmentVariable("NEXT_BACKEND_SERVER");
-    }
-    else if (!string.IsNullOrWhiteSpace(platformPort))
-    {
-        backendUrlsRaw = $"http://0.0.0.0:{platformPort}";
-    }
+    // On managed hosts like Railway, always bind to the injected runtime port.
+    resolvedListenUrls = $"http://0.0.0.0:{platformPort}";
 }
 
 // Log what we resolved so you can confirm the value from .env / env vars.
 Console.WriteLine("Resolved backend URLs from config/env: " + (backendUrlsRaw ?? "<none>"));
+Console.WriteLine("Resolved backend listen URLs: " + (resolvedListenUrls ?? "<none>"));
 if (!string.IsNullOrWhiteSpace(railwayPublicUrl))
 {
     Console.WriteLine("Railway/Platform public URL detected: " + railwayPublicUrl + ". The app should be reachable via that domain if the platform routes to this process.");
 }
 
-if (!string.IsNullOrWhiteSpace(backendUrlsRaw))
+if (!string.IsNullOrWhiteSpace(resolvedListenUrls))
 {
     try
     {
         // UseUrls accepts a semicolon-separated list of URLs
-        builder.WebHost.UseUrls(backendUrlsRaw);
+        builder.WebHost.UseUrls(resolvedListenUrls);
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Failed to call UseUrls with value: " + backendUrlsRaw + " - " + ex.Message);
+        Console.WriteLine("Failed to call UseUrls with value: " + resolvedListenUrls + " - " + ex.Message);
     }
 }
 
