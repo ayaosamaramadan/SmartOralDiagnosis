@@ -30,9 +30,9 @@ echo ""
 # Start Backend
 echo "Starting .NET Backend..."
 echo "========================"
-cd backend
+cd BackEnd
 
-if [ ! -f "MedicalManagementAPI.csproj" ]; then
+if [ ! -f "MedicalManagement.API.csproj" ]; then
     echo "❌ Backend project file not found. Please make sure you're in the correct directory."
     exit 1
 fi
@@ -44,7 +44,7 @@ if [ ! -d "bin" ] || [ ! -d "obj" ]; then
 fi
 
 echo "🚀 Starting .NET Web API on $NEXT_BACKEND_SERVER"
-dotnet run --urls="$NEXT_BACKEND_SERVER" &
+dotnet run --project MedicalManagement.API.csproj --urls="$NEXT_BACKEND_SERVER" &
 BACKEND_PID=$!
 
 # Wait a moment for backend to start

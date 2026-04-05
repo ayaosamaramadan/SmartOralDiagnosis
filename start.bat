@@ -28,9 +28,9 @@ echo.
 REM Start Backend
 echo Starting .NET Backend...
 echo ========================
-cd backend
+cd BackEnd
 
-if not exist "MedicalManagementAPI.csproj" (
+if not exist "MedicalManagement.API.csproj" (
     echo ❌ Backend project file not found. Please make sure you're in the correct directory.
     pause
     exit /b 1
@@ -43,7 +43,7 @@ if not exist "bin" (
 )
 
 echo 🚀 Starting .NET Web API on %NEXT_BACKEND_SERVER%
-start "Medical Management API" cmd /c "dotnet run --urls=%NEXT_BACKEND_SERVER%"
+start "Medical Management API" cmd /c "dotnet run --project MedicalManagement.API.csproj --urls=%NEXT_BACKEND_SERVER%"
 
 REM Wait for backend to start
 timeout /t 5 /nobreak >nul
