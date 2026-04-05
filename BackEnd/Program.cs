@@ -292,11 +292,17 @@ app.UseGlobalExceptionHandler();
 
 var httpsConfigured = false;
 
-var httpsEnv = Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT") ??
-               Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
-if (!string.IsNullOrWhiteSpace(httpsEnv))
+var httpsPortEnv = Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT");
+if (!string.IsNullOrWhiteSpace(httpsPortEnv) && int.TryParse(httpsPortEnv, out _))
 {
-    httpsConfigured = httpsEnv.Contains("https://") || httpsEnv.Any(char.IsDigit);
+    httpsConfigured = true;
+}
+
+var aspnetcoreUrlsEnv = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+if (!string.IsNullOrWhiteSpace(aspnetcoreUrlsEnv) &&
+    aspnetcoreUrlsEnv.Contains("https://", StringComparison.OrdinalIgnoreCase))
+{
+    httpsConfigured = true;
 }
 
 
@@ -368,6 +374,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/health", () => Results.Ok(new { status = "ok" })).AllowAnonymous();
 
 
 using (var scope = app.Services.CreateScope())
