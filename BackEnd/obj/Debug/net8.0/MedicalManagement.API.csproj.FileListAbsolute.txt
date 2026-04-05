@@ -1,516 +1,322 @@
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\appsettings.json
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.endpoints.json
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.exe
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.deps.json
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.runtimeconfig.json
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.pdb
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Azure.Core.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Azure.Identity.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\DnsClient.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Humanizer.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Data.Sqlite.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Sqlite.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Identity.Client.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Bson.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Driver.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Mono.TextTemplating.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\SharpCompress.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Snappier.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.batteries_v2.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.core.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.provider.e_sqlite3.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.CodeDom.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.AttributedModel.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Convention.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Hosting.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Runtime.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.TypedParts.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Drawing.Common.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Memory.Data.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Runtime.Caching.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Security.Permissions.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Windows.Extensions.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ZstdSharp.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-arm\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-arm64\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-armel\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-mips64\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-arm\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-x64\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-ppc64le\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-s390x\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-x64\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-x86\native\libe_sqlite3.so
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\osx-arm64\native\libe_sqlite3.dylib
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\osx-x64\native\libe_sqlite3.dylib
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm\native\e_sqlite3.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-E:\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.csproj.AssemblyReference.cache
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\rpswa.dswa.cache.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.GeneratedMSBuildEditorConfig.editorconfig
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfoInputs.cache
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfo.cs
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.csproj.CoreCompileInputs.cache
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cs
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cache
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.sourcelink.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\rjimswa.dswa.cache.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\scopedcss\bundle\MedicalManagement.API.styles.css
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.json.cache
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.development.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalM.188B34FD.Up2Date
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.dll
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\refint\MedicalManagement.API.dll
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.pdb
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.genruntimeconfig.cache
-E:\SmartOralDiagnosis\backend\obj\Debug\net8.0\ref\MedicalManagement.API.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\appsettings.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.exe
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.deps.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.runtimeconfig.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.pdb
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Azure.Core.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Azure.Identity.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\DnsClient.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Humanizer.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Data.Sqlite.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Sqlite.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Identity.Client.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Bson.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Driver.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Mono.TextTemplating.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SharpCompress.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Snappier.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.batteries_v2.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.core.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.provider.e_sqlite3.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.CodeDom.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.AttributedModel.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Convention.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Hosting.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Runtime.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.TypedParts.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Drawing.Common.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Memory.Data.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Runtime.Caching.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Security.Permissions.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Windows.Extensions.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ZstdSharp.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-arm\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-arm64\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-armel\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-mips64\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-arm\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-x64\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-ppc64le\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-s390x\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-x64\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-x86\native\libe_sqlite3.so
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\osx-arm64\native\libe_sqlite3.dylib
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\osx-x64\native\libe_sqlite3.dylib
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm\native\e_sqlite3.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.csproj.AssemblyReference.cache
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfoInputs.cache
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfo.cs
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.csproj.CoreCompileInputs.cache
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.sourcelink.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets\msbuild.MedicalManagement.API.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets\msbuild.build.MedicalManagement.API.props
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MedicalManagement.API.props
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MedicalManagement.API.props
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\scopedcss\bundle\MedicalManagement.API.styles.css
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalM.188B34FD.Up2Date
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\refint\MedicalManagement.API.dll
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.pdb
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.genruntimeconfig.cache
-C:\Users\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\ref\MedicalManagement.API.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\appsettings.json
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.endpoints.json
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.exe
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.deps.json
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.runtimeconfig.json
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.pdb
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Azure.Core.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Azure.Identity.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\DnsClient.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Humanizer.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Data.Sqlite.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Sqlite.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Identity.Client.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Bson.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MongoDB.Driver.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Mono.TextTemplating.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SharpCompress.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Snappier.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.batteries_v2.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.core.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\SQLitePCLRaw.provider.e_sqlite3.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.CodeDom.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.AttributedModel.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Convention.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Hosting.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.Runtime.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Composition.TypedParts.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Drawing.Common.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Memory.Data.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Runtime.Caching.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Security.Permissions.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\System.Windows.Extensions.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ZstdSharp.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-arm\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-arm64\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-armel\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-mips64\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-arm\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-musl-x64\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-ppc64le\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-s390x\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-x64\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\linux-x86\native\libe_sqlite3.so
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\osx-arm64\native\libe_sqlite3.dylib
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\osx-x64\native\libe_sqlite3.dylib
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm\native\e_sqlite3.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.csproj.AssemblyReference.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\rpswa.dswa.cache.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.GeneratedMSBuildEditorConfig.editorconfig
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfoInputs.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfo.cs
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.csproj.CoreCompileInputs.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cs
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.sourcelink.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\rjimswa.dswa.cache.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\scopedcss\scopedcss.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\scopedcss\bundle\MedicalManagement.API.styles.css
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.json.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.development.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\swae.build.ex.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalM.188B34FD.Up2Date
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.dll
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\refint\MedicalManagement.API.dll
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.pdb
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.genruntimeconfig.cache
-D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\ref\MedicalManagement.API.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\appsettings.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.endpoints.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.exe
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.deps.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.runtimeconfig.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MedicalManagement.API.pdb
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Azure.Core.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Azure.Identity.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\DnsClient.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Humanizer.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Data.Sqlite.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Sqlite.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MongoDB.Bson.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\MongoDB.Driver.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\SharpCompress.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Snappier.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\SQLitePCLRaw.batteries_v2.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\SQLitePCLRaw.core.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\SQLitePCLRaw.provider.e_sqlite3.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.CodeDom.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Composition.AttributedModel.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Composition.Convention.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Composition.Hosting.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Composition.Runtime.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Composition.TypedParts.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Memory.Data.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Security.Permissions.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\System.Windows.Extensions.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ZstdSharp.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-arm\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-arm64\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-armel\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-mips64\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-musl-arm\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-musl-x64\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-ppc64le\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-s390x\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-x64\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\linux-x86\native\libe_sqlite3.so
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\osx-arm64\native\libe_sqlite3.dylib
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\osx-x64\native\libe_sqlite3.dylib
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-arm\native\e_sqlite3.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.csproj.AssemblyReference.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfoInputs.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfo.cs
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.csproj.CoreCompileInputs.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cs
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.sourcelink.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\scopedcss\scopedcss.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\scopedcss\bundle\MedicalManagement.API.styles.css
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\staticwebassets.build.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\staticwebassets.development.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\swae.build.ex.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalM.188B34FD.Up2Date
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\refint\MedicalManagement.API.dll
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.pdb
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\MedicalManagement.API.genruntimeconfig.cache
+D:\aya osos\SmartOralDiagnosis\BackEnd\obj\Debug\net8.0\ref\MedicalManagement.API.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\appsettings.json
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MedicalManagement.API.staticwebassets.runtime.json
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MedicalManagement.API.staticwebassets.endpoints.json
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MedicalManagement.API.deps.json
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MedicalManagement.API.runtimeconfig.json
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MedicalManagement.API.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MedicalManagement.API.pdb
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Azure.Core.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Azure.Identity.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\BCrypt.Net-Next.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\DnsClient.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Humanizer.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Bcl.AsyncInterfaces.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.CodeAnalysis.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.CodeAnalysis.CSharp.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.CodeAnalysis.Workspaces.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Data.SqlClient.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Data.Sqlite.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.EntityFrameworkCore.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.EntityFrameworkCore.Abstractions.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.EntityFrameworkCore.Design.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.EntityFrameworkCore.Relational.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.EntityFrameworkCore.Sqlite.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.EntityFrameworkCore.SqlServer.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Extensions.DependencyModel.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Identity.Client.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Identity.Client.Extensions.Msal.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.IdentityModel.Abstractions.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.IdentityModel.JsonWebTokens.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.IdentityModel.Logging.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.IdentityModel.Protocols.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.IdentityModel.Tokens.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.OpenApi.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.SqlServer.Server.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Microsoft.Win32.SystemEvents.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MongoDB.Bson.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\MongoDB.Driver.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Mono.TextTemplating.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\SharpCompress.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Snappier.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\SQLitePCLRaw.batteries_v2.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\SQLitePCLRaw.core.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\SQLitePCLRaw.provider.e_sqlite3.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Swashbuckle.AspNetCore.Swagger.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Swashbuckle.AspNetCore.SwaggerGen.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\Swashbuckle.AspNetCore.SwaggerUI.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.CodeDom.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Composition.AttributedModel.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Composition.Convention.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Composition.Hosting.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Composition.Runtime.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Composition.TypedParts.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Configuration.ConfigurationManager.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Drawing.Common.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.IdentityModel.Tokens.Jwt.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Memory.Data.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Runtime.Caching.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Security.Cryptography.ProtectedData.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Security.Permissions.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\System.Windows.Extensions.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ZstdSharp.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\cs\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\de\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\es\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\fr\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\it\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ja\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ko\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pl\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pt-BR\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ru\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\tr\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-arm\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-arm64\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-armel\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-mips64\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-musl-arm\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-musl-arm64\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-musl-x64\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-ppc64le\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-s390x\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-x64\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\linux-x86\native\libe_sqlite3.so
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\osx-arm64\native\libe_sqlite3.dylib
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\osx-x64\native\libe_sqlite3.dylib
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-arm\native\e_sqlite3.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-arm64\native\e_sqlite3.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-x64\native\e_sqlite3.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win-x86\native\e_sqlite3.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+d:\aya osos\SmartOralDiagnosis\BackEnd\bin\Debug\altbuild\runtimes\win\lib\net6.0\System.Windows.Extensions.dll

@@ -11,6 +11,14 @@ public class MongoDbService
     public MongoDbService(IConfiguration config, ILogger<MongoDbService>? logger = null)
     {
         _logger = logger;
+        var mongoEnabled = GetBoolSetting(config, "MongoDB:Enabled", "MONGODB_ENABLED", true);
+        if (!mongoEnabled)
+        {
+            _logger?.LogInformation("MongoDB is disabled by configuration (MongoDB:Enabled/MONGODB_ENABLED=false).");
+            _database = null;
+            return;
+        }
+
         var connectionString = config.GetConnectionString("MongoDB");
         var dbName = config["DatabaseName"];
 
@@ -30,7 +38,12 @@ public class MongoDbService
 
         try
         {
-            var client = new MongoClient(connectionString);
+            var settings = MongoClientSettings.FromConnectionString(connectionString);
+            settings.ServerSelectionTimeout = TimeSpan.FromSeconds(GetPositiveIntSetting(config, "MongoDB:ServerSelectionTimeoutSeconds", "MONGODB_SERVER_SELECTION_TIMEOUT_SECONDS", 5));
+            settings.ConnectTimeout = TimeSpan.FromSeconds(GetPositiveIntSetting(config, "MongoDB:ConnectTimeoutSeconds", "MONGODB_CONNECT_TIMEOUT_SECONDS", 5));
+            settings.SocketTimeout = TimeSpan.FromSeconds(GetPositiveIntSetting(config, "MongoDB:SocketTimeoutSeconds", "MONGODB_SOCKET_TIMEOUT_SECONDS", 10));
+
+            var client = new MongoClient(settings);
             _database = client.GetDatabase(dbName);
             _logger?.LogInformation("MongoDbService initialized for database '{DbName}'.", dbName);
         }
@@ -67,5 +80,17 @@ public class MongoDbService
         {
             return (false, ex.Message);
         }
+    }
+
+    private static bool GetBoolSetting(IConfiguration config, string configKey, string envKey, bool defaultValue)
+    {
+        var raw = config[configKey] ?? Environment.GetEnvironmentVariable(envKey);
+        return bool.TryParse(raw, out var parsed) ? parsed : defaultValue;
+    }
+
+    private static int GetPositiveIntSetting(IConfiguration config, string configKey, string envKey, int defaultValue)
+    {
+        var raw = config[configKey] ?? Environment.GetEnvironmentVariable(envKey);
+        return int.TryParse(raw, out var parsed) && parsed > 0 ? parsed : defaultValue;
     }
 }

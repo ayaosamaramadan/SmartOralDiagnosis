@@ -217,6 +217,10 @@ builder.Services.AddScoped<CaseSimilarityService>();
 
 builder.Services.AddSingleton<MongoDbService>();
 
+var mongoPingOnStartupRaw = builder.Configuration["MongoDB:PingOnStartup"]
+                           ?? Environment.GetEnvironmentVariable("MONGODB_PING_ON_STARTUP");
+var mongoPingOnStartup = bool.TryParse(mongoPingOnStartupRaw, out var shouldPingMongoOnStartup) && shouldPingMongoOnStartup;
+
 
 // Allow configuring which URLs Kestrel will listen on. Default includes 5000 and
 // the Flutter web dev port 52552 so the backend can be reached from the browser
@@ -275,28 +279,6 @@ if (!string.IsNullOrWhiteSpace(backendUrlsRaw))
 }
 
 var app = builder.Build();
-
-
-using (var scope = app.Services.CreateScope())
-{
-    var mongo = scope.ServiceProvider.GetService<MongoDbService>();
-    if (mongo != null)
-    {
-        var (Ok, Message) = await mongo.PingAsync();
-        if (Ok)
-        {
-            app.Logger.LogInformation("MongoDB: connected successfully.");
-        }
-        else
-        {
-            app.Logger.LogWarning("MongoDB: connection failed - {Message}", Message ?? "unknown error");
-        }
-    }
-    else
-    {
-        app.Logger.LogWarning("MongoDbService is not registered. Skipping MongoDB connectivity check.");
-    }
-}
 
 if (app.Environment.IsDevelopment())
 {
@@ -430,32 +412,39 @@ using (var scope = app.Services.CreateScope())
 }
 await SeedData.EnsureSeedDataAsync(app.Services);
 
-try
+if (mongoPingOnStartup)
 {
-    using (var scope = app.Services.CreateScope())
+    try
     {
-        var mongo = scope.ServiceProvider.GetService<MongoDbService>();
-        if (mongo != null)
+        using (var scope = app.Services.CreateScope())
         {
-            var (ok, message) = await mongo.PingAsync();
-            if (ok)
+            var mongo = scope.ServiceProvider.GetService<MongoDbService>();
+            if (mongo != null)
             {
-                app.Logger.LogInformation("MongoDB connection succeeded (database: {db})", builder.Configuration["DatabaseName"]);
+                var (ok, message) = await mongo.PingAsync();
+                if (ok)
+                {
+                    app.Logger.LogInformation("MongoDB connection succeeded (database: {db})", builder.Configuration["DatabaseName"]);
+                }
+                else
+                {
+                    app.Logger.LogWarning("MongoDB connection failed: {msg}", message);
+                }
             }
             else
             {
-                app.Logger.LogWarning("MongoDB connection failed: {msg}", message);
+                app.Logger.LogWarning("MongoDbService is not registered in DI. Skipping MongoDB connectivity check.");
             }
         }
-        else
-        {
-            app.Logger.LogWarning("MongoDbService is not registered in DI. Skipping MongoDB connectivity check.");
-        }
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning(ex, "Exception while checking MongoDB connectivity");
     }
 }
-catch (Exception ex)
+else
 {
-    app.Logger.LogWarning(ex, "Exception while checking MongoDB connectivity");
+    app.Logger.LogInformation("Skipping MongoDB startup connectivity check (set MongoDB:PingOnStartup=true or MONGODB_PING_ON_STARTUP=true to enable).");
 }
 
 app.Run();

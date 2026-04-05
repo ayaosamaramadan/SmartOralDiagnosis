@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FHej9J46J2U=",
+  "dgSpecHash": "VKGrlZnVbj0=",
   "success": true,
-  "projectFilePath": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+  "projectFilePath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ayara\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ayara\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
