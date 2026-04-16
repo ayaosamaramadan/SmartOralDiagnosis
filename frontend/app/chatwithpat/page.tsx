@@ -8,7 +8,12 @@ import Link from "next/link";
 type Chat = { id: string; patientId: string; doctorId: string; lastMessageAt?: string | null };
 type Message = { id: string; chatId: string; senderId: string; senderRole: string | number; content: string; createdAt: string };
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "/api").replace(/\/+$/, "");
+const API_BASE = (
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://oralbackend-production.up.railway.app/api"
+    : "/api")
+).replace(/\/+$/, "");
 const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   return {

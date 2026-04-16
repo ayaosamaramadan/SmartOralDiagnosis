@@ -91,58 +91,17 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-// Support multiple frontend origins (comma-separated) and include flutter web default host/port
-// Gather frontend origin(s) from configuration and common environment variable names
-var frontendCandidates = new List<string>();
-var cfgFrontend = builder.Configuration.GetValue<string>("FrontendOrigin");
-if (!string.IsNullOrWhiteSpace(cfgFrontend)) frontendCandidates.Add(cfgFrontend);
-
-var envNames = new[] { "FRONTEND_ORIGIN", "FRONTEND_ORIGINS", "NEXT_PUBLIC_APP_URL", "NEXT_PUBLIC_FRONTEND_URL", "NEXT_PUBLIC_BACK_URL", "NEXT_PUBLIC_BACKEND_URL", "VERCEL_URL" };
-foreach (var n in envNames)
-{
-    var v = Environment.GetEnvironmentVariable(n);
-    if (!string.IsNullOrWhiteSpace(v)) frontendCandidates.Add(v);
-}
-
-// Normalize candidates: split on commas/semicolons and ensure scheme present (assume https if missing host-only)
-var frontendOrigins = frontendCandidates
-    .SelectMany(c => (c ?? string.Empty).Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
-    .Select(s => s.Trim())
-    .Where(s => !string.IsNullOrEmpty(s))
-    .Select(s => 
-    {
-        // If value looks like 'example.vercel.app' or 'example.com' (no scheme), assume https
-        if (s.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || s.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return s;
-        // Add https:// for host-only entries and strip any trailing slashes
-        return "https://" + s.TrimEnd('/');
-    })
-    .Distinct(StringComparer.OrdinalIgnoreCase)
-    .ToArray();
-
-// Fallback to common local development hosts when nothing configured
-if (frontendOrigins.Length == 0)
-{
-    frontendOrigins = new[] { "http://localhost:3000", "http://localhost:52552", "http://localhost:55695" };
-}
-
-Console.WriteLine("Resolved frontend origins for CORS: " + string.Join(", ", frontendOrigins));
+var allowedFrontendOrigin = "https://smod-ui.vercel.app";
+Console.WriteLine("Configured CORS origin: " + allowedFrontendOrigin);
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        // If no specific origins configured, fall back to allowing localhost origins used in development
-        if (frontendOrigins.Length == 0)
-        {
-            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        }
-        else
-        {
-            policy.WithOrigins(frontendOrigins)
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
-        }
+        policy.WithOrigins(allowedFrontendOrigin)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -340,61 +299,20 @@ else
     app.Logger.LogInformation("WebRootPath '{path}' not found; skipping static file middleware.", app.Environment.WebRootPath);
 }
 
-// Apply CORS policy early so preflight (OPTIONS) requests are handled
-// before authentication/authorization middleware runs.
+// Apply CORS policy before auth and endpoint mapping.
 app.UseCors("AllowFrontend");
-
-// Fallback CORS middleware: echo the request Origin when it's allowed
-// and ensure OPTIONS preflight requests return the necessary headers.
-app.Use(async (context, next) =>
-{
-    var origin = context.Request.Headers["Origin"].FirstOrDefault();
-    var allowAll = string.Equals(Environment.GetEnvironmentVariable("ALLOW_ALL_ORIGINS"), "true", StringComparison.OrdinalIgnoreCase);
-
-    if (!string.IsNullOrEmpty(origin))
-    {
-        // If the origin matches configured frontend origins OR the host has allowed all origins,
-        // echo the origin back so the browser accepts it. This avoids using a wildcard when
-        // credentials are involved.
-        if (allowAll || frontendOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
-        {
-            context.Response.Headers["Access-Control-Allow-Origin"] = origin;
-            context.Response.Headers["Vary"] = "Origin";
-        }
-    }
-
-    context.Response.Headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
-    context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
-
-    // If credentials are allowed by policy or in permissive mode, expose the credential header.
-    if (allowAll || frontendOrigins.Length > 0)
-    {
-        context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
-    }
-
-    if (HttpMethods.IsOptions(context.Request.Method))
-    {
-        context.Response.StatusCode = StatusCodes.Status204NoContent;
-        await context.Response.CompleteAsync();
-        return;
-    }
-
-    await next();
-});
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
 
-    // Development convenience: ensure `Location` column exists on Users table for SQLite
-    // This helps when adding properties to the model without running EF migrations.
+    // Development convenience: ensure `Location` column exists on Users table for SQLite.
     try
     {
         var conn = db.Database.GetDbConnection();
@@ -406,7 +324,6 @@ using (var scope = app.Services.CreateScope())
             var hasLocation = false;
             while (reader.Read())
             {
-                // second column is name
                 var name = reader.IsDBNull(1) ? null : reader.GetString(1);
                 if (string.Equals(name, "Location", StringComparison.OrdinalIgnoreCase))
                 {
@@ -414,6 +331,7 @@ using (var scope = app.Services.CreateScope())
                     break;
                 }
             }
+
             if (!hasLocation)
             {
                 using var addCmd = conn.CreateCommand();
@@ -428,6 +346,7 @@ using (var scope = app.Services.CreateScope())
         app.Logger.LogWarning(ex, "Failed to ensure Location column on Users table");
     }
 }
+
 await SeedData.EnsureSeedDataAsync(app.Services);
 
 try

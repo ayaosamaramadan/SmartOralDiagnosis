@@ -514,3 +514,16 @@ D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\refint\MedicalManagement
 D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.pdb
 D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.genruntimeconfig.cache
 D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\ref\MedicalManagement.API.dll
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.csproj.AssemblyReference.cache
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfoInputs.cache
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.AssemblyInfo.cs
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.csproj.CoreCompileInputs.cache
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.sourcelink.json
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.dll
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\refint\MedicalManagement.API.dll
+C:\Users\k\Desktop\oral2\BackEnd\obj\Debug\net8.0\MedicalManagement.API.pdb
