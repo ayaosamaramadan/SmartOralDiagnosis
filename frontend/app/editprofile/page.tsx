@@ -144,7 +144,7 @@ const Edit = () => {
 
     try {
       const uploadResult = await uploadService.uploadProfilePhoto(file, user?.id);
-      const newPhotoUrl = uploadResult?.photoUrl ?? uploadResult?.filePath;
+      const newPhotoUrl = uploadResult?.filePath ?? uploadResult?.photoUrl;
       if (!newPhotoUrl) {
         throw new Error("Upload did not return a photo URL.");
       }
