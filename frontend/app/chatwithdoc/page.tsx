@@ -117,7 +117,7 @@ export default function ChatWithDocPage() {
     const content = text.trim();
     if (!content) return;
     try {
-      const res = await fetch(`${API_BASE}/medical-chats/${selectedChatId}/messages`, {
+      const res = await fetch(`${API_BASE_URL}/medical-chats/${selectedChatId}/messages`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify({ content })

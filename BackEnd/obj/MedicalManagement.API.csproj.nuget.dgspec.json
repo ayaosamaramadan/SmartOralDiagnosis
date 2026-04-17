@@ -1,50 +1,30 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {}
+    "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj": {
+    "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "projectUniqueName": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
+        "projectPath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "packagesPath": "C:\\Users\\ayara\\.nuget\\packages\\",
-        "outputPath": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\obj\\",
-=======
-    "C:\\Users\\k\\Desktop\\oral2\\BackEnd\\MedicalManagement.API.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\k\\Desktop\\oral2\\BackEnd\\MedicalManagement.API.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\k\\Desktop\\oral2\\BackEnd\\MedicalManagement.API.csproj",
-        "projectName": "MedicalManagement.API",
-        "projectPath": "C:\\Users\\k\\Desktop\\oral2\\BackEnd\\MedicalManagement.API.csproj",
-        "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\k\\Desktop\\oral2\\BackEnd\\obj\\",
->>>>>>> a1bad86a04ec8ea7647e92b92663c7d726463ed2
+        "outputPath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\k\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\ayara\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -59,10 +39,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "11.0.100"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "BCrypt.Net-Next": {
@@ -107,6 +88,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.24, 8.0.24]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.24, 8.0.24]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.24, 8.0.24]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.24, 8.0.24]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -115,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\11.0.100-preview.2.26159.112/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
