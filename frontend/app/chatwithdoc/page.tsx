@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { doctorService, patientService } from "../../services/api";
+import { API_BASE_URL, doctorService, patientService } from "../../services/api";
 import Link from "next/link";
 import Loading from "@/auth/loading";
 
@@ -20,13 +20,6 @@ type Message = {
   content: string;
   createdAt: string;
 };
-
-const API_BASE = (
-  process.env.NEXT_PUBLIC_API_URL ||
-  (process.env.NODE_ENV === "production"
-    ? "https://oralbackend-production.up.railway.app/api"
-    : "/api")
-).replace(/\/+$/, "");
 
 const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -55,7 +48,7 @@ export default function ChatWithDocPage() {
     const load = async () => {
       setLoadingChats(true);
       try {
-        const res = await fetch(`${API_BASE}/medical-chats`, { headers: getAuthHeaders() });
+        const res = await fetch(`${API_BASE_URL}/medical-chats`, { headers: getAuthHeaders() });
         const list = await (res.ok ? res.json() : Promise.reject(new Error(res.statusText)));
         if (cancelled) return;
         setChats(list || []);
@@ -101,7 +94,7 @@ export default function ChatWithDocPage() {
     const loadMessages = async () => {
       setLoadingMessages(true);
       try {
-        const res = await fetch(`${API_BASE}/medical-chats/${selectedChatId}/messages?limit=500`, { headers: getAuthHeaders() });
+        const res = await fetch(`${API_BASE_URL}/medical-chats/${selectedChatId}/messages?limit=500`, { headers: getAuthHeaders() });
         const list = await (res.ok ? res.json() : Promise.reject(new Error(res.statusText)));
         if (cancelled) return;
         setMessages(list || []);

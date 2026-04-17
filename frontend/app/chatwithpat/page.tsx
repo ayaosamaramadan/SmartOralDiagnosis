@@ -1,19 +1,13 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { patientService } from "../../services/api";
+import { API_BASE_URL, patientService } from "../../services/api";
 import Link from "next/link";
 // import toast from "react-hot-toast";
 
 type Chat = { id: string; patientId: string; doctorId: string; lastMessageAt?: string | null };
 type Message = { id: string; chatId: string; senderId: string; senderRole: string | number; content: string; createdAt: string };
 
-const API_BASE = (
-  process.env.NEXT_PUBLIC_API_URL ||
-  (process.env.NODE_ENV === "production"
-    ? "https://oralbackend-production.up.railway.app/api"
-    : "/api")
-).replace(/\/+$/, "");
 const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   return {
@@ -43,7 +37,7 @@ export default function ChatWithPatPage() {
     const load = async () => {
       setLoadingChats(true);
       try {
-        const res = await fetch(`${API_BASE}/medical-chats`, { headers: getAuthHeaders() });
+        const res = await fetch(`${API_BASE_URL}/medical-chats`, { headers: getAuthHeaders() });
         const list = await (res.ok ? res.json() : Promise.reject(new Error(res.statusText)));
         if (cancelled) return;
         setChats(list || []);
@@ -82,7 +76,7 @@ export default function ChatWithPatPage() {
     const loadMessages = async () => {
       setLoadingMessages(true);
       try {
-        const res = await fetch(`${API_BASE}/medical-chats/${selectedChatId}/messages?limit=500`, { headers: getAuthHeaders() });
+        const res = await fetch(`${API_BASE_URL}/medical-chats/${selectedChatId}/messages?limit=500`, { headers: getAuthHeaders() });
         const list = await (res.ok ? res.json() : Promise.reject(new Error(res.statusText)));
         if (cancelled) return;
         setMessages(list || []);
@@ -100,7 +94,7 @@ export default function ChatWithPatPage() {
   const startChatWithPatient = async (patientId: string) => {
     // if (!user) return toast.error('Sign in first');
     try {
-      const res = await fetch(`${API_BASE}/medical-chats`, {
+      const res = await fetch(`${API_BASE_URL}/medical-chats`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify({ patientId, doctorId: user?.id })
@@ -115,7 +109,7 @@ export default function ChatWithPatPage() {
   const sendMessage = async () => {
     if (!selectedChatId) return; const content = text.trim(); if (!content) return;
     try {
-      const res = await fetch(`${API_BASE}/medical-chats/${selectedChatId}/messages`, { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify({ content }) });
+      const res = await fetch(`${API_BASE_URL}/medical-chats/${selectedChatId}/messages`, { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify({ content }) });
       const msg = await (res.ok ? res.json() : Promise.reject(new Error(res.statusText)));
       setMessages((m) => [...m, msg]); setText("");
       setTimeout(() => scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: 'smooth' }), 50);

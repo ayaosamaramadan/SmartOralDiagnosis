@@ -1,15 +1,42 @@
 // API base configuration
-// Prefer `NEXT_PUBLIC_API_URL` (may include `/api`).
+// Prefer a fully-qualified `NEXT_PUBLIC_API_URL`.
 // Fallback to `NEXT_PUBLIC_BACK_URL` (host-only) then localhost.
-const API_BASE_URL = (() => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const backUrl = process.env.NEXT_PUBLIC_BACK_URL;
-  if (apiUrl && apiUrl.length > 0) return apiUrl.replace(/\/$/, '');
-  if (backUrl && backUrl.length > 0) return backUrl.replace(/\/$/, '') + '/api';
+const normalizeBaseUrl = (value: string) => {
+  const trimmed = value.trim().replace(/\/+$/, '');
+
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith('//')) return `https:${trimmed}`;
+  if (trimmed.startsWith('/')) return trimmed;
+
+  const isLocalHost =
+    /^localhost(?::\d+)?(?:\/|$)/i.test(trimmed) ||
+    /^127(?:\.\d{1,3}){3}(?::\d+)?(?:\/|$)/.test(trimmed) ||
+    /^0\.0\.0\.0(?::\d+)?(?:\/|$)/.test(trimmed);
+
+  return `${isLocalHost ? 'http' : 'https'}://${trimmed}`;
+};
+
+const buildApiBaseUrl = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+  const backUrl = process.env.NEXT_PUBLIC_BACK_URL?.trim();
+
+  if (apiUrl) {
+    const normalizedApiUrl = normalizeBaseUrl(apiUrl);
+    return normalizedApiUrl.endsWith('/api') ? normalizedApiUrl : `${normalizedApiUrl}/api`;
+  }
+
+  if (backUrl) {
+    const normalizedBackUrl = normalizeBaseUrl(backUrl);
+    return normalizedBackUrl.endsWith('/api') ? normalizedBackUrl : `${normalizedBackUrl}/api`;
+  }
+
   return process.env.NODE_ENV === 'production'
     ? 'https://oralbackend-production.up.railway.app/api'
     : 'http://localhost:5000/api';
-})();
+};
+
+export const API_BASE_URL = buildApiBaseUrl();
 
 // Helper function to get auth headers
 const getAuthHeaders = (contentType: string | null = "application/json") => {
