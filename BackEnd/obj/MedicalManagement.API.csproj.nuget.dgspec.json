@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
+    "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {}
   },
   "projects": {
-    "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
+    "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "projectUniqueName": "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
         "projectName": "MedicalManagement.API",
-        "projectPath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
-        "packagesPath": "C:\\Users\\ayara\\.nuget\\packages\\",
-        "outputPath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\obj\\",
+        "projectPath": "E:\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "E:\\SmartOralDiagnosis\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ayara\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -24,7 +24,6 @@
         },
         "frameworks": {
           "net8.0": {
-            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -39,11 +38,10 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "11.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
-          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "BCrypt.Net-Next": {
@@ -88,24 +86,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.24, 8.0.24]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -114,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\11.0.100-preview.2.26159.112/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
