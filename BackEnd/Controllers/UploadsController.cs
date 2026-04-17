@@ -32,22 +32,6 @@ namespace MedicalManagement.API.Controllers
             _logger = logger;
         }
 
-        private string BuildPublicUrl(string relativePath)
-        {
-            if (string.IsNullOrWhiteSpace(relativePath))
-            {
-                return relativePath;
-            }
-
-            if (Uri.TryCreate(relativePath, UriKind.Absolute, out var absoluteUri))
-            {
-                return absoluteUri.ToString();
-            }
-
-            var origin = $"{Request.Scheme}://{Request.Host}";
-            return new Uri(new Uri(origin), relativePath.TrimStart('/')).ToString();
-        }
-
         [HttpPost]
         [RequestSizeLimit(10_000_000)] // limit ~10MB
         public async Task<IActionResult> Upload([FromForm] IFormFile file)
@@ -64,7 +48,7 @@ namespace MedicalManagement.API.Controllers
             await file.CopyToAsync(stream);
 
             var publicPath = $"/uploads/{fileName}";
-            return Ok(new { fileName, filePath = BuildPublicUrl(publicPath) });
+            return Ok(new { fileName, filePath = publicPath });
         }
 
         [HttpPost("profile-photo")]
@@ -95,7 +79,6 @@ namespace MedicalManagement.API.Controllers
             await System.IO.File.WriteAllBytesAsync(filePath, photoBytes);
 
             var photoUrl = $"/uploads/profile-photos/{fileName}";
-            var publicPhotoUrl = BuildPublicUrl(photoUrl);
 
             // create a BSON document to store in MongoDB (store binary as base64 string to avoid relying on a typed model)
             var id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
@@ -124,7 +107,7 @@ namespace MedicalManagement.API.Controllers
                 _logger.LogError(ex, "Failed to upload profile photo to MongoDB. Falling back to static file storage.");
             }
 
-            return Ok(new { photoId = id, photoUrl = publicPhotoUrl, filePath = publicPhotoUrl });
+            return Ok(new { photoId = id, photoUrl, filePath = photoUrl });
         }
 
         [HttpGet("profile-photo/{id}")]

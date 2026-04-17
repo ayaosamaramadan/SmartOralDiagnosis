@@ -42,6 +42,31 @@ const buildApiBaseUrl = () => {
 
 export const API_BASE_URL = buildApiBaseUrl();
 
+const mapRoleToBackendValue = (role: string) => {
+  const normalized = String(role || "").trim().toLowerCase();
+  if (normalized === "doctor") return "Doctor";
+  if (normalized === "admin") return "Admin";
+  return "Patient";
+};
+
+const getModelStateError = (errors: unknown) => {
+  if (!errors || typeof errors !== "object") return null;
+
+  for (const value of Object.values(errors as Record<string, unknown>)) {
+    if (Array.isArray(value)) {
+      const first = value.find((item) => typeof item === "string" && item.trim().length > 0);
+      if (typeof first === "string") return first;
+      continue;
+    }
+
+    if (typeof value === "string" && value.trim().length > 0) {
+      return value;
+    }
+  }
+
+  return null;
+};
+
 // Helper function to get auth headers
 const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = localStorage.getItem("token");
@@ -55,27 +80,38 @@ const getAuthHeaders = (contentType: string | null = "application/json") => {
 const handleResponse = async (response: Response) => {
   // Read response body as text first to safely handle empty bodies
   const text = await response.text();
+  let parsedBody: unknown = null;
+
+  if (text) {
+    try {
+      parsedBody = JSON.parse(text);
+    } catch {
+      parsedBody = text;
+    }
+  }
 
   if (!response.ok) {
-    // Try to parse JSON error body, fall back to status text
-    try {
-      const error = text ? JSON.parse(text) : null;
-      const message = error && (error.message || error.error) ? (error.message || error.error) : response.statusText || "API request failed";
-      throw new Error(message);
-    } catch (ex) {
-      throw new Error(response.statusText || "API request failed");
-    }
+    const errorObject =
+      parsedBody && typeof parsedBody === "object"
+        ? (parsedBody as Record<string, unknown>)
+        : null;
+
+    const modelStateMessage = getModelStateError(errorObject?.errors);
+    const message =
+      (typeof errorObject?.message === "string" && errorObject.message) ||
+      (typeof errorObject?.error === "string" && errorObject.error) ||
+      (typeof errorObject?.title === "string" && errorObject.title) ||
+      modelStateMessage ||
+      (typeof parsedBody === "string" && parsedBody.trim().length > 0 ? parsedBody : "") ||
+      response.statusText ||
+      `Request failed with status ${response.status}`;
+
+    throw new Error(String(message));
   }
 
   if (!text) return null;
 
-  try {
-    return JSON.parse(text);
-  } catch (ex) {
-    // If response is not valid JSON, return raw text
-    // (some endpoints may return plain text)
-    return text;
-  }
+  return parsedBody;
 };
 
 // Authentication Services
@@ -83,12 +119,17 @@ export const authService = {
   login: async (credentials: {
     email: string;
     password: string;
-    role: string;
+    role?: string;
   }) => {
+    const payload = {
+      email: credentials.email.trim().toLowerCase(),
+      password: credentials.password,
+    };
+
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   },
@@ -100,11 +141,22 @@ export const authService = {
     lastName: string;
     phoneNumber: string;
     role: string;
+    dateOfBirth: string;
   }) => {
+    const payload = {
+      email: userData.email.trim().toLowerCase(),
+      password: userData.password,
+      firstName: userData.firstName.trim(),
+      lastName: userData.lastName.trim(),
+      phoneNumber: userData.phoneNumber?.trim(),
+      role: mapRoleToBackendValue(userData.role),
+      dateOfBirth: userData.dateOfBirth?.trim(),
+    };
+
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   },
