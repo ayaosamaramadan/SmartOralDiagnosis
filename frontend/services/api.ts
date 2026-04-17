@@ -1,6 +1,6 @@
 // API base configuration
-// Prefer a fully-qualified `NEXT_PUBLIC_API_URL`.
-// Fallback to `NEXT_PUBLIC_BACK_URL` (host-only) then localhost.
+// Use the same-origin `/api` path in the browser so requests go through Next.js
+// rewrites and avoid browser CORS issues in production.
 const normalizeBaseUrl = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, '');
 
@@ -18,6 +18,10 @@ const normalizeBaseUrl = (value: string) => {
 };
 
 const buildApiBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    return '/api';
+  }
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
   const backUrl = process.env.NEXT_PUBLIC_BACK_URL?.trim();
 
