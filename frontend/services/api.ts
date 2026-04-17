@@ -6,7 +6,9 @@ const API_BASE_URL = (() => {
   const backUrl = process.env.NEXT_PUBLIC_BACK_URL;
   if (apiUrl && apiUrl.length > 0) return apiUrl.replace(/\/$/, '');
   if (backUrl && backUrl.length > 0) return backUrl.replace(/\/$/, '') + '/api';
-  return 'http://localhost:5000/api';
+  return process.env.NODE_ENV === 'production'
+    ? 'https://oralbackend-production.up.railway.app/api'
+    : 'http://localhost:5000/api';
 })();
 
 // Helper function to get auth headers
