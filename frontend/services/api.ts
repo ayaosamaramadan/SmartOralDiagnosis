@@ -1,3 +1,5 @@
+import type { Doctor, Patient } from "../types";
+
 // API base configuration
 // Use the same-origin `/api` path in the browser so requests go through Next.js
 // rewrites and avoid browser CORS issues in production.
@@ -77,7 +79,7 @@ const getAuthHeaders = (contentType: string | null = "application/json") => {
 };
 
 // Helper function to handle API responses
-const handleResponse = async (response: Response) => {
+const handleResponse = async <T = any>(response: Response): Promise<T> => {
   // Read response body as text first to safely handle empty bodies
   const text = await response.text();
   let parsedBody: unknown = null;
@@ -109,9 +111,9 @@ const handleResponse = async (response: Response) => {
     throw new Error(String(message));
   }
 
-  if (!text) return null;
+  if (!text) return null as T;
 
-  return parsedBody;
+  return parsedBody as T;
 };
 
 // Authentication Services
@@ -180,7 +182,7 @@ export const patientService = {
     const response = await fetch(`${API_BASE_URL}/patients/${id}`, {
       headers: getAuthHeaders(),
     });
-    return handleResponse(response);
+    return handleResponse<Patient | null>(response);
   },
 
   create: async (patientData: any) => {
@@ -233,7 +235,7 @@ export const doctorService = {
     const response = await fetch(`${API_BASE_URL}/doctors/${id}`, {
       headers: getAuthHeaders(),
     });
-    return handleResponse(response);
+    return handleResponse<Doctor | null>(response);
   },
 
   create: async (doctorData: any) => {
