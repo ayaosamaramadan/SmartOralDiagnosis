@@ -489,6 +489,18 @@ export const adminService = {
   },
 };
 
+const getAiImageBaseUrl = () => {
+  const configuredAiUrl = process.env.NEXT_PUBLIC_AI_URL?.trim();
+
+  if (configuredAiUrl) {
+    return normalizeBaseUrl(configuredAiUrl).replace(/\/+$/, "");
+  }
+
+  return process.env.NODE_ENV === "production"
+    ? "https://web-production-4e3e5.up.railway.app"
+    : `${API_BASE_URL}/ai`.replace(/\/$/, "");
+};
+
 // Upload Services
 export const uploadService = {
   uploadProfilePhoto: async (file: File, userId?: string) => {
@@ -511,7 +523,7 @@ export const uploadService = {
 // AI Services
 export const aiService = {
   predictFromDataUrl: async (dataUrl: string) => {
-    const AI_BASE = `${API_BASE_URL}/ai`.replace(/\/$/, "");
+    const AI_BASE = getAiImageBaseUrl();
 
     // Convert data URL to Blob
     const res = await fetch(dataUrl);
@@ -528,7 +540,7 @@ export const aiService = {
     return handleResponse(response);
   },
   predictFromFile: async (file: File) => {
-    const AI_BASE = `${API_BASE_URL}/ai`.replace(/\/$/, "");
+    const AI_BASE = getAiImageBaseUrl();
     const formData = new FormData();
     formData.append("image", file, file.name || "upload.jpg");
 
