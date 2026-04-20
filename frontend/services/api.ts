@@ -1,7 +1,6 @@
 import type { Doctor, Patient } from "../types";
 
 // API base configuration for backend requests.
-// AI predictions use the direct Railway endpoint configured below.
 const normalizeBaseUrl = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, '');
 
@@ -42,18 +41,7 @@ const buildApiBaseUrl = () => {
 };
 
 export const API_BASE_URL = buildApiBaseUrl();
-
-const normalizeAiPredictUrl = (value: string) => {
-  const trimmed = value.trim().replace(/\/+$/, "");
-
-  if (!trimmed) {
-    return "https://web-production-4e3e5.up.railway.app/predict";
-  }
-
-  return trimmed.endsWith("/predict") ? trimmed : `${trimmed}/predict`;
-};
-
-const AI_PREDICT_URL = normalizeAiPredictUrl(process.env.NEXT_PUBLIC_AI_URL ?? "");
+const AI_PREDICT_URL = "/api/ai/predict";
 
 const mapRoleToBackendValue = (role: string) => {
   const normalized = String(role || "").trim().toLowerCase();
