@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using MedicalManagement.API.Models;
 using MedicalManagement.API.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +22,7 @@ public class AiController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("predict")]
-    public async Task<IActionResult> Predict([FromBody] AiRequest? request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Predict(CancellationToken cancellationToken)
     {
         if (Request.HasFormContentType)
         {
@@ -40,6 +42,28 @@ public class AiController : ControllerBase
             }
 
             return Ok(imageResult.Data);
+        }
+
+        AiRequest? request;
+        using (var reader = new StreamReader(Request.Body, Encoding.UTF8, leaveOpen: true))
+        {
+            var body = await reader.ReadToEndAsync(cancellationToken);
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                return BadRequest(new { message = "The 'text' field is required." });
+            }
+
+            try
+            {
+                request = JsonSerializer.Deserialize<AiRequest>(body, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            catch (JsonException)
+            {
+                return BadRequest(new { message = "Invalid JSON body." });
+            }
         }
 
         if (request == null || string.IsNullOrWhiteSpace(request.Text))

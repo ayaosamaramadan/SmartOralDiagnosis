@@ -508,7 +508,6 @@ export const uploadService = {
   },
 };
 
-// AI Services
 export const aiService = {
   predictFromDataUrl: async (dataUrl: string) => {
     const AI_BASE = "/api/ai";
@@ -517,7 +516,7 @@ export const aiService = {
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     const formData = new FormData();
-    formData.append("image", blob, "capture.jpg");
+    formData.append("file", blob, "capture.jpg");
 
     const response = await fetch(`${AI_BASE}/predict`, {
       method: "POST",
@@ -530,7 +529,7 @@ export const aiService = {
   predictFromFile: async (file: File) => {
     const AI_BASE = "/api/ai";
     const formData = new FormData();
-    formData.append("image", file, file.name || "upload.jpg");
+    formData.append("file", file, file.name || "upload.jpg");
 
     const response = await fetch(`${AI_BASE}/predict`, {
       method: "POST",
@@ -540,15 +539,4 @@ export const aiService = {
 
     return handleResponse(response);
   },
-  predictFromText: async (text: string) => {
-    const AI_BASE = "/api/ai";
-
-    const response = await fetch(`${AI_BASE}/predict`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ text }),
-    });
-
-    return handleResponse(response);
-  }
 };

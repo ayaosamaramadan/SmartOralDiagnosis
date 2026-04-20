@@ -1,5 +1,6 @@
 import os
 import io
+from typing import Optional
 # Disable oneDNN optimizations to avoid the informational oneDNN message and
 # reduce potential numerical differences. Set this before importing TensorFlow.
 os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
@@ -99,9 +100,13 @@ async def startup_event():
 
 
 @app.post("/predict")
-async def predict(image: UploadFile = File(...)):
+async def predict(file: Optional[UploadFile] = File(None), image: Optional[UploadFile] = File(None)):
     try:
-        contents = await image.read()
+        upload = file or image
+        if upload is None:
+            raise HTTPException(status_code=400, detail="A multipart file field named 'file' or 'image' is required.")
+
+        contents = await upload.read()
         img = Image.open(io.BytesIO(contents)).convert("RGB")
         img = img.resize(IMAGE_SIZE)
         arr = np.array(img).astype(np.float32) / 255.0
