@@ -160,16 +160,21 @@ var aiBaseUrl = Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL")
                 ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASE_URL")
                 ?? Environment.GetEnvironmentVariable("AI_BASEURL")
                 ?? Environment.GetEnvironmentVariable("AI_BASE_URL")
+                ?? builder.Configuration.GetValue<string>("AiService:BaseUrl")
                 ?? builder.Configuration.GetValue<string>("AIService:BaseUrl");
 Console.WriteLine("Resolved AI service base URL: " + (aiBaseUrl ?? "<none>"));
-builder.Services.AddHttpClient("AIService", client =>
+builder.Services.AddHttpClient("AiService", client =>
 {
     if (!string.IsNullOrEmpty(aiBaseUrl))
     {
         try { client.BaseAddress = new Uri(aiBaseUrl); }
         catch { /* ignore invalid URL here; will surface at runtime */ }
     }
+
+    client.Timeout = TimeSpan.FromSeconds(15);
 });
+
+builder.Services.AddScoped<AiService>();
 
 
 builder.Services.AddScoped<JwtService>();
