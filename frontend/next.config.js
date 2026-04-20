@@ -13,24 +13,12 @@ const normalizeBackendOrigin = (value) => {
   return `${isLocalHost ? 'http' : 'https'}://${trimmed}`.replace(/\/api$/, '');
 };
 
-const normalizeAiOrigin = (value) => {
-  const origin = normalizeBackendOrigin(value);
-
-  if (!origin) return '';
-
-  return origin.replace(/\/predict$/, '');
-};
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   async rewrites() {
-    const aiOrigin =
-      normalizeAiOrigin(process.env.NEXT_PUBLIC_AI_URL) ||
-      'https://web-production-4e3e5.up.railway.app';
-
     const backendOrigin =
       normalizeBackendOrigin(process.env.NEXT_PUBLIC_API_URL) ||
       normalizeBackendOrigin(process.env.NEXT_PUBLIC_BACK_URL) ||
@@ -38,10 +26,6 @@ const nextConfig = {
       'https://oralbackend-production.up.railway.app';
 
     return [
-      {
-        source: '/api/ai/:path*',
-        destination: `${aiOrigin}/:path*`,
-      },
       {
         source: '/api/:path*',
         destination: `${backendOrigin}/api/:path*`,

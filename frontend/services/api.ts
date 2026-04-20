@@ -1,8 +1,7 @@
 import type { Doctor, Patient } from "../types";
 
-// API base configuration
-// Use the same-origin `/api` path in the browser so requests go through Next.js
-// rewrites and avoid browser CORS issues in production.
+// API base configuration for backend requests.
+// AI predictions use the direct Railway endpoint configured below.
 const normalizeBaseUrl = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, '');
 
@@ -43,6 +42,18 @@ const buildApiBaseUrl = () => {
 };
 
 export const API_BASE_URL = buildApiBaseUrl();
+
+const normalizeAiPredictUrl = (value: string) => {
+  const trimmed = value.trim().replace(/\/+$/, "");
+
+  if (!trimmed) {
+    return "https://web-production-4e3e5.up.railway.app/predict";
+  }
+
+  return trimmed.endsWith("/predict") ? trimmed : `${trimmed}/predict`;
+};
+
+const AI_PREDICT_URL = normalizeAiPredictUrl(process.env.NEXT_PUBLIC_AI_URL ?? "");
 
 const mapRoleToBackendValue = (role: string) => {
   const normalized = String(role || "").trim().toLowerCase();
@@ -510,30 +521,25 @@ export const uploadService = {
 
 export const aiService = {
   predictFromDataUrl: async (dataUrl: string) => {
-    const AI_BASE = "/api/ai";
-
     // Convert data URL to Blob
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     const formData = new FormData();
     formData.append("file", blob, "capture.jpg");
 
-    const response = await fetch(`${AI_BASE}/predict`, {
+    const response = await fetch(AI_PREDICT_URL, {
       method: "POST",
-      headers: getAuthHeaders(null),
       body: formData,
     });
 
     return handleResponse(response);
   },
   predictFromFile: async (file: File) => {
-    const AI_BASE = "/api/ai";
     const formData = new FormData();
     formData.append("file", file, file.name || "upload.jpg");
 
-    const response = await fetch(`${AI_BASE}/predict`, {
+    const response = await fetch(AI_PREDICT_URL, {
       method: "POST",
-      headers: getAuthHeaders(null),
       body: formData,
     });
 
