@@ -109,12 +109,20 @@ export default function ScanComponent() {
             }
         };
 
+        pushCandidate(resp?.disease_category);
+        pushCandidate(resp?.diseaseCategory);
         pushCandidate(resp?.code);
         pushCandidate(resp?.diagnosisCode);
         pushCandidate(resp?.shortTitle);
 
         let resolvedDiagnosis = "";
-        if (typeof resp?.diagnosis === "string") {
+        if (typeof resp?.disease_category === "string") {
+            resolvedDiagnosis = resp.disease_category;
+            pushCandidate(resp.disease_category);
+        } else if (typeof resp?.diseaseCategory === "string") {
+            resolvedDiagnosis = resp.diseaseCategory;
+            pushCandidate(resp.diseaseCategory);
+        } else if (typeof resp?.diagnosis === "string") {
             resolvedDiagnosis = resp.diagnosis;
             pushCandidate(resp.diagnosis);
         } else if (resp?.diagnosis && typeof resp.diagnosis === "object") {
@@ -130,6 +138,9 @@ export default function ScanComponent() {
         } else if (typeof resp?.label === "string") {
             resolvedDiagnosis = resp.label;
             pushCandidate(resp.label);
+        } else if (typeof resp?.result === "string") {
+            resolvedDiagnosis = resp.result;
+            pushCandidate(resp.result);
         } else {
             resolvedDiagnosis = JSON.stringify(resp ?? {});
         }

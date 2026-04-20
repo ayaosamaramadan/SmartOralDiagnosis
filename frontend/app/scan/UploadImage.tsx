@@ -38,7 +38,7 @@ export default function UploadImage({ onImageCapture, onAnalysisResult }: Upload
     try {
       const resp = await aiService.predictFromFile(file);
       // resp may contain diagnosis or label
-      const name = resp.diagnosis ?? resp.label ?? resp.result ?? null;
+      const name = resp.disease_category ?? resp.diseaseCategory ?? resp.diagnosis ?? resp.label ?? resp.result ?? null;
       if (name) {
         setDiseaseName(String(name));
       } else {
