@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/role_service.dart';
+import '../models/user.dart';
 import '../theme/app_theme.dart';
 import '../services/api.dart';
 
@@ -214,11 +216,26 @@ class _LoginScreenState extends State<LoginScreen> {
       if (resp.statusCode == 200) {
         final body = jsonDecode(resp.body);
         final token = body['token'];
-        if (token != null) await _secureStorage.write(key: 'jwt', value: token.toString());
+        if (token != null) {
+          await _secureStorage.write(key: 'jwt', value: token.toString());
+          try {
+            await RoleService.saveRoleFromJwt(token.toString());
+          } catch (_) {}
+        }
         try {
           final user = body['user'];
           if (user != null) {
             await _secureStorage.write(key: 'user', value: jsonEncode(user));
+            try {
+              if (user is Map<String, dynamic>) {
+                final parsed = User.fromJson(user);
+                if (parsed.role != null) await RoleService.saveRole(parsed.role!);
+              } else {
+                // fallback when user is dynamic/Map but typed differently
+                final parsed = User.fromJson(Map<String, dynamic>.from(user));
+                if (parsed.role != null) await RoleService.saveRole(parsed.role!);
+              }
+            } catch (_) {}
           }
         } catch (_) {}
         if (!mounted) return;

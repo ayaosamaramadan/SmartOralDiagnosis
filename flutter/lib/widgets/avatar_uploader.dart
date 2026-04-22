@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../services/api.dart';
+import '../models/user.dart';
 
 class AvatarUploader extends StatefulWidget {
   final String initials;
@@ -59,13 +60,22 @@ class _AvatarUploaderState extends State<AvatarUploader> {
         // If backend returned a relative path, prefix with base
         if (photoUrl.startsWith('/') ) photoUrl = '$apiBase$photoUrl';
 
-        // Update stored user object
+        // Update stored user object using the User model
         try {
           final raw = await storage.read(key: 'user');
           if (raw != null) {
-            final Map<String, dynamic> user = Map<String, dynamic>.from(jsonDecode(raw));
-            user['photo'] = photoUrl;
-            await storage.write(key: 'user', value: jsonEncode(user));
+            final parsed = jsonDecode(raw);
+            User existing;
+            if (parsed is Map<String, dynamic>) {
+              existing = User.fromJson(parsed);
+            } else if (parsed is Map) {
+              existing = User.fromJson(Map<String, dynamic>.from(parsed));
+            } else {
+              existing = User();
+            }
+
+            final updated = existing.copyWith(photo: photoUrl);
+            await storage.write(key: 'user', value: jsonEncode(updated.toJson()));
           }
         } catch (_) {}
 

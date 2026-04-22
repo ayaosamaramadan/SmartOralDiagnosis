@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/theme_toggle.dart';
+import '../services/role_service.dart';
+import '../models/user_role.dart';
 
 /// Reusable top navigation overlay used across screens.
 /// Adds a back button (left) and a theme toggle (right) placed within
@@ -44,6 +46,33 @@ class AppNav extends StatelessWidget {
                 )
               else
                 const SizedBox.shrink(),
+
+              // Center: role label (shows current role if available)
+              Expanded(
+                child: Center(
+                  child: ValueListenableBuilder<UserRole?>(
+                    valueListenable: RoleService.notifier,
+                    builder: (context, role, _) {
+                      if (role == null) return const SizedBox.shrink();
+                      final raw = role.value;
+                      final label = raw.isNotEmpty
+                          ? '${raw[0].toUpperCase()}${raw.substring(1)}'
+                          : raw;
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          label,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
 
               // Theme toggle (right)
               if (showThemeToggle)

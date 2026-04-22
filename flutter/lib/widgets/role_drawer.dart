@@ -4,70 +4,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../components/theme_toggle.dart';
 import 'avatar_uploader.dart';
+import '../models/user.dart';
+import '../models/user_role.dart';
+import '../services/role_service.dart';
 
-class RoleDrawer extends StatelessWidget {
+class RoleDrawer extends StatefulWidget {
   const RoleDrawer({super.key});
 
-  Future<Map<String, dynamic>?> _readUser() async {
+  @override
+  State<RoleDrawer> createState() => _RoleDrawerState();
+}
+
+class _RoleDrawerState extends State<RoleDrawer> {
+  Future<User?>? _userFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _userFuture = _readUser();
+    RoleService.notifier.addListener(_onRoleChange);
+  }
+
+  void _onRoleChange() {
+    // When role changes (e.g., after login), re-read the stored user so the drawer reflects the signed-in user immediately.
+    setState(() {
+      _userFuture = _readUser();
+    });
+  }
+
+  @override
+  void dispose() {
+    RoleService.notifier.removeListener(_onRoleChange);
+    super.dispose();
+  }
+
+  Future<User?> _readUser() async {
     try {
       const storage = FlutterSecureStorage();
       final raw = await storage.read(key: 'user');
       if (raw == null) return null;
       final m = jsonDecode(raw);
-      // If the stored value is already the inner `user` wrapper (e.g. {"user": {...}})
-      if (m is Map && m.containsKey('user') && m['user'] is Map) {
-        return Map<String, dynamic>.from(m['user']);
-      }
-      if (m is Map) return Map<String, dynamic>.from(m);
-      return null;
+      if (m is Map<String, dynamic>) return User.fromJson(m);
+      if (m is Map) return User.fromJson(Map<String, dynamic>.from(m));
     } catch (_) {
       return null;
     }
+    return null;
   }
 
-  String? _extractRole(Map<String, dynamic>? user) {
+  String? _extractRole(User? user) {
     if (user == null) return null;
-    // common keys
-    final candidates = <dynamic>[user['role'], user['Role'], user['type'], user['userType'], user['accountType']];
-    for (final c in candidates) {
-      if (c is String && c.trim().isNotEmpty) return c.trim().toLowerCase();
-      if (c is Map) {
-        // handle cases like { role: 'Doctor' } or { name: 'Doctor' }
-        final val = (c['role'] ?? c['name'] ?? c['type']) as dynamic;
-        if (val is String && val.trim().isNotEmpty) return val.trim().toLowerCase();
-      }
-    }
-
-    // roles could be an array of strings or objects
-    final r = user['roles'] ?? user['Roles'];
-    if (r != null) {
-      if (r is String && r.trim().isNotEmpty) return r.trim().toLowerCase();
-      if (r is List && r.isNotEmpty) {
-        // prefer a string entry or map entry with common keys
-        for (final entry in r) {
-          if (entry is String && entry.trim().isNotEmpty) return entry.trim().toLowerCase();
-          if (entry is Map) {
-            final val = (entry['name'] ?? entry['role'] ?? entry['roleName'] ?? entry['role_name']) as dynamic;
-            if (val is String && val.trim().isNotEmpty) return val.trim().toLowerCase();
-          }
-        }
-      }
-    }
-
-    // sometimes server returns nested structure like { data: { user: { role: 'Doctor' } } }
-    if (user.containsKey('data') && user['data'] is Map) {
-      final data = Map<String, dynamic>.from(user['data']);
-      final nested = _extractRole(data);
-      if (nested != null) return nested;
-    }
-
-    // sometimes the user object itself may contain another `user` wrapper
-    if (user.containsKey('user') && user['user'] is Map) {
-      final inner = Map<String, dynamic>.from(user['user']);
-      final nested = _extractRole(inner);
-      if (nested != null) return nested;
-    }
-
+    if (user.role != null) return user.role!.value.toLowerCase();
+    if (user.roles != null && user.roles!.isNotEmpty) return user.roles!.first.toLowerCase();
     return null;
   }
 
@@ -76,8 +64,8 @@ class RoleDrawer extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
 
     return Drawer(
-      child: FutureBuilder<Map<String, dynamic>?>(
-        future: _readUser(),
+      child: FutureBuilder<User?>(
+        future: _userFuture,
         builder: (context, snap) {
           // If still loading, show a simple loading drawer to avoid
           // rendering default (patient) items briefly before we know the role.
@@ -122,17 +110,15 @@ class RoleDrawer extends StatelessWidget {
           final role = _extractRole(user);
           if (snap.hasError) {
             // Don't crash drawer rendering on unexpected read errors; fall back to guest behavior.
-            // Optionally you can log the error during development.
-            // debugPrint('RoleDrawer read error: ${snap.error}');
           }
 
           String displayName = 'OralScan';
           String initials = 'OS';
           if (user != null) {
-            final name = (user['firstName'] ?? user['first_name'] ?? user['name'] ?? '') as String?;
+            final name = (!user.firstName!.isNotEmpty ? user.fullName : user.firstName)?.trim();
             if (name != null && name.isNotEmpty) {
               displayName = name;
-              initials = name.split(' ').map((s) => s.isNotEmpty ? s[0] : '').take(2).join();
+              initials = user.initials;
             }
           }
 
@@ -153,11 +139,11 @@ class RoleDrawer extends StatelessWidget {
           addItem(Icons.home, 'Home', '/');
           addItem(Icons.medical_services, 'Diseases & Conditions', '/Alldisease');
 
-          // Role specific
+          // Role specific (based on signed-in user role)
           if (role != null && role.contains('doctor')) {
             addItem(Icons.calendar_today, 'Appointments', '/appointments');
             addItem(Icons.camera_alt, 'Scan', '/scan');
-            addItem(Icons.folder_shared, 'Medical Records', '/medicalRecords');
+            addItem(Icons.folder_shared, 'Medicall Records', '/medicalRecords');
             addItem(Icons.bar_chart, 'Reports', '/reports');
             addItem(Icons.settings, 'Settings', '/settings');
           } else if (role != null && role.contains('admin')) {
@@ -192,6 +178,8 @@ class RoleDrawer extends StatelessWidget {
               const storage = FlutterSecureStorage();
               await storage.delete(key: 'jwt');
               await storage.delete(key: 'user');
+              // Clear role notifier as well so UI updates immediately
+              await RoleService.clear();
               Navigator.pushNamedAndRemoveUntil(context, '/login', (r) => false);
             },
           ));
@@ -228,8 +216,8 @@ class RoleDrawer extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: AvatarUploader(
                           initials: initials,
-                          initialUrl: user != null ? (user['photo'] as String?) : null,
-                          userId: user != null ? (user['id']?.toString() ?? user['Id']?.toString()) : null,
+                          initialUrl: user?.photo,
+                          userId: user?.id,
                           onUploaded: (url) {
                             // no-op here; AvatarUploader already persists to storage
                           },
@@ -237,15 +225,32 @@ class RoleDrawer extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(displayName, style: TextStyle(color: cs.onPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
-                            const SizedBox(height: 6),
-                            const ThemeToggle(),
-                          ],
-                        ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(displayName, style: TextStyle(color: cs.onPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 6),
+                                    // Show role label if available (prefer RoleService notifier)
+                                    Builder(builder: (ctx) {
+                                      String? notifierRole = RoleService.currentRoleString();
+                                      String capitalize(String s) => s.isEmpty ? s : (s[0].toUpperCase() + s.substring(1));
+                                      String headerRole;
+                                      if (notifierRole != null && notifierRole.isNotEmpty) {
+                                        headerRole = capitalize(notifierRole);
+                                      } else if (role != null) {
+                                        if (role.contains('doctor')) headerRole = 'Doctor';
+                                        else if (role.contains('admin')) headerRole = 'Admin';
+                                        else headerRole = 'Patient';
+                                      } else {
+                                        headerRole = 'Guest';
+                                      }
+                                      return Text(headerRole, style: TextStyle(color: cs.onPrimary.withOpacity(0.9), fontSize: 13));
+                                    }),
+                                    const SizedBox(height: 6),
+                                    const ThemeToggle(),
+                                  ],
+                                ),
                       ),
                     ],
                   ),

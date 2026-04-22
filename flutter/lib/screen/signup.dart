@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/role_service.dart';
+import '../models/user.dart';
+import '../models/user_role.dart';
 import '../services/api.dart';
 import '../theme/app_theme.dart';
 
@@ -20,9 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _birthdateController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
-  String _selectedType = 'patient';
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
+  String _selectedType = 'patient';
   bool _isLoading = false;
 
   final String _backendBaseUrl = Api.baseUrl;
@@ -289,6 +291,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final confirmPassword = _confirmPasswordController.text;
     final birthdate = _birthdateController.text.trim();
     final phone = _phoneController.text.trim();
+    final roleCapitalized = _selectedType[0].toUpperCase() + _selectedType.substring(1);
 
     // Validation
     if (firstName.isEmpty ||
@@ -297,6 +300,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password.isEmpty ||
         confirmPassword.isEmpty ||
         birthdate.isEmpty ||
+        roleCapitalized.isEmpty ||
         phone.isEmpty) {
       _showMessage('Please fill in all fields.');
       return;
@@ -338,11 +342,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
         final token = body['token'];
         if (token != null) {
           await _secureStorage.write(key: 'jwt', value: token.toString());
+          try {
+            await RoleService.saveRoleFromJwt(token.toString());
+          } catch (_) {}
         }
         try {
           final user = body['user'];
           if (user != null) {
             await _secureStorage.write(key: 'user', value: jsonEncode(user));
+            try {
+              if (user is Map<String, dynamic>) {
+                final parsed = User.fromJson(user);
+                if (parsed.role != null) await RoleService.saveRole(parsed.role!);
+              } else {
+                final parsed = User.fromJson(Map<String, dynamic>.from(user));
+                if (parsed.role != null) await RoleService.saveRole(parsed.role!);
+              }
+            } catch (_) {}
+          }
+        } catch (_) {}
+        // Fallback: if role still not set, use the selected type the user chose at signup
+        try {
+          if (RoleService.notifier.value == null) {
+            final fromSelected = UserRoleExt.fromString(_selectedType);
+            if (fromSelected != UserRole.unknown) await RoleService.saveRole(fromSelected);
           }
         } catch (_) {}
         

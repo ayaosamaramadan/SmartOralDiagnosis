@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../theme/app_theme.dart';
 import '../widgets/role_drawer.dart';
+import '../models/user_role.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -45,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final ts = Theme.of(context).textTheme;
 
     return Scaffold(
+    
       drawer: _buildSideMenu(context, cs),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(

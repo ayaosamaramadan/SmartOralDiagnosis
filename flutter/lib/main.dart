@@ -16,6 +16,7 @@ import 'screen/edit_profile.dart';
 import 'screen/doctors.dart';
 import 'screen/doctor_detail.dart';
 import 'screen/doctor_chat_page.dart';
+import 'services/role_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -29,6 +30,11 @@ Future<void> main() async {
     await ThemeService.init();
   } catch (e) {
     debugPrint('Theme initialization failed: $e');
+  }
+  try {
+    await RoleService.init();
+  } catch (e) {
+    debugPrint('RoleService init failed: $e');
   }
 
   runApp(const MyApp());
