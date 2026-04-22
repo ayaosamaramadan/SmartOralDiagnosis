@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { Camera } from "lucide-react";
 
@@ -11,18 +11,6 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
   const [active, setActive] = useState(false);
   const [cameraReady, setCameraReady] = useState(false);
-
-  const stopStreamTracks = (instance: Webcam | null) => {
-    try {
-      const inst: any = instance;
-      const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
-      if (stream && typeof stream.getTracks === "function") {
-        stream.getTracks().forEach((track) => track.stop());
-      }
-    } catch {
-      // Ignore camera teardown errors.
-    }
-  };
 
   const start = () => {
     setCameraReady(false);
@@ -45,15 +33,6 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
     }
     stop();
   };
-
-  useEffect(() => {
-    if (!active) return;
-
-    const webcamInstance = webcamRef.current;
-    return () => {
-      stopStreamTracks(webcamInstance);
-    };
-  }, [active]);
 
   return (
     <div>

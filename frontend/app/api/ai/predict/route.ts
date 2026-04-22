@@ -25,35 +25,9 @@ const parsePredictUrlList = (value?: string) => {
     .map(normalizePredictUrl);
 };
 
-const normalizeBackendOrigin = (value?: string) => {
-  const trimmed = value?.trim().replace(/\/+$/, "");
-  if (!trimmed) return "";
-  if (/^https?:\/\//i.test(trimmed)) return trimmed.replace(/\/api$/i, "");
-  if (trimmed.startsWith("//")) return `https:${trimmed}`.replace(/\/api$/i, "");
-
-  const isLocalHost =
-    /^localhost(?::\d+)?(?:\/|$)/i.test(trimmed) ||
-    /^127(?:\.\d{1,3}){3}(?::\d+)?(?:\/|$)/.test(trimmed) ||
-    /^0\.0\.0\.0(?::\d+)?(?:\/|$)/.test(trimmed);
-
-  return `${isLocalHost ? "http" : "https"}://${trimmed}`.replace(/\/api$/i, "");
-};
-
-const buildBackendPredictUrl = (value?: string) => {
-  const origin = normalizeBackendOrigin(value);
-  return origin ? `${origin}/api/ai/predict` : "";
-};
-
 const AI_PREDICT_URLS = Array.from(
   new Set([
     ...parsePredictUrlList(process.env.NEXT_PUBLIC_AI_URL),
-    ...parsePredictUrlList(process.env.AI_SERVICE_URL),
-    ...parsePredictUrlList(process.env.AI_SERVICE_BASEURL),
-    ...parsePredictUrlList(process.env.AI_PREDICT_FALLBACK_URLS),
-    ...parsePredictUrlList(buildBackendPredictUrl(process.env.NEXT_PUBLIC_API_URL)),
-    ...parsePredictUrlList(buildBackendPredictUrl(process.env.NEXT_PUBLIC_BACK_URL)),
-    ...parsePredictUrlList(buildBackendPredictUrl(process.env.BACKEND_URL)),
-    ...parsePredictUrlList("https://oralbackend-production.up.railway.app/api/ai/predict"),
     DEFAULT_AI_PREDICT_URL,
   ])
 );
