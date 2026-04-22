@@ -9,6 +9,9 @@ type UpstreamAttempt = {
   message: string;
 };
 
+const isLoopbackUrl = (value: string) =>
+  /^https?:\/\/(?:localhost|127(?:\.\d{1,3}){3}|0\.0\.0\.0)(?::\d+)?(?:\/|$)/i.test(value);
+
 const normalizeAbsoluteUrl = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, "");
 
@@ -76,7 +79,7 @@ const BACKEND_PREDICT_URLS = Array.from(
     ...parseUrlList(process.env.NEXT_PUBLIC_BACK_URL, normalizeBackendPredictUrl),
     DEFAULT_BACKEND_PREDICT_URL,
   ])
-);
+).filter((url) => !isLoopbackUrl(url));
 
 const DIRECT_AI_PREDICT_URLS = Array.from(
   new Set([
@@ -87,7 +90,7 @@ const DIRECT_AI_PREDICT_URLS = Array.from(
     ...parseUrlList(process.env.NEXT_PUBLIC_AI_URL, normalizeDirectPredictUrl),
     DEFAULT_DIRECT_AI_PREDICT_URL,
   ])
-);
+).filter((url) => !isLoopbackUrl(url));
 
 const AI_PREDICT_URLS = Array.from(new Set([...BACKEND_PREDICT_URLS, ...DIRECT_AI_PREDICT_URLS]));
 
@@ -200,12 +203,12 @@ const buildFailureResponse = (attempts: UpstreamAttempt[]) => {
   let message = lastAttempt?.message || "AI service is currently unavailable.";
   if (
     backendFailure &&
-    /localhost:8001|connection refused/i.test(backendFailure.message) &&
+    /localhost|127\.0\.0\.1|0\.0\.0\.0|connection refused/i.test(backendFailure.message) &&
     directAiFailure &&
     /internal server error/i.test(directAiFailure.message)
   ) {
     message =
-      "The backend AI proxy is pointing to an unavailable localhost AI service, and the Railway AI service is also failing.";
+      "The backend AI proxy is pointing to an invalid local AI service, and the Railway AI service is also failing.";
   } else if (backendFailure && directAiFailure) {
     message = "Both the backend AI proxy and the Railway AI service are unavailable right now.";
   } else if (directAiFailure && /internal server error/i.test(directAiFailure.message)) {

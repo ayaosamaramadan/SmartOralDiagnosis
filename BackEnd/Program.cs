@@ -228,7 +228,6 @@ var aiBaseUrlCandidates = new[]
     "https://web-production-4e3e5.up.railway.app"
 };
 
-var disallowLoopbackAiUrl = IsLikelyHostedEnvironment() || !builder.Environment.IsDevelopment();
 string? aiBaseUrl = null;
 foreach (var candidate in aiBaseUrlCandidates)
 {
@@ -238,9 +237,9 @@ foreach (var candidate in aiBaseUrlCandidates)
         continue;
     }
 
-    if (disallowLoopbackAiUrl && IsLoopbackAiHost(normalizedCandidate))
+    if (IsLoopbackAiHost(normalizedCandidate))
     {
-        Console.WriteLine("Skipping loopback AI service URL in hosted/non-development environment: " + normalizedCandidate);
+        Console.WriteLine("Skipping loopback AI service URL. Railway/public AI URL is required: " + normalizedCandidate);
         continue;
     }
 
