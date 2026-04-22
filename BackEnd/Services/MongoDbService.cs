@@ -11,7 +11,6 @@ public class MongoDbService
     public MongoDbService(IConfiguration config, ILogger<MongoDbService>? logger = null)
     {
         _logger = logger;
-<<<<<<< HEAD
         var mongoEnabled = GetBoolSetting(config, "MongoDB:Enabled", "MONGODB_ENABLED", true);
         if (!mongoEnabled)
         {
@@ -20,12 +19,8 @@ public class MongoDbService
             return;
         }
 
-        var connectionString = config.GetConnectionString("MongoDB");
-        var dbName = config["DatabaseName"];
-=======
         var connectionString = ResolveMongoConnectionString(config);
         var dbName = ResolveDatabaseName(config);
->>>>>>> a1bad86a04ec8ea7647e92b92663c7d726463ed2
 
         if (string.IsNullOrWhiteSpace(connectionString))
         {
@@ -87,7 +82,6 @@ public class MongoDbService
         }
     }
 
-<<<<<<< HEAD
     private static bool GetBoolSetting(IConfiguration config, string configKey, string envKey, bool defaultValue)
     {
         var raw = config[configKey] ?? Environment.GetEnvironmentVariable(envKey);
@@ -98,7 +92,8 @@ public class MongoDbService
     {
         var raw = config[configKey] ?? Environment.GetEnvironmentVariable(envKey);
         return int.TryParse(raw, out var parsed) && parsed > 0 ? parsed : defaultValue;
-=======
+    }
+
     private static string? ResolveMongoConnectionString(IConfiguration config)
     {
         var configuredValue = config.GetConnectionString("MongoDB");
@@ -175,6 +170,5 @@ public class MongoDbService
         }
 
         return null;
->>>>>>> a1bad86a04ec8ea7647e92b92663c7d726463ed2
     }
 }

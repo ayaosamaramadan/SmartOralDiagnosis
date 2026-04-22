@@ -23,7 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String _selectedType = 'patient';
   final List<String> _userTypes = ['patient', 'doctor', 'admin'];
-  final bool _isLoading = false;
+  bool _isLoading = false;
 
   final String _backendBaseUrl = Api.baseUrl;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 const SizedBox(height: 24),
                 DropdownButtonFormField<String>(
-                  initialValue: _selectedType,
+                  value: _selectedType,
                   decoration: _inputDecoration(
                     'Account Type',
                     Icons.category,
@@ -282,5 +282,102 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _register() async {
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+    final birthdate = _birthdateController.text.trim();
+    final phone = _phoneController.text.trim();
+
+    // Validation
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty ||
+        birthdate.isEmpty ||
+        phone.isEmpty) {
+      _showMessage('Please fill in all fields.');
+      return;
+    }
+
+    if (password != confirmPassword) {
+      _showMessage('Passwords do not match.');
+      return;
+    }
+
+    if (password.length < 6) {
+      _showMessage('Password must be at least 6 characters.');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final uri = Uri.parse('$_backendBaseUrl/api/Auth/register');
+      final roleCapitalized = _selectedType[0].toUpperCase() + _selectedType.substring(1);
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+          'firstName': firstName,
+          'lastName': lastName,
+          'phoneNumber': phone,
+          'role': roleCapitalized,
+          'dateOfBirth': birthdate,
+        }),
+      );
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final body = jsonDecode(response.body);
+        final token = body['token'];
+        if (token != null) {
+          await _secureStorage.write(key: 'jwt', value: token.toString());
+        }
+        try {
+          final user = body['user'];
+          if (user != null) {
+            await _secureStorage.write(key: 'user', value: jsonEncode(user));
+          }
+        } catch (_) {}
+        
+        _showMessage('Account created successfully!', success: true);
+        if (!mounted) return;
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      } else if (response.statusCode == 400) {
+        String msg = 'Registration failed';
+        try {
+          final body = jsonDecode(response.body);
+          if (body is Map && body['message'] != null) {
+            msg = body['message'];
+          }
+        } catch (_) {}
+        _showMessage(msg);
+      } else {
+        _showMessage('An unexpected error occurred (${response.statusCode}). Please try again.');
+      }
+    } catch (e) {
+      if (mounted) {
+        _showMessage('Unable to connect to the server: ${e.toString()}');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _showMessage(String message, {bool success = false}) {
+    final snack = SnackBar(
+      content: Text(message),
+      backgroundColor: success ? Colors.green : Colors.redAccent,
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 }
