@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 const DEFAULT_BACKEND_PREDICT_URL = "https://oralbackend-production.up.railway.app/api/ai/predict";
 const DEFAULT_DIRECT_AI_PREDICT_URL = "https://web-production-4e3e5.up.railway.app/predict";
+const LOCAL_BACKEND_PREDICT_URL = "http://localhost:4000/api/ai/predict";
+const LOCAL_DIRECT_AI_PREDICT_URL = "http://localhost:8000/predict";
 
 type UpstreamAttempt = {
   upstreamUrl: string;
@@ -11,6 +13,10 @@ type UpstreamAttempt = {
 
 const isLoopbackUrl = (value: string) =>
   /^https?:\/\/(?:localhost|127(?:\.\d{1,3}){3}|0\.0\.0\.0)(?::\d+)?(?:\/|$)/i.test(value);
+
+const allowLoopback =
+  process.env.NODE_ENV === "development" ||
+  String(process.env.ALLOW_LOOPBACK_AI || "").toLowerCase() === "true";
 
 const normalizeAbsoluteUrl = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, "");
@@ -70,19 +76,23 @@ const parseUrlList = (value: string | undefined, normalizer: (value: string) => 
 
 const BACKEND_PREDICT_URLS = Array.from(
   new Set([
+    ...(process.env.NODE_ENV !== "production" ? [LOCAL_BACKEND_PREDICT_URL] : []),
     ...parseUrlList(process.env.AI_PROXY_URL, normalizeBackendPredictUrl),
     ...parseUrlList(process.env.BACKEND_PREDICT_URL, normalizeBackendPredictUrl),
     ...parseUrlList(process.env.API_PREDICT_URL, normalizeBackendPredictUrl),
     ...parseUrlList(process.env.API_URL, normalizeBackendPredictUrl),
     ...parseUrlList(process.env.BACKEND_URL, normalizeBackendPredictUrl),
+    ...parseUrlList(process.env.NEXT_PUBLIC_BACKEND_URL, normalizeBackendPredictUrl),
+    ...parseUrlList(process.env.NEXT_BACKEND_SERVER, normalizeBackendPredictUrl),
     ...parseUrlList(process.env.NEXT_PUBLIC_API_URL, normalizeBackendPredictUrl),
     ...parseUrlList(process.env.NEXT_PUBLIC_BACK_URL, normalizeBackendPredictUrl),
     DEFAULT_BACKEND_PREDICT_URL,
   ])
-).filter((url) => !isLoopbackUrl(url));
+).filter((url) => allowLoopback || !isLoopbackUrl(url));
 
 const DIRECT_AI_PREDICT_URLS = Array.from(
   new Set([
+    ...(process.env.NODE_ENV !== "production" ? [LOCAL_DIRECT_AI_PREDICT_URL] : []),
     ...parseUrlList(process.env.AI_PREDICT_URL, normalizeDirectPredictUrl),
     ...parseUrlList(process.env.AI_URL, normalizeDirectPredictUrl),
     ...parseUrlList(process.env.AI_SERVICE_BASEURL, normalizeDirectPredictUrl),
@@ -90,7 +100,7 @@ const DIRECT_AI_PREDICT_URLS = Array.from(
     ...parseUrlList(process.env.NEXT_PUBLIC_AI_URL, normalizeDirectPredictUrl),
     DEFAULT_DIRECT_AI_PREDICT_URL,
   ])
-).filter((url) => !isLoopbackUrl(url));
+).filter((url) => allowLoopback || !isLoopbackUrl(url));
 
 const AI_PREDICT_URLS = Array.from(new Set([...BACKEND_PREDICT_URLS, ...DIRECT_AI_PREDICT_URLS]));
 

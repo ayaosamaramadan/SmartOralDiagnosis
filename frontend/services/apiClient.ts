@@ -1,4 +1,10 @@
-const rawBaseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+const rawBaseUrl = (
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.NEXT_PUBLIC_BACK_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_BACKEND_SERVER ||
+  "http://localhost:5000"
+).replace(/\/+$/, "");
 const API_BASE_URL = rawBaseUrl.endsWith("/api") ? rawBaseUrl : `${rawBaseUrl}/api`;
 
 type RequestMethod = "GET" | "POST";

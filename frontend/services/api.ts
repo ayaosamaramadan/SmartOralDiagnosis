@@ -23,7 +23,9 @@ const buildApiBaseUrl = () => {
   }
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
-  const backUrl = process.env.NEXT_PUBLIC_BACK_URL?.trim();
+  const backUrl = process.env.NEXT_PUBLIC_BACK_URL?.trim()
+    || process.env.NEXT_PUBLIC_BACKEND_URL?.trim()
+    || process.env.NEXT_BACKEND_SERVER?.trim();
 
   if (apiUrl) {
     const normalizedApiUrl = normalizeBaseUrl(apiUrl);

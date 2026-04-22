@@ -55,13 +55,6 @@ void LoadDotEnv()
     }
 }
 
-bool IsLikelyHostedEnvironment()
-{
-    return !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PORT"))
-           || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL"))
-           || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_URL"));
-}
-
 bool IsLoopbackAiHost(string value)
 {
     if (string.IsNullOrWhiteSpace(value)) return false;
@@ -237,10 +230,18 @@ foreach (var candidate in aiBaseUrlCandidates)
         continue;
     }
 
-    if (IsLoopbackAiHost(normalizedCandidate))
+    var allowLoopbackAi = builder.Environment.IsDevelopment() ||
+                          string.Equals(Environment.GetEnvironmentVariable("ALLOW_LOOPBACK_AI"), "true", StringComparison.OrdinalIgnoreCase);
+
+    if (IsLoopbackAiHost(normalizedCandidate) && !allowLoopbackAi)
     {
         Console.WriteLine("Skipping loopback AI service URL. Railway/public AI URL is required: " + normalizedCandidate);
         continue;
+    }
+
+    if (IsLoopbackAiHost(normalizedCandidate) && allowLoopbackAi)
+    {
+        Console.WriteLine("Allowing loopback AI service URL: " + normalizedCandidate);
     }
 
     aiBaseUrl = normalizedCandidate;
@@ -260,8 +261,26 @@ builder.Services.AddHttpClient("AiService", client =>
         try { client.BaseAddress = new Uri(aiBaseUrl); }
         catch { /* ignore invalid URL here; will surface at runtime */ }
     }
+    // Allow configuring AI request timeout via env or config. Default to 60s for
+    // potentially slow model inference or cold-start scenarios.
+    var aiTimeoutSeconds = 60;
+    var envTimeout = Environment.GetEnvironmentVariable("AI_SERVICE_TIMEOUT_SECONDS");
+    if (!string.IsNullOrWhiteSpace(envTimeout) && int.TryParse(envTimeout, out var parsedEnv) && parsedEnv > 0)
+    {
+        aiTimeoutSeconds = parsedEnv;
+    }
+    else
+    {
+        var confTimeout = builder.Configuration.GetValue<int?>("AiService:TimeoutSeconds")
+                          ?? builder.Configuration.GetValue<int?>("AIService:TimeoutSeconds");
+        if (confTimeout.HasValue && confTimeout.Value > 0)
+        {
+            aiTimeoutSeconds = confTimeout.Value;
+        }
+    }
 
-    client.Timeout = TimeSpan.FromSeconds(15);
+    client.Timeout = TimeSpan.FromSeconds(aiTimeoutSeconds);
+    Console.WriteLine($"AI service HTTP client timeout set to {aiTimeoutSeconds} seconds");
 });
 
 builder.Services.AddScoped<AiService>();

@@ -75,6 +75,18 @@ async def health():
     }
     return JSONResponse(payload, status_code=200 if ready else 503)
 
+
+@app.get("/")
+async def root():
+    return JSONResponse(
+        {
+            "status": "ok",
+            "service": "AI Inference Service",
+            "health": "/health",
+            "predict": "/predict",
+        }
+    )
+
 # Define class labels in the same order the model was trained to output.
 # Update these names if your trained model uses different class ordering.
 # Short codes correspond to dataset folders: CaS, CoS, Gum, MC, OC, OLP, OT
