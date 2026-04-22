@@ -43,6 +43,10 @@ const buildApiBaseUrl = () => {
 export const API_BASE_URL = buildApiBaseUrl();
 
 const buildAiPredictUrl = () => {
+  if (typeof window !== 'undefined') {
+    return '/api/ai/predict';
+  }
+
   const configuredUrl = process.env.NEXT_PUBLIC_AI_URL?.trim();
   const normalized = normalizeBaseUrl(configuredUrl || "https://web-production-4e3e5.up.railway.app").replace(/\/+$/, "");
 

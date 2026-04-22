@@ -27,6 +27,8 @@ const parsePredictUrlList = (value?: string) => {
 
 const AI_PREDICT_URLS = Array.from(
   new Set([
+    ...parsePredictUrlList(process.env.AI_PREDICT_URL),
+    ...parsePredictUrlList(process.env.AI_URL),
     ...parsePredictUrlList(process.env.NEXT_PUBLIC_AI_URL),
     DEFAULT_AI_PREDICT_URL,
   ])
