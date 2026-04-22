@@ -17,18 +17,27 @@ const normalizeBackendOrigin = (value) => {
 const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
+    NEXT_PUBLIC_AI_URL: process.env.NEXT_PUBLIC_AI_URL,
   },
   async rewrites() {
     const backendOrigin =
       normalizeBackendOrigin(process.env.NEXT_PUBLIC_API_URL) ||
       normalizeBackendOrigin(process.env.NEXT_PUBLIC_BACK_URL) ||
+      normalizeBackendOrigin(process.env.NEXT_PUBLIC_BACKEND_URL) ||
+      normalizeBackendOrigin(process.env.NEXT_BACKEND_SERVER) ||
       normalizeBackendOrigin(process.env.BACKEND_URL) ||
       'https://oralbackend-production.up.railway.app';
 
     return [
       {
-        source: '/api/:path*',
-        destination: `${backendOrigin}/api/:path*`,
+        // Keep Next app routes for AI/chatbot local; rewrite all other API paths to backend.
+        source: '/api/:path((?!ai/predict$|chatbot$).*)',
+        destination: `${backendOrigin}/api/:path`,
+      },
+      {
+        source: '/uploads/:path*',
+        destination: `${backendOrigin}/uploads/:path*`,
       },
     ];
   },

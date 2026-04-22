@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IO;
+using System.Net;
 using MedicalManagement.API.Data;
 using MedicalManagement.API.Services;
 using MedicalManagement.API.Middleware;
@@ -52,6 +53,65 @@ void LoadDotEnv()
     {
         Console.WriteLine("LoadDotEnv: exception while loading .env: " + ex.Message);
     }
+}
+
+bool IsLoopbackAiHost(string value)
+{
+    if (string.IsNullOrWhiteSpace(value)) return false;
+
+    if (!Uri.TryCreate(value, UriKind.Absolute, out var uri))
+    {
+        if (!Uri.TryCreate($"http://{value}", UriKind.Absolute, out uri))
+        {
+            return false;
+        }
+    }
+
+    var host = uri.Host;
+    if (string.Equals(host, "localhost", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(host, "0.0.0.0", StringComparison.OrdinalIgnoreCase))
+    {
+        return true;
+    }
+
+    return IPAddress.TryParse(host, out var ipAddress) && IPAddress.IsLoopback(ipAddress);
+}
+
+bool IsLikelyHostedEnvironment()
+{
+    return !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PORT"))
+        || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL"))
+        || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_URL"));
+}
+
+string? NormalizeAiBaseUrl(string? rawValue)
+{
+    if (string.IsNullOrWhiteSpace(rawValue)) return null;
+
+    var candidate = rawValue.Trim().TrimEnd('/');
+    if (!candidate.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+        && !candidate.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+    {
+        candidate = $"http://{candidate}";
+    }
+
+    if (!Uri.TryCreate(candidate, UriKind.Absolute, out var uri))
+    {
+        return null;
+    }
+
+    var absolute = uri.AbsoluteUri.TrimEnd('/');
+
+    if (absolute.EndsWith("/api/ai/predict", StringComparison.OrdinalIgnoreCase))
+    {
+        absolute = absolute.Substring(0, absolute.Length - "/api/ai/predict".Length);
+    }
+    else if (absolute.EndsWith("/predict", StringComparison.OrdinalIgnoreCase))
+    {
+        absolute = absolute.Substring(0, absolute.Length - "/predict".Length);
+    }
+
+    return absolute.EndsWith('/') ? absolute : absolute + "/";
 }
 
 LoadDotEnv();
@@ -156,20 +216,80 @@ builder.Services.AddAuthorization(options =>
 
 // Register an HttpClient for contacting the external AI inference service.
 // Read from config or common environment variable names (loaded from .env by LoadDotEnv()).
-var aiBaseUrl = Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL")
-                ?? Environment.GetEnvironmentVariable("AI_SERVICE_BASE_URL")
-                ?? Environment.GetEnvironmentVariable("AI_BASEURL")
-                ?? Environment.GetEnvironmentVariable("AI_BASE_URL")
-                ?? builder.Configuration.GetValue<string>("AIService:BaseUrl");
+var aiBaseUrlCandidates = new[]
+{
+    Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL"),
+    Environment.GetEnvironmentVariable("AI_SERVICE_BASE_URL"),
+    Environment.GetEnvironmentVariable("AI_BASEURL"),
+    Environment.GetEnvironmentVariable("AI_BASE_URL"),
+    builder.Configuration.GetValue<string>("AiService:BaseUrl"),
+    builder.Configuration.GetValue<string>("AIService:BaseUrl"),
+    Environment.GetEnvironmentVariable("NEXT_PUBLIC_AI_URL"),
+    "https://web-production-4e3e5.up.railway.app"
+};
+
+string? aiBaseUrl = null;
+foreach (var candidate in aiBaseUrlCandidates)
+{
+    var normalizedCandidate = NormalizeAiBaseUrl(candidate);
+    if (string.IsNullOrWhiteSpace(normalizedCandidate))
+    {
+        continue;
+    }
+
+    var allowLoopbackAi = builder.Environment.IsDevelopment() && !IsLikelyHostedEnvironment();
+
+    if (IsLoopbackAiHost(normalizedCandidate) && !allowLoopbackAi)
+    {
+        Console.WriteLine("Skipping loopback AI service URL. Railway/public AI URL is required: " + normalizedCandidate);
+        continue;
+    }
+
+    if (IsLoopbackAiHost(normalizedCandidate) && allowLoopbackAi)
+    {
+        Console.WriteLine("Allowing loopback AI service URL: " + normalizedCandidate);
+    }
+
+    aiBaseUrl = normalizedCandidate;
+    break;
+}
+
 Console.WriteLine("Resolved AI service base URL: " + (aiBaseUrl ?? "<none>"));
-builder.Services.AddHttpClient("AIService", client =>
+if (string.IsNullOrWhiteSpace(aiBaseUrl))
+{
+    Console.WriteLine("WARNING: No valid AI service base URL resolved. '/api/ai/predict' requests will fail until AI_SERVICE_BASEURL or AiService:BaseUrl is set.");
+}
+
+builder.Services.AddHttpClient("AiService", client =>
 {
     if (!string.IsNullOrEmpty(aiBaseUrl))
     {
         try { client.BaseAddress = new Uri(aiBaseUrl); }
         catch { /* ignore invalid URL here; will surface at runtime */ }
     }
+    // Allow configuring AI request timeout via env or config. Default to 60s for
+    // potentially slow model inference or cold-start scenarios.
+    var aiTimeoutSeconds = 60;
+    var envTimeout = Environment.GetEnvironmentVariable("AI_SERVICE_TIMEOUT_SECONDS");
+    if (!string.IsNullOrWhiteSpace(envTimeout) && int.TryParse(envTimeout, out var parsedEnv) && parsedEnv > 0)
+    {
+        aiTimeoutSeconds = parsedEnv;
+    }
+    else
+    {
+        var confTimeout = builder.Configuration.GetValue<int?>("AiService:TimeoutSeconds")
+                          ?? builder.Configuration.GetValue<int?>("AIService:TimeoutSeconds");
+        if (confTimeout.HasValue && confTimeout.Value > 0)
+        {
+            aiTimeoutSeconds = confTimeout.Value;
+        }
+    }
+
+    client.Timeout = TimeSpan.FromSeconds(aiTimeoutSeconds);
+    Console.WriteLine($"AI service HTTP client timeout set to {aiTimeoutSeconds} seconds");
 });
+
+builder.Services.AddScoped<AiService>();
 
 
 builder.Services.AddScoped<JwtService>();

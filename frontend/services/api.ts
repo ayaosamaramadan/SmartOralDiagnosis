@@ -1,6 +1,6 @@
-// API base configuration
-// Use the same-origin `/api` path in the browser so requests go through Next.js
-// rewrites and avoid browser CORS issues in production.
+import type { Doctor, Patient } from "../types";
+
+// API base configuration for backend requests.
 const normalizeBaseUrl = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, '');
 
@@ -23,7 +23,9 @@ const buildApiBaseUrl = () => {
   }
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
-  const backUrl = process.env.NEXT_PUBLIC_BACK_URL?.trim();
+  const backUrl = process.env.NEXT_PUBLIC_BACK_URL?.trim()
+    || process.env.NEXT_PUBLIC_BACKEND_URL?.trim()
+    || process.env.NEXT_BACKEND_SERVER?.trim();
 
   if (apiUrl) {
     const normalizedApiUrl = normalizeBaseUrl(apiUrl);
@@ -42,6 +44,91 @@ const buildApiBaseUrl = () => {
 
 export const API_BASE_URL = buildApiBaseUrl();
 
+const buildAiPredictUrl = () => {
+  if (typeof window !== 'undefined') {
+    return '/api/ai/predict';
+  }
+
+  const configuredUrl = process.env.NEXT_PUBLIC_AI_URL?.trim();
+  const normalized = normalizeBaseUrl(configuredUrl || "https://web-production-4e3e5.up.railway.app").replace(/\/+$/, "");
+
+  if (/\/predict$/i.test(normalized)) {
+    return normalized;
+  }
+
+  return `${normalized}/predict`;
+};
+
+const AI_PREDICT_URL = buildAiPredictUrl();
+
+const normalizeAiUploadError = (error: unknown) => {
+  const raw =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : String(error ?? "Unknown AI upload error");
+
+  const message = raw.trim();
+  if (/^internal server error$/i.test(message) || /request failed with status 500/i.test(message)) {
+    return new Error("AI service is currently unavailable on Railway. Please try again later.");
+  }
+
+  return error instanceof Error ? error : new Error(message);
+};
+
+const mapRoleToBackendValue = (role: string) => {
+  const normalized = String(role || "").trim().toLowerCase();
+  if (normalized === "doctor") return "Doctor";
+  if (normalized === "admin") return "Admin";
+  return "Patient";
+};
+
+const getModelStateError = (errors: unknown) => {
+  if (!errors || typeof errors !== "object") return null;
+
+  for (const value of Object.values(errors as Record<string, unknown>)) {
+    if (Array.isArray(value)) {
+      const first = value.find((item) => typeof item === "string" && item.trim().length > 0);
+      if (typeof first === "string") return first;
+      continue;
+    }
+
+    if (typeof value === "string" && value.trim().length > 0) {
+      return value;
+    }
+  }
+
+  return null;
+};
+
+const getDetailError = (detail: unknown): string | null => {
+  if (typeof detail === "string" && detail.trim().length > 0) {
+    return detail.trim();
+  }
+
+  if (Array.isArray(detail)) {
+    for (const item of detail) {
+      const nested = getDetailError(item);
+      if (nested) return nested;
+    }
+    return null;
+  }
+
+  if (detail && typeof detail === "object") {
+    const detailObj = detail as Record<string, unknown>;
+    if (typeof detailObj.message === "string" && detailObj.message.trim().length > 0) {
+      return detailObj.message.trim();
+    }
+
+    if (typeof detailObj.msg === "string" && detailObj.msg.trim().length > 0) {
+      return detailObj.msg.trim();
+    }
+  }
+
+  return null;
+};
+
 // Helper function to get auth headers
 const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = localStorage.getItem("token");
@@ -52,30 +139,53 @@ const getAuthHeaders = (contentType: string | null = "application/json") => {
 };
 
 // Helper function to handle API responses
-const handleResponse = async (response: Response) => {
+const handleResponse = async <T = any>(response: Response): Promise<T> => {
   // Read response body as text first to safely handle empty bodies
   const text = await response.text();
+  let parsedBody: unknown = null;
 
-  if (!response.ok) {
-    // Try to parse JSON error body, fall back to status text
+  if (text) {
     try {
-      const error = text ? JSON.parse(text) : null;
-      const message = error && (error.message || error.error) ? (error.message || error.error) : response.statusText || "API request failed";
-      throw new Error(message);
-    } catch (ex) {
-      throw new Error(response.statusText || "API request failed");
+      parsedBody = JSON.parse(text);
+    } catch {
+      parsedBody = text;
     }
   }
 
-  if (!text) return null;
+  if (!response.ok) {
+    const errorObject =
+      parsedBody && typeof parsedBody === "object"
+        ? (parsedBody as Record<string, unknown>)
+        : null;
 
-  try {
-    return JSON.parse(text);
-  } catch (ex) {
-    // If response is not valid JSON, return raw text
-    // (some endpoints may return plain text)
-    return text;
+    const modelStateMessage = getModelStateError(errorObject?.errors);
+    const detailMessage = getDetailError(errorObject?.detail);
+    const baseMessage =
+      (typeof errorObject?.message === "string" && errorObject.message) ||
+      (typeof errorObject?.error === "string" && errorObject.error) ||
+      (typeof errorObject?.title === "string" && errorObject.title) ||
+      modelStateMessage ||
+      detailMessage ||
+      (typeof parsedBody === "string" && parsedBody.trim().length > 0 ? parsedBody : "") ||
+      response.statusText ||
+      `Request failed with status ${response.status}`;
+
+    const shouldAppendDetail =
+      typeof detailMessage === "string" &&
+      detailMessage.length > 0 &&
+      typeof baseMessage === "string" &&
+      baseMessage.length > 0 &&
+      !baseMessage.toLowerCase().includes(detailMessage.toLowerCase()) &&
+      (/internal server error/i.test(baseMessage) || /request failed/i.test(baseMessage));
+
+    const message = shouldAppendDetail ? `${baseMessage}: ${detailMessage}` : baseMessage;
+
+    throw new Error(String(message));
   }
+
+  if (!text) return null as T;
+
+  return parsedBody as T;
 };
 
 // Authentication Services
@@ -83,12 +193,17 @@ export const authService = {
   login: async (credentials: {
     email: string;
     password: string;
-    role: string;
+    role?: string;
   }) => {
+    const payload = {
+      email: credentials.email.trim().toLowerCase(),
+      password: credentials.password,
+    };
+
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   },
@@ -100,11 +215,22 @@ export const authService = {
     lastName: string;
     phoneNumber: string;
     role: string;
+    dateOfBirth: string;
   }) => {
+    const payload = {
+      email: userData.email.trim().toLowerCase(),
+      password: userData.password,
+      firstName: userData.firstName.trim(),
+      lastName: userData.lastName.trim(),
+      phoneNumber: userData.phoneNumber?.trim(),
+      role: mapRoleToBackendValue(userData.role),
+      dateOfBirth: userData.dateOfBirth?.trim(),
+    };
+
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   },
@@ -128,7 +254,7 @@ export const patientService = {
     const response = await fetch(`${API_BASE_URL}/patients/${id}`, {
       headers: getAuthHeaders(),
     });
-    return handleResponse(response);
+    return handleResponse<Patient | null>(response);
   },
 
   create: async (patientData: any) => {
@@ -181,7 +307,7 @@ export const doctorService = {
     const response = await fetch(`${API_BASE_URL}/doctors/${id}`, {
       headers: getAuthHeaders(),
     });
-    return handleResponse(response);
+    return handleResponse<Doctor | null>(response);
   },
 
   create: async (doctorData: any) => {
@@ -454,37 +580,38 @@ export const uploadService = {
   },
 };
 
-// AI Services
 export const aiService = {
   predictFromDataUrl: async (dataUrl: string) => {
-    // Determine AI service base URL. Prefer dedicated NEXT_PUBLIC_AI_URL.
-    const AI_BASE = (process.env.NEXT_PUBLIC_AI_URL || `${API_BASE_URL}/ai`).replace(/\/$/, "");
-
     // Convert data URL to Blob
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     const formData = new FormData();
-    formData.append("image", blob, "capture.jpg");
+    formData.append("file", blob, "capture.jpg");
 
-    const response = await fetch(`${AI_BASE}/predict`, {
-      method: "POST",
-      headers: getAuthHeaders(null),
-      body: formData,
-    });
+    try {
+      const response = await fetch(AI_PREDICT_URL, {
+        method: "POST",
+        body: formData,
+      });
 
-    return handleResponse(response);
+      return handleResponse(response);
+    } catch (error) {
+      throw normalizeAiUploadError(error);
+    }
   },
   predictFromFile: async (file: File) => {
-    const AI_BASE = (process.env.NEXT_PUBLIC_AI_URL || `${API_BASE_URL}/ai`).replace(/\/$/, "");
     const formData = new FormData();
-    formData.append("image", file, file.name || "upload.jpg");
+    formData.append("file", file, file.name || "upload.jpg");
 
-    const response = await fetch(`${AI_BASE}/predict`, {
-      method: "POST",
-      headers: getAuthHeaders(null),
-      body: formData,
-    });
+    try {
+      const response = await fetch(AI_PREDICT_URL, {
+        method: "POST",
+        body: formData,
+      });
 
-    return handleResponse(response);
-  }
+      return handleResponse(response);
+    } catch (error) {
+      throw normalizeAiUploadError(error);
+    }
+  },
 };

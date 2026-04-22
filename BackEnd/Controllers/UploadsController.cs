@@ -71,6 +71,15 @@ namespace MedicalManagement.API.Controllers
             await file.CopyToAsync(memoryStream);
             var photoBytes = memoryStream.ToArray();
 
+            var uploads = Path.Combine(_env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), "uploads", "profile-photos");
+            if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploads, fileName);
+            await System.IO.File.WriteAllBytesAsync(filePath, photoBytes);
+
+            var photoUrl = $"/uploads/profile-photos/{fileName}";
+
             // create a BSON document to store in MongoDB (store binary as base64 string to avoid relying on a typed model)
             var id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
             var bson = new MongoDB.Bson.BsonDocument
@@ -91,18 +100,14 @@ namespace MedicalManagement.API.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogWarning(ex, "MongoDB is not configured for profile photo uploads.");
-                return StatusCode(503, "Profile photo storage is temporarily unavailable.");
+                _logger.LogWarning(ex, "MongoDB is not configured for profile photo uploads. Falling back to static file storage.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to upload profile photo to MongoDB.");
-                return StatusCode(500, "Failed to store profile photo.");
+                _logger.LogError(ex, "Failed to upload profile photo to MongoDB. Falling back to static file storage.");
             }
 
-            var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var photoUrl = $"{baseUrl}/api/uploads/profile-photo/{id}";
-            return Ok(new { photoId = id, photoUrl });
+            return Ok(new { photoId = id, photoUrl, filePath = photoUrl });
         }
 
         [HttpGet("profile-photo/{id}")]

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { Camera } from "lucide-react";
 
@@ -9,21 +9,38 @@ interface CameraCaptureProps {
 
 export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
+  const stopTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
 
-  const start = () => setActive(true);
-
- const stop = () => {
-    try {
-      const inst: any = webcamRef.current;
-      const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
-      if (stream && typeof stream.getTracks === "function") {
-        stream.getTracks().forEach(t => t.stop());
+  useEffect(() => {
+    return () => {
+      if (stopTimerRef.current !== null) {
+        window.clearTimeout(stopTimerRef.current);
       }
-    } catch (err) {
-    
+    };
+  }, []);
+
+  const start = () => {
+    if (stopTimerRef.current !== null) {
+      window.clearTimeout(stopTimerRef.current);
+      stopTimerRef.current = null;
     }
-    setActive(false);
+    setCameraReady(false);
+    setActive(true);
+  };
+
+  const stop = () => {
+    setCameraReady(false);
+    if (stopTimerRef.current !== null) {
+      window.clearTimeout(stopTimerRef.current);
+    }
+
+    // Delay unmount slightly to avoid the browser play()/pause() race from react-webcam.
+    stopTimerRef.current = window.setTimeout(() => {
+      setActive(false);
+      stopTimerRef.current = null;
+    }, 120);
   };
 
   const capture = () => {
@@ -37,18 +54,6 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
     stop();
   };
 
-  useEffect(() => {
-    return () => {
-      try {
-        const inst: any = webcamRef.current;
-        const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
-        if (stream && typeof stream.getTracks === "function") stream.getTracks().forEach(t => t.stop());
-      } catch { 
-        
-      }
-    };
-  }, []);
-
   return (
     <div>
       {active ? (
@@ -58,10 +63,21 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             videoConstraints={{ facingMode: "environment" }}
+            onUserMedia={() => setCameraReady(true)}
+            onUserMediaError={() => {
+              setCameraReady(false);
+              setActive(false);
+            }}
             className="max-w-full h-auto rounded-lg"
           />
           <div className="mt-4 space-x-4">
-            <button onClick={capture} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Capture Photo</button>
+            <button
+              onClick={capture}
+              disabled={!cameraReady}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            >
+              Capture Photo
+            </button>
             <button onClick={stop} className="px-6 py-2 bg-gray-200 dark:bg-gray-600 rounded-lg">Stop</button>
           </div>
         </div>

@@ -1,5 +1,7 @@
 import os
 import io
+from typing import Optional
+from pathlib import Path
 # Disable oneDNN optimizations to avoid the informational oneDNN message and
 # reduce potential numerical differences. Set this before importing TensorFlow.
 os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
@@ -8,6 +10,7 @@ os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from PIL import Image
 import numpy as np
 import tensorflow as tf
@@ -15,31 +18,74 @@ import tensorflow as tf
 app = FastAPI(title="AI Inference Service")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=[
+        "https://smod-ui.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:3001",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app$",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 DEFAULT_MODEL_NAME = "model.h5"
-MODEL_PATH = os.environ.get("MODEL_PATH")
-if not MODEL_PATH:
-    # prefer explicit default name, otherwise pick the first .h5 in the folder
-    candidate = os.path.join(os.path.dirname(__file__), DEFAULT_MODEL_NAME)
-    if os.path.exists(candidate):
-        MODEL_PATH = candidate
-    else:
-        # search for any .h5 file in the inference folder
-        files = [f for f in os.listdir(os.path.dirname(__file__)) if f.lower().endswith('.h5')]
-        MODEL_PATH = os.path.join(os.path.dirname(__file__), files[0]) if files else None
+BASE_DIR = Path(__file__).resolve().parent
+
+def resolve_model_path():
+    configured = os.environ.get("MODEL_PATH")
+    if configured:
+        candidate = Path(configured)
+        if not candidate.is_absolute():
+            candidate = BASE_DIR / candidate
+        return str(candidate)
+
+    default_candidate = BASE_DIR / DEFAULT_MODEL_NAME
+    if default_candidate.exists():
+        return str(default_candidate)
+
+    files = sorted(path for path in BASE_DIR.iterdir() if path.suffix.lower() == ".h5")
+    if files:
+        return str(files[0])
+
+    return str(default_candidate)
+
+MODEL_PATH = resolve_model_path()
 IMAGE_SIZE = (224, 224)
 
 model = None
+model_load_error = None
 
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    ready = model is not None
+    if not ready:
+        try:
+            load_model()
+            ready = True
+        except Exception:
+            ready = False
+
+    payload = {
+        "status": "ok" if ready else "degraded",
+        "modelLoaded": ready,
+        "modelPath": MODEL_PATH,
+        "modelError": model_load_error,
+    }
+    return JSONResponse(payload, status_code=200)
+
+
+@app.get("/")
+async def root():
+    return JSONResponse(
+        {
+            "status": "ok",
+            "service": "AI Inference Service",
+            "health": "/health",
+            "predict": "/predict",
+        }
+    )
 
 # Define class labels in the same order the model was trained to output.
 # Update these names if your trained model uses different class ordering.
@@ -66,21 +112,29 @@ HUMAN_LABELS = {
 }
 
 def load_model():
-    global model
+    global model, model_load_error, MODEL_PATH
     if model is None:
+        MODEL_PATH = resolve_model_path()
         if not MODEL_PATH or not os.path.exists(MODEL_PATH):
-            raise RuntimeError(f"Model file not found. Checked MODEL_PATH={MODEL_PATH}")
+            model_load_error = f"Model file not found. Checked MODEL_PATH={MODEL_PATH}"
+            raise RuntimeError(model_load_error)
         # Load for inference only (avoid compiling metrics which aren't needed)
         try:
             model = tf.keras.models.load_model(MODEL_PATH, compile=False)
-        except Exception:
-            # Fallback to default load to propagate any original exceptions
-            model = tf.keras.models.load_model(MODEL_PATH)
+        except Exception as first_error:
+            try:
+                # Fallback to default load to propagate any original exceptions
+                model = tf.keras.models.load_model(MODEL_PATH)
+            except Exception as second_error:
+                model_load_error = f"Failed to load model from {MODEL_PATH}: {second_error}"
+                raise second_error from first_error
+        model_load_error = None
     return model
 
 
 @app.on_event("startup")
 async def startup_event():
+    global model_load_error
     try:
         # Diagnostic info: print chosen model path and any .h5 files in folder
         print(f"MODEL_PATH={MODEL_PATH}")
@@ -94,21 +148,26 @@ async def startup_event():
         print("Model loaded")
     except Exception as e:
         import traceback
+        model_load_error = str(e)
         print(f"Failed loading model: {e}")
         traceback.print_exc()
 
 
 @app.post("/predict")
-async def predict(image: UploadFile = File(...)):
+async def predict(file: Optional[UploadFile] = File(None), image: Optional[UploadFile] = File(None)):
     try:
-        contents = await image.read()
+        upload = file or image
+        if upload is None:
+            raise HTTPException(status_code=400, detail="A multipart file field named 'file' or 'image' is required.")
+
+        contents = await upload.read()
         img = Image.open(io.BytesIO(contents)).convert("RGB")
         img = img.resize(IMAGE_SIZE)
         arr = np.array(img).astype(np.float32) / 255.0
         arr = np.expand_dims(arr, axis=0)  # batch dim
 
         m = load_model()
-        preds = m.predict(arr)
+        preds = m.predict(arr, verbose=0)
 
         # Normalize preds into a 1-D probability array safely
         if isinstance(preds, np.ndarray):
@@ -140,7 +199,13 @@ async def predict(image: UploadFile = File(...)):
 
         return {
             "diagnosis": label_name,
+            "disease_category": label_name,
+            "label": label_code,
+            "diagnosisCode": label_code,
             "confidence": confidence_pct
         }
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        status_code = 503 if model_load_error else 500
+        raise HTTPException(status_code=status_code, detail=str(e))

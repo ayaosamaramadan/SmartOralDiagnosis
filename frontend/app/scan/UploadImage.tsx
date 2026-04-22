@@ -38,7 +38,7 @@ export default function UploadImage({ onImageCapture, onAnalysisResult }: Upload
     try {
       const resp = await aiService.predictFromFile(file);
       // resp may contain diagnosis or label
-      const name = resp.diagnosis ?? resp.label ?? resp.result ?? null;
+      const name = resp.disease_category ?? resp.diseaseCategory ?? resp.diagnosis ?? resp.label ?? resp.result ?? null;
       if (name) {
         setDiseaseName(String(name));
       } else {
@@ -50,7 +50,7 @@ export default function UploadImage({ onImageCapture, onAnalysisResult }: Upload
       setDiseaseName(null);
       const errMsg = err?.message ? String(err.message) : String(err ?? "Unknown error");
       setErrorText(errMsg);
-      toast.error("Could not analyze uploaded image.");
+      toast.error(errMsg.length > 180 ? `${errMsg.slice(0, 177)}...` : errMsg);
       const normalizedErr = err instanceof Error ? err : new Error(String(errMsg));
       onAnalysisResult?.(null, normalizedErr);
     } finally {
