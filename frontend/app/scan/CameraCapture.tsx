@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { Camera } from "lucide-react";
 
@@ -9,18 +9,38 @@ interface CameraCaptureProps {
 
 export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
+  const stopTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState(false);
   const [cameraReady, setCameraReady] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      if (stopTimerRef.current !== null) {
+        window.clearTimeout(stopTimerRef.current);
+      }
+    };
+  }, []);
+
   const start = () => {
+    if (stopTimerRef.current !== null) {
+      window.clearTimeout(stopTimerRef.current);
+      stopTimerRef.current = null;
+    }
     setCameraReady(false);
     setActive(true);
   };
 
- const stop = () => {
-    // Let unmount happen first to avoid video play()/pause() race in some browsers.
+  const stop = () => {
     setCameraReady(false);
-    setActive(false);
+    if (stopTimerRef.current !== null) {
+      window.clearTimeout(stopTimerRef.current);
+    }
+
+    // Delay unmount slightly to avoid the browser play()/pause() race from react-webcam.
+    stopTimerRef.current = window.setTimeout(() => {
+      setActive(false);
+      stopTimerRef.current = null;
+    }, 120);
   };
 
   const capture = () => {
