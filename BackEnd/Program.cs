@@ -77,6 +77,13 @@ bool IsLoopbackAiHost(string value)
     return IPAddress.TryParse(host, out var ipAddress) && IPAddress.IsLoopback(ipAddress);
 }
 
+bool IsLikelyHostedEnvironment()
+{
+    return !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PORT"))
+        || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL"))
+        || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_URL"));
+}
+
 string? NormalizeAiBaseUrl(string? rawValue)
 {
     if (string.IsNullOrWhiteSpace(rawValue)) return null;
@@ -230,8 +237,7 @@ foreach (var candidate in aiBaseUrlCandidates)
         continue;
     }
 
-    var allowLoopbackAi = builder.Environment.IsDevelopment() ||
-                          string.Equals(Environment.GetEnvironmentVariable("ALLOW_LOOPBACK_AI"), "true", StringComparison.OrdinalIgnoreCase);
+    var allowLoopbackAi = builder.Environment.IsDevelopment() && !IsLikelyHostedEnvironment();
 
     if (IsLoopbackAiHost(normalizedCandidate) && !allowLoopbackAi)
     {

@@ -114,15 +114,26 @@ public class AiService
                 _logger.LogWarning(ex, "HTTP error calling configured AI service, will try fallback.");
             }
 
-            // Fallback candidates
-            var candidates = new[]
-            {
-                Environment.GetEnvironmentVariable("AI_SERVICE_LOCAL_BASEURL"),
-                Environment.GetEnvironmentVariable("AI_SERVICE_FALLBACK_URL"),
-                Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL_LOCAL"),
-                Environment.GetEnvironmentVariable("NEXT_PUBLIC_AI_URL"),
-                "http://localhost:8000"
-            };
+            // Fallback candidates. Keep loopback only for local development so
+            // hosted deployments cannot accidentally degrade to localhost.
+            var hostedEnvironment = IsHostedEnvironment();
+            var candidates = hostedEnvironment
+                ? new[]
+                {
+                    Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL"),
+                    Environment.GetEnvironmentVariable("AI_SERVICE_BASE_URL"),
+                    Environment.GetEnvironmentVariable("AI_BASEURL"),
+                    Environment.GetEnvironmentVariable("AI_BASE_URL"),
+                    Environment.GetEnvironmentVariable("NEXT_PUBLIC_AI_URL")
+                }
+                : new[]
+                {
+                    Environment.GetEnvironmentVariable("AI_SERVICE_LOCAL_BASEURL"),
+                    Environment.GetEnvironmentVariable("AI_SERVICE_FALLBACK_URL"),
+                    Environment.GetEnvironmentVariable("AI_SERVICE_BASEURL_LOCAL"),
+                    Environment.GetEnvironmentVariable("NEXT_PUBLIC_AI_URL"),
+                    "http://localhost:8000"
+                };
 
             foreach (var candidate in candidates)
             {
@@ -195,5 +206,12 @@ public class AiService
         }
 
         return absolute.EndsWith('/') ? absolute : absolute + "/";
+    }
+
+    private static bool IsHostedEnvironment()
+    {
+        return !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PORT"))
+            || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_STATIC_URL"))
+            || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RAILWAY_URL"));
     }
 }

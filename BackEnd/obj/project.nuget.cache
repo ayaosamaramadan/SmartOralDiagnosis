@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VKGrlZnVbj0=",
+  "dgSpecHash": "YWz1vP/K+KU=",
   "success": true,
-  "projectFilePath": "D:\\aya osos\\SmartOralDiagnosis\\backend\\MedicalManagement.API.csproj",
+  "projectFilePath": "D:\\aya osos\\SmartOralDiagnosis\\BackEnd\\MedicalManagement.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ayara\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ayara\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
@@ -98,8 +98,7 @@
     "C:\\Users\\ayara\\.nuget\\packages\\zstdsharp.port\\0.7.3\\zstdsharp.port.0.7.3.nupkg.sha512",
     "C:\\Users\\ayara\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.24\\microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
     "C:\\Users\\ayara\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.24\\microsoft.windowsdesktop.app.ref.8.0.24.nupkg.sha512",
-    "C:\\Users\\ayara\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.24\\microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512",
-    "C:\\Users\\ayara\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.24\\microsoft.netcore.app.host.win-x64.8.0.24.nupkg.sha512"
+    "C:\\Users\\ayara\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.24\\microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512"
   ],
   "logs": []
 }

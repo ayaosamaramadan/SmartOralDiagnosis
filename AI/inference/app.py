@@ -73,7 +73,7 @@ async def health():
         "modelPath": MODEL_PATH,
         "modelError": model_load_error,
     }
-    return JSONResponse(payload, status_code=200 if ready else 503)
+    return JSONResponse(payload, status_code=200)
 
 
 @app.get("/")

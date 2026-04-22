@@ -19,7 +19,6 @@ D:\aya osos\SmartOralDiagnosis\backend\obj\Debug\net8.0\MedicalManagement.API.so
 D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\appsettings.json
 D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.runtime.json
 D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.staticwebassets.endpoints.json
-D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.exe
 D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.deps.json
 D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.runtimeconfig.json
 D:\aya osos\SmartOralDiagnosis\backend\bin\Debug\net8.0\MedicalManagement.API.dll
