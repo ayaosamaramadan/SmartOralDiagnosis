@@ -53,7 +53,6 @@ export default function Navigation() {
         return commonItems;
     }
   };
-  console.log('Nav items:', getNavItems());
 
   const handleLogout = () => {
     logout();

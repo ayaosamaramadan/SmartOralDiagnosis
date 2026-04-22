@@ -10,19 +10,28 @@ interface CameraCaptureProps {
 export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
   const [active, setActive] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
 
-  const start = () => setActive(true);
-
- const stop = () => {
+  const stopStreamTracks = (instance: Webcam | null) => {
     try {
-      const inst: any = webcamRef.current;
+      const inst: any = instance;
       const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
       if (stream && typeof stream.getTracks === "function") {
-        stream.getTracks().forEach(t => t.stop());
+        stream.getTracks().forEach((track) => track.stop());
       }
-    } catch (err) {
-    
+    } catch {
+      // Ignore camera teardown errors.
     }
+  };
+
+  const start = () => {
+    setCameraReady(false);
+    setActive(true);
+  };
+
+ const stop = () => {
+    // Let unmount happen first to avoid video play()/pause() race in some browsers.
+    setCameraReady(false);
     setActive(false);
   };
 
@@ -38,16 +47,13 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
   };
 
   useEffect(() => {
+    if (!active) return;
+
+    const webcamInstance = webcamRef.current;
     return () => {
-      try {
-        const inst: any = webcamRef.current;
-        const stream: MediaStream | null = inst?.stream || inst?.video?.srcObject || null;
-        if (stream && typeof stream.getTracks === "function") stream.getTracks().forEach(t => t.stop());
-      } catch { 
-        
-      }
+      stopStreamTracks(webcamInstance);
     };
-  }, []);
+  }, [active]);
 
   return (
     <div>
@@ -58,10 +64,21 @@ export default function CameraCapture({ onImageCapture }: CameraCaptureProps) {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             videoConstraints={{ facingMode: "environment" }}
+            onUserMedia={() => setCameraReady(true)}
+            onUserMediaError={() => {
+              setCameraReady(false);
+              setActive(false);
+            }}
             className="max-w-full h-auto rounded-lg"
           />
           <div className="mt-4 space-x-4">
-            <button onClick={capture} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Capture Photo</button>
+            <button
+              onClick={capture}
+              disabled={!cameraReady}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            >
+              Capture Photo
+            </button>
             <button onClick={stop} className="px-6 py-2 bg-gray-200 dark:bg-gray-600 rounded-lg">Stop</button>
           </div>
         </div>

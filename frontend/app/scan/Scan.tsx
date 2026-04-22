@@ -239,7 +239,7 @@ export default function ScanComponent() {
             console.error('Upload parse error:', err);
             toast.error('Could not parse analysis result');
         }
-    }, [dispatch]);
+    }, [dispatch, parseAnalysisResponse]);
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {

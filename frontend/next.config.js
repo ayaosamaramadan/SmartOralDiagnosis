@@ -27,8 +27,9 @@ const nextConfig = {
 
     return [
       {
-        source: '/api/:path*',
-        destination: `${backendOrigin}/api/:path*`,
+        // Keep Next app routes for AI/chatbot local; rewrite all other API paths to backend.
+        source: '/api/:path((?!ai/predict$|chatbot$).*)',
+        destination: `${backendOrigin}/api/:path`,
       },
       {
         source: '/uploads/:path*',
