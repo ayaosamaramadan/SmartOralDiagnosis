@@ -50,7 +50,7 @@ export default function UploadImage({ onImageCapture, onAnalysisResult }: Upload
       setDiseaseName(null);
       const errMsg = err?.message ? String(err.message) : String(err ?? "Unknown error");
       setErrorText(errMsg);
-      toast.error("Could not analyze uploaded image.");
+      toast.error(errMsg.length > 180 ? `${errMsg.slice(0, 177)}...` : errMsg);
       const normalizedErr = err instanceof Error ? err : new Error(String(errMsg));
       onAnalysisResult?.(null, normalizedErr);
     } finally {

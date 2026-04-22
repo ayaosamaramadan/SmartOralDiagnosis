@@ -41,7 +41,35 @@ const buildApiBaseUrl = () => {
 };
 
 export const API_BASE_URL = buildApiBaseUrl();
-const AI_PREDICT_URL = "/api/ai/predict";
+
+const buildAiPredictUrl = () => {
+  const configuredUrl = process.env.NEXT_PUBLIC_AI_URL?.trim();
+  const normalized = normalizeBaseUrl(configuredUrl || "https://web-production-4e3e5.up.railway.app").replace(/\/+$/, "");
+
+  if (/\/predict$/i.test(normalized)) {
+    return normalized;
+  }
+
+  return `${normalized}/predict`;
+};
+
+const AI_PREDICT_URL = buildAiPredictUrl();
+
+const normalizeAiUploadError = (error: unknown) => {
+  const raw =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : String(error ?? "Unknown AI upload error");
+
+  const message = raw.trim();
+  if (/^internal server error$/i.test(message) || /request failed with status 500/i.test(message)) {
+    return new Error("AI service is currently unavailable on Railway. Please try again later.");
+  }
+
+  return error instanceof Error ? error : new Error(message);
+};
 
 const mapRoleToBackendValue = (role: string) => {
   const normalized = String(role || "").trim().toLowerCase();
@@ -554,22 +582,30 @@ export const aiService = {
     const formData = new FormData();
     formData.append("file", blob, "capture.jpg");
 
-    const response = await fetch(AI_PREDICT_URL, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch(AI_PREDICT_URL, {
+        method: "POST",
+        body: formData,
+      });
 
-    return handleResponse(response);
+      return handleResponse(response);
+    } catch (error) {
+      throw normalizeAiUploadError(error);
+    }
   },
   predictFromFile: async (file: File) => {
     const formData = new FormData();
     formData.append("file", file, file.name || "upload.jpg");
 
-    const response = await fetch(AI_PREDICT_URL, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch(AI_PREDICT_URL, {
+        method: "POST",
+        body: formData,
+      });
 
-    return handleResponse(response);
+      return handleResponse(response);
+    } catch (error) {
+      throw normalizeAiUploadError(error);
+    }
   },
 };

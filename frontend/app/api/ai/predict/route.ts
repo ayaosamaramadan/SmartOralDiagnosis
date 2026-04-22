@@ -198,9 +198,19 @@ export async function POST(req: Request) {
 
     if (lastFailure) {
       const normalizedError = normalizeUpstreamError(lastFailure.responseText, lastFailure.contentType);
+      const rawMessage =
+        typeof normalizedError.message === "string" && normalizedError.message.trim().length > 0
+          ? normalizedError.message.trim()
+          : "AI service returned an error.";
+      const message =
+        /internal server error/i.test(rawMessage)
+          ? `AI service is currently unavailable (${lastFailure.upstreamUrl}).`
+          : rawMessage;
+
       return NextResponse.json(
         {
           ...normalizedError,
+          message,
           upstreamStatus: lastFailure.status,
           upstreamUrl: lastFailure.upstreamUrl,
         },
