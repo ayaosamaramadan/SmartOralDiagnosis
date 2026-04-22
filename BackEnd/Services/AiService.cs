@@ -44,9 +44,17 @@ public class AiService
 
             using var form = new MultipartFormDataContent();
             await using var stream = image.OpenReadStream();
-            using var streamContent = new StreamContent(stream);
-            streamContent.Headers.ContentType = new MediaTypeHeaderValue(image.ContentType ?? "application/octet-stream");
-            form.Add(streamContent, "file", image.FileName ?? "upload.jpg");
+            using var memory = new MemoryStream();
+            await stream.CopyToAsync(memory, cancellationToken);
+            var imageBytes = memory.ToArray();
+
+            var fileContent = new ByteArrayContent(imageBytes);
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(image.ContentType ?? "application/octet-stream");
+            form.Add(fileContent, "file", image.FileName ?? "upload.jpg");
+
+            var imageContent = new ByteArrayContent(imageBytes);
+            imageContent.Headers.ContentType = new MediaTypeHeaderValue(image.ContentType ?? "application/octet-stream");
+            form.Add(imageContent, "image", image.FileName ?? "upload.jpg");
 
             using var response = await client.PostAsync("predict", form, cancellationToken);
             var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);

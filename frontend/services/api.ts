@@ -68,6 +68,33 @@ const getModelStateError = (errors: unknown) => {
   return null;
 };
 
+const getDetailError = (detail: unknown): string | null => {
+  if (typeof detail === "string" && detail.trim().length > 0) {
+    return detail.trim();
+  }
+
+  if (Array.isArray(detail)) {
+    for (const item of detail) {
+      const nested = getDetailError(item);
+      if (nested) return nested;
+    }
+    return null;
+  }
+
+  if (detail && typeof detail === "object") {
+    const detailObj = detail as Record<string, unknown>;
+    if (typeof detailObj.message === "string" && detailObj.message.trim().length > 0) {
+      return detailObj.message.trim();
+    }
+
+    if (typeof detailObj.msg === "string" && detailObj.msg.trim().length > 0) {
+      return detailObj.msg.trim();
+    }
+  }
+
+  return null;
+};
+
 // Helper function to get auth headers
 const getAuthHeaders = (contentType: string | null = "application/json") => {
   const token = localStorage.getItem("token");
@@ -98,14 +125,26 @@ const handleResponse = async <T = any>(response: Response): Promise<T> => {
         : null;
 
     const modelStateMessage = getModelStateError(errorObject?.errors);
-    const message =
+    const detailMessage = getDetailError(errorObject?.detail);
+    const baseMessage =
       (typeof errorObject?.message === "string" && errorObject.message) ||
       (typeof errorObject?.error === "string" && errorObject.error) ||
       (typeof errorObject?.title === "string" && errorObject.title) ||
       modelStateMessage ||
+      detailMessage ||
       (typeof parsedBody === "string" && parsedBody.trim().length > 0 ? parsedBody : "") ||
       response.statusText ||
       `Request failed with status ${response.status}`;
+
+    const shouldAppendDetail =
+      typeof detailMessage === "string" &&
+      detailMessage.length > 0 &&
+      typeof baseMessage === "string" &&
+      baseMessage.length > 0 &&
+      !baseMessage.toLowerCase().includes(detailMessage.toLowerCase()) &&
+      (/internal server error/i.test(baseMessage) || /request failed/i.test(baseMessage));
+
+    const message = shouldAppendDetail ? `${baseMessage}: ${detailMessage}` : baseMessage;
 
     throw new Error(String(message));
   }
