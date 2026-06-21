@@ -1,0 +1,6 @@
+**/.git
+**/.gitignore
+**/.vscode
+**/.env
+bin
+obj

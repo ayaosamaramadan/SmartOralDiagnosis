@@ -1,0 +1,95 @@
+# Operating System
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+venv/
+
+
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+
+# .NET
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+*.dll
+*.pdb
+
+# Java / Maven / Gradle
+target/
+build/
+.gradle/
+.mvn/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDEs / Editors
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Logs and temp files
+logs/
+*.log
+*.tmp
+tmp/
+temp/
+*.cache
+
+# Docker
+docker-compose.override.yml
+
+# Databases
+*.sqlite
+*.db
+*.sqlite3
+
+# Coverage reports
+coverage/
+.coverage
+coverage.xml
+htmlcov/
+
+# Certificates / Keys / Sensitive
+*.pem
+*.key
+*.crt
+*.pfx
+credentials/
+secrets.json
+
+# Misc
+Thumbs.db
+desktop.ini
+.DS_Store
+!.gitignore
