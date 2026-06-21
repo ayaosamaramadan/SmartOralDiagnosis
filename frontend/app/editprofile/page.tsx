@@ -231,7 +231,7 @@ const Edit = () => {
 
           <div className="flex flex-col gap-6 md:w-2/3">
 
-            <div className="relative md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)] bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div className="relative bg-white dark:bg-[rgb(31,31,31)] md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)] w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
 
               <div className="absolute top-4 right-4">
                 <Langu />
@@ -243,7 +243,7 @@ const Edit = () => {
                     <img
                       src={form.photo || (user as any).photo}
                       alt="User avatar"
-                      className="h-32 w-32 rounded-full object-cover ring-4 ring-gray-100 shadow-md"
+                      className="h-32 w-32 rounded-full object-cover ring-4 ring-gray-100 dark:ring-gray-700 shadow-md"
                       loading="lazy"
                     />
                   ) : (
@@ -289,7 +289,7 @@ const Edit = () => {
               </div>
             </div>
 
-            <section className="md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)] bg-white w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 overflow-auto">
+            <section className="bg-white dark:bg-[rgb(31,31,31)] md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)] w-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 overflow-auto">
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
                   <div className="text-red-800 bg-red-50 border border-red-200 dark:text-red-200 dark:bg-red-900/20 dark:border-red-700 p-2 rounded">{error}</div>
@@ -306,7 +306,7 @@ const Edit = () => {
                       value={form.firstName}
                       onChange={handleChange}
                       onBlur={handleFieldBlur}
-                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition"
                     />
                   </div>
 
@@ -317,7 +317,7 @@ const Edit = () => {
                       value={form.lastName}
                       onChange={handleChange}
                       onBlur={handleFieldBlur}
-                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition"
                     />
                   </div>
                 </div>
@@ -329,7 +329,7 @@ const Edit = () => {
                       value={form.email}
                       onChange={handleChange}
                       onBlur={handleFieldBlur}
-                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-700 dark:text-gray-400"
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition"
                       type="email"
                     />
                 </div>
@@ -341,7 +341,7 @@ const Edit = () => {
                       value={form.phoneNumber}
                       onChange={handleChange}
                       onBlur={handleFieldBlur}
-                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition"
                     />
                 </div>
 
@@ -354,7 +354,7 @@ const Edit = () => {
                     onChange={handleChange}
                     onBlur={handleFieldBlur}
                     max={new Date().toISOString().split("T")[0]}
-                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition"
                   />
                 </div>
 
@@ -367,7 +367,7 @@ const Edit = () => {
                       onChange={handleChange}
                       onBlur={handleFieldBlur}
                       placeholder="City, State or coordinates"
-                      className="flex-1 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
+                      className="flex-1 border border-gray-300 dark:border-gray-700 rounded-md p-2 bg-white dark:bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition"
                     />
                     <div className="shrink-0">
                       <DetectLocation />
@@ -375,7 +375,7 @@ const Edit = () => {
                   </div>
 
                   {(form as any).location ? (
-                    <div className="text-xs text-gray-400 mt-2">Current: {(form as any).location}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">Current: {(form as any).location}</div>
                   ) : null}
                 </div>
 
@@ -400,8 +400,8 @@ const Edit = () => {
             </section>
           </div>
 
-          <div className="flex-1 md:w-2/3 md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(32,32,32)] md:dark:to-[rgb(31,31,31)] bg-white">
-            <div className="w-full h-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 bg-white md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)]">
+          <div className="flex-1 md:w-2/3">
+            <div className="w-full h-full border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 bg-white dark:bg-[rgb(31,31,31)] md:dark:bg-gradient-to-l md:dark:from-[rgb(31,31,31)] md:dark:via-[rgb(49,49,49)] md:dark:to-[rgb(31,31,31)]">
               <CompletedOr form={form} />
             </div>
           </div>
