@@ -35,6 +35,7 @@ export default function UploadImage({ onImageCapture, onAnalysisResult }: Upload
       onImageCapture(e.target?.result as string);
     };
     reader.readAsDataURL(file);
+    
 
     // send to backend AI
     try {
